@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta name="format-detection" content="telephone=no, email=no" />
+		<title>聚车金融</title>
+		<link href="css/mui.min.css" rel="stylesheet" type="text/css" />
+		<link href="css/css.css" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="fonts/iconfont.css" />
+		<style type="text/css">
+			body {
+				background: #fff;
+			}
+			
+			.header1 .icon-back {
+				display: inline-block;
+				width: 50px;
+				height: 45px;
+				line-height: 45px;
+				position: absolute;
+				left: 0;
+				color: #ffffff;
+				z-index: 10;
+				font-size: 20px;
+				float: left;
+			}
+			
+			.mui-content {
+				background: #fff;
+				padding-top: 64px !important;
+			}
+			
+			.logo-box {
+				width: 20%;
+				height: 57px;
+			}
+			
+			.logo-box img {
+				width: 100%;
+				border-radius: 20%;
+				overflow: hidden;
+			}
+			
+			.form li {
+				height: 44px;
+				width: 86%;
+				margin: 10px 7%;
+				position: relative;
+			}
+			
+			.form li:after {
+				background: #cfd1d8;
+				height: 1px;
+				content: "";
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				width: 100%;
+				transform: scaleY(.5);
+				-webkit-transform: scaleY(.5);
+			}
+			/*.form li:before {
+				background: #cfd1d8;
+				height: 60%;
+				content: "";
+				position: absolute;
+				top: 20%;
+				left: 40px;
+				width: 1px;
+				transform: scaleX(.5);
+				-webkit-transform: scaleX(.5);
+			}*/
+			
+			.icon {
+				position: absolute;
+				width: 30px;
+				height: 30px;
+				left: 0;
+				top: 7px;
+			}
+			
+			.form .leftDiv {
+				width: 30%;
+				display: inline-block;
+				float: left;
+				/*position: absolute;*/
+				line-height: 44px;
+				font-size: 15px;
+				box-sizing: border-box;
+				padding-left: 10px;
+			}
+			
+			.form .mui-input-clear {}
+			
+			.icon-pwd {
+				background: url(images/icon.png) no-repeat -25px top;
+				background-size: 400px;
+			}
+			
+			.icon-pin {
+				background: url(images/icon.png) no-repeat -86px -35px;
+				background-size: 400px;
+			}
+			
+			.form input {
+				padding: 0;
+				width: 70%;
+				display: block;
+				font-size: 15px;
+				/*padding: 22px 50px;*/
+				float: left;
+				height: 20px;
+				border: 0;
+				line-height: 16px;
+				margin: 12px 0;
+				color: #333;
+			}
+			
+			.btn {
+				width: 86%;
+				height: 50px;
+				background: #5291fa;
+				border-radius: 5px;
+				-webkit-border-radius: 5px;
+				line-height: 50px;
+				text-align: center;
+				font-size: 18px;
+				margin: 35px auto;
+				color: rgba(255, 255, 255, .4);
+			}
+			
+			.subBtn {
+				color: #ffffff;
+			}
+			
+			.btn-submit {
+				background: #327DEE;
+				color: rgba(255, 255, 255, 1);
+			}
+			
+			.btn-submit:hover {
+				background: #216de6;
+			}
+			
+			::-moz-placeholder {
+				color: #babcbf;
+			}
+			
+			::-webkit-input-placeholder {
+				color: #babcbf;
+			}
+			
+			:-ms-input-placeholder {
+				color: #babcbf;
+			}
+			
+			.changepage {
+				margin: 0 auto;
+				text-align: center;
+				margin-top: -10%;
+				color: lightskyblue;
+			}
+			
+			.getpin {
+				color: #777777;
+				position: absolute;
+				right: 0;
+				top: 10px;
+				font-size: 15px;
+			}
+			
+			.getpinblue {
+				color: #357ced;
+			}
+			
+			.pwLi {}
+			
+			.pwLi>.mui-icon-clear {
+				right: 0px !important;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav header1">
+			<span class="iconfont icon-back backBtn"></span>
+			<h1 class="mui-title name" id="title">修改密码</h1>
+		</header>
+		<div class="mui-content login">
+			<div class="logo-box">
+				<!--<img src="images/logo.png" />-->
+			</div>
+			<div class="form">
+				<ul>
+					<li class="mui-input-row">
+						<div class="leftDiv">当前密码</div><input maxlength="16" class="mui-input-clear" id="oldPW" type="password" placeholder="请输入当前登录密码" />
+					</li>
+					<li class="mui-input-row pwLi">
+						<div class="leftDiv">新的密码</div><input maxlength="16" class="mui-input-clear" id="newPW1" type="password" placeholder="请输入新的登录密码" />
+					</li>
+					<li class="mui-input-row pwLi">
+						<div class="leftDiv">确认密码</div><input maxlength="16" class="mui-input-clear" id="newPW2" type="password" placeholder="请再次输入新的密码" />
+					</li>
+				</ul>
+				<div class="btn">
+					确定修改
+				</div>
+			</div>
+		</div>
+		<script language="javascript" type="text/javascript" src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+		<script src="js/jQuery.md5.js" type="text/javascript"></script>
+		<script language="javascript" type="text/javascript" src="js/common.js"></script>
+		<script language="javascript" type="text/javascript" src="js/api.js"></script>
+		<script>
+			mui.init({
+				'swipeBack': true
+			});
+			mui.plusReady(function() {
+				setTimeout(function() {
+					plus.navigator.setStatusBarStyle('dark')
+					plus.navigator.setStatusBarBackground('#fff');
+					//plus.navigator.setStatusBarBackground('none');
+					plus.navigator.closeSplashscreen();
+				}, 200)
+				$("#username").val(store.get('username'));
+				$("#pincode").keyup(function() {
+					$(".btn").addClass('btn-submit')
+				})
+				// 返回
+				mui('body').on('tap', '.backBtn', function() {
+					mui.back();
+				})
+				$(".mui-input-clear").on('keypress', function() {
+					$(".btn").addClass('subBtn');
+				})
+				//提交验证密码进入下一步
+				mui('.form').on('tap', '.subBtn', function(data) {
+					if($("#oldPW").val().length == 0) {
+						mui.alert('请输入当前密码');
+						return;
+					}
+					if($("#newPW1").val().length == 0) {
+						mui.alert('请输入新的密码');
+						return;
+					}
+					if($("#newPW2").val().length == 0) {
+						mui.alert('请确认新的密码');
+						return;
+					}
+					if($("#newPW1").val() != $("#newPW2").val()) {
+						mui.alert('两次输入密码不一致');
+						return;
+					}
+					if($("#oldPW").val() == $("#newPW1").val()) {
+						mui.alert('新密码请勿与原密码一致');
+						return;
+					}
+					if($('#oldPW').val().length < 6 || $('#newPW1').val().length < 6 || $('#newPW2').val().length < 6) {
+						mui.alert('请输入正确格式的密码(不少于6位)', function() {
+							$('#password').focus()
+						})
+						return;
+					}
+					var token = user.utoken();
+					var oldPW = $.md5($('#oldPW').val());
+					var newPW = $.md5($('#newPW1').val());
+					var request = {
+						'token': token,
+						'oldpassword': oldPW,
+						'newpassword': newPW
+					}
+					user.rewritePW(request, function(res) {
+						console.log(JSON.stringify(request))
+						console.log(JSON.stringify(res))
+						if(res.error_no == 200) {
+							mui.toast('修改成功，请重新登陆');
+							user.clear()
+							//							user.setInfo(res.result)
+							mui.fire(plus.webview.getWebviewById('login.html'), 'mui.view.refresh');
+							mui.fire(plus.webview.getLaunchWebview(), 'mui.view.refresh');
+							setTimeout(function() {
+								plus.navigator.setStatusBarStyle('light');
+								plus.navigator.setStatusBarBackground('#2776F9');
+								//								plus.webview.currentWebview().close();
+								// 获取所有Webview窗口
+								var curr = plus.webview.currentWebview();
+								var wvs = plus.webview.all();
+								for(var i = 0, len = wvs.length; i < len; i++) {
+									//关闭除setting页面外的其他页面
+									if(wvs[i].getURL() == curr.getURL())
+										continue;
+									plus.webview.close(wvs[i]);
+								}
+								//打开login页面后再关闭setting页面
+								plus.webview.open('login.html');
+								curr.close();
+
+							}, 1000);
+							return true;
+							//							mui.toast('修改成功');
+							//							setTimeout(function(){
+							//								mui.back();
+							//							},200)
+						} else {
+							console.log(res.info || res.msg || res.message || res.error_msg);
+							mui.toast(res.info || res.msg || res.message || res.error_msg);
+							return false;
+						}
+					});
+				});
+			})
+		</script>
+	</body>
+
+</html>

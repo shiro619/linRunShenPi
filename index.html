@@ -1,0 +1,359 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/api.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script src="js/jquery-1.11.2.min.js" type="text/javascript" charset="utf-8"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/css.css" />
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+		</script>
+		<style type="text/css">
+			.mengban {
+				display: none;
+				position: fixed;
+				height: 100%;
+				width: 100%;
+				background: rgba(00, 00, 00, .3);
+				top: 0;
+				bottom: 0;
+				z-index: 1002;
+			}
+		</style>
+	</head>
+
+	<body>
+		<nav class="bot-nav" id="navBox">
+			<a href="home.html" id="home" class="tab" title="聚车金融"><i class="ico-home icon"></i>
+				<p>工作台</p>
+			</a>
+			<a href="homemini.html" id="homemini" class="tab" title="聚车金融"><i class="ico-home icon"></i>
+				<p>工作台</p>
+			</a>
+			<a href="homeCredit.html" id="homeCredit" class="tab" title="聚车金融" style="display: none;"><i class="ico-home icon"></i>
+				<p>工作台</p>
+			</a>
+			<a href="apply-subordinates.html" id="apply" class="tab" title="下属任务"><i class="ico-customer icon"></i>
+				<p>下属任务</p>
+			</a>
+			<a href="applyCredit.html" id="applyCredit" class="tab" title="申请件" style="display: none;"><i class="ico-customer icon"></i>
+				<p>申请件</p>
+			</a>
+			<!--<a href="schedule.html" id="schedule" class="tab" title="日程"><i class="ico-schedule icon"></i>
+				<p>日程</p>
+			</a>-->
+			<a href="user.html" id="user" class="tab" title="我的账户"><i class="ico-user icon"></i>
+				<p>我的</p>
+			</a>
+			<a href="userCredit.html" id="userCredit" class="tab" title="我的账户" style="display: none;"><i class="ico-user icon"></i>
+				<p>我的</p>
+			</a>
+		</nav>
+		<div class="mengban">
+			<div id="showMeng" style="position: fixed;height: 100%;top: 0;bottom: 0;width: 100%;z-index: 999;background: #FFFFFF;display: none;">搜索<input type="search" /></div>
+
+			<script>
+				var GPStime;
+
+				mui.plusReady(function() {
+					mui.back = function(){}// 防止back
+					// 关闭全屏
+					plus.navigator.setFullscreen(false);
+					plus.key.addEventListener( "backbutton", function(){plus.runtime.quit();}, false );
+					// 判断GPS开关
+					if(user.uoption().GPS && user.uoption().GPS == null) {
+						setTimeout(function() {
+							user.setOption({
+								Gps: 'true'
+							})
+							uploadGps();
+							clearInterval(GPStime);
+							GPStime = setInterval(function() {
+								uploadGps();
+							}, 1000 * 60 * 5);
+						}, 500)
+					}
+					if((user.uoption().GPS && user.uoption().GPS == 'true') || user.uoption().GPS == true) {
+						uploadGps();
+						GPStime = setInterval(function() {
+							uploadGps();
+						}, 1000 * 60 * 5);
+					}
+					// 判断token是否过期
+					user.checktoken({
+						token: user.utoken()
+					}, function(res) {
+						console.log(res.error_no)
+						if(res.error_no != '200') {
+							user.clear();
+							login();
+							return;
+						} else {
+							// 关闭启动页
+							plus.navigator.closeSplashscreen();
+						}
+					})
+					// 判断用户角色类型
+					console.log(store.get('roletype') + "roletype")
+					if(store.get('roletype') == 1) {
+						$(".bot-nav").removeClass('bot-nav-wide');
+						$("#home").addClass('active');
+						$("#homeCredit").css('display', 'none');
+						$("#home").css('display', 'inline-block');
+						$("#homemini").css('display', 'none');
+						$("#applyCredit").css('display', 'none');
+						$("#apply").css('display', 'inline-block');
+						$("#schedule").css('display', 'inline-block');
+						$("#userCredit").css('display', 'none');
+						$("#user").css('display', 'inline-block');
+					} else if(store.get('roletype') == 2) {
+						$(".bot-nav").removeClass('bot-nav-wide');
+						$("#homeCredit").addClass('active');
+						$("#home").css('display', 'none');
+						$("#homemini").css('display', 'none');
+						$("#homeCredit").css('display', 'inline-block');
+						$("#apply").css('display', 'none');
+						$("#applyCredit").css('display', 'inline-block');
+						$("#schedule").css('display', 'none');
+						$("#user").css('display', 'none');
+						$("#userCredit").css('display', 'inline-block');
+					} else if(store.get('roletype') == 3) {
+						$(".bot-nav").addClass('bot-nav-wide');
+						$("#homemini").addClass('active');
+						$("#home").css('display', 'none');
+						$("#homeCredit").css('display', 'none');
+						$("#homemini").css('display', 'inline-block');
+						$("#apply").css('display', 'none');
+						$("#applyCredit").css('display', 'none');
+						$("#schedule").css('display', 'none');
+						$("#user").css('display', 'inline-block');
+						$("#userCredit").css('display', 'none');
+					}
+					if(!user.uid()) { //login
+						user.clear();
+						login();
+					} else {
+						setTimeout(function() {
+							plus.navigator.setStatusBarStyle('light')
+							plus.navigator.setStatusBarBackground('#2776F9');
+							plus.navigator.closeSplashscreen();
+						}, 500)
+
+					}
+					//tab
+					var subpages = ['home.html', 'homeCredit.html', 'homemini.html', 'apply-subordinates.html', 'applyCredit.html', 'user.html', 'userCredit.html']; //bounce: 'vertical', 
+					var subpage_style = {
+						top: '0px',
+						bottom: '50px',
+						scrollIndicator: 'none',
+						bounceBackground: '#fff'
+					};
+					var activeTab = subpages[store.get('roletype') - 1];
+					var self = plus.webview.currentWebview();
+					for(var i = 0; i < 6; i++) {
+						var temp = {};
+						var sub = plus.webview.create(subpages[i], subpages[i], subpage_style); //遍历创建各页面的webview的id 
+						if(store.get('roletype') == 1) {
+							if(i != 0) {
+								sub.hide(); //除了home.html外，其他webview都隐藏 
+							} else {
+								self.append(sub);
+							}
+						} else if(store.get('roletype') == 2) {
+							if(i != 1) {
+								sub.hide(); //除了home.html外，其他webview都隐藏 
+							} else {
+								self.append(sub);
+							}
+						} else if(store.get('roletype') == 3) {
+							if(i != 2) {
+								sub.hide(); //除了home.html外，其他webview都隐藏 
+							} else {
+								self.append(sub);
+							}
+						}
+
+					}
+
+					//tab点击
+					mui(".bot-nav").on('tap', 'a', function() {
+						//					getGPS(function(position) {
+						//						var codns = position.coords; //获取地理坐标信息；
+						//						var lat = codns.latitude; //获取到当前位置的纬度；
+						//						var longt = codns.longitude; //获取到当前位置的经度
+						//						console.log('lat: ' + lat + ';' + 'lng: ' + longt)
+						//					});
+						var url = this.getAttribute('href');
+						var sub = plus.webview.getWebviewById(url);
+						if(!sub) { //没有预载
+							var sub = plus.webview.create(url, url, subpage_style);
+						} else {
+							mui.fire(sub, 'initpage');
+						}
+						active = document.querySelector('.bot-nav>.tab.active');
+						if(active && active.getAttribute('href') == url) {
+							return false; //如果点击为当前页
+						}
+						if(active) active.classList.remove("active");
+						this.classList.add("active");
+						sub.show();
+						plus.webview.hide(activeTab);
+						activeTab = url;
+					});
+					//添加tab切换事件监听
+					window.addEventListener('indexTabChange', function(event) {
+						var tabName = event.detail.tab;
+						//console.log('ukeru')
+						//					alert(58)
+						if(tabName == 'schedule') {
+							var url = 'schedule.html';
+							var sub = plus.webview.getWebviewById(url);
+							if(!sub) { //没有预载
+								var sub = plus.webview.create(url, url, subpage_style);
+							} else {
+								mui.fire(sub, 'initpage');
+							}
+							$(".bot-nav>a").each(function() {
+								$(this).attr('class', 'tab')
+							})
+							$("#schedule").addClass('active');
+							sub.show();
+							plus.webview.hide(activeTab);
+							activeTab = url;
+						}
+					});
+
+					//添加自定义事件监听
+					window.addEventListener('GPSData', function(event) {
+						//获得事件参数
+						//				console.log("hhhhh")
+						var Gps = event.detail.GPS;
+						console.log('GPS' + Gps);
+						var Gdata = {
+							Gps: Gps
+						}
+
+						//				console.log(typeof(event.detail.GPS))
+						user.setOption(Gdata)
+						//					console.log(user.uoption().GPS)
+						if(Gps == 'true' || Gps == true) {
+							uploadGps();
+							GPStime = setInterval(function() {
+								uploadGps();
+							}, 1000 * 60 * 5);
+						} else {
+							clearInterval(GPStime);
+						}
+					});
+
+					//添加自定义事件监听 蒙版
+					window.addEventListener('indexMengbanChange', function(event) {
+						//获得事件参数
+						mengbanNum = event.detail.mengban;
+						console.log("mengban" + mengbanNum)
+						if(mengbanNum == 0) {
+							$('.mengban').css('display', 'none')
+						} else if(mengbanNum == 1) {
+							$('.mengban').fadeIn()
+						}
+					});
+
+				})
+
+				//			//添加自定义事件监听
+				//			window.addEventListener('remindData', function(event) {
+				//				//获得事件参数
+				//				var remind = event.detail.remind;
+				//				//					console.log('remind'+remind);
+				//				var Rdata = {
+				//					remind: remind
+				//				}
+				//				listInfo.setOption(Rdata)
+				//			});
+
+				function getData() {
+					console.log('index.html:首页重载了')
+					/*user.getInfo({'user_id':'8899'},function(res){//判断用户性质
+						//储存用户性质
+						if(res.user_type=='a'){//客户
+							var common_nav = document.getElementById("#commonNav");
+							common_nav.getElementsByTagName("p").innerHTML == '客户';
+							common_nav.setAttribute('href',"")
+							common_nav.getElementsByTagName("i").className += 'class'	
+						}else if(res.user_type=='b'){
+							
+						}else{
+							
+						}
+					})*/
+				}
+
+				document.addEventListener('mui.view.refresh', function() {
+					getData()
+				})
+				document.addEventListener('showMeng', function() {
+					document.getElementById('showMeng').style.display = 'block'
+				})
+
+				function getGPS(geoInf) {
+					plus.geolocation.getCurrentPosition(geoInf, function(e) {
+						console.log(e);
+					}, {
+						geocode: false
+					});
+				}
+
+				function GPSgeoInf(position) {
+					var str = "";
+					str += "地址：" + position.addresses + "\n"; //获取地址信息
+					str += "坐标类型：" + position.coordsType + "\n";
+					var timeflag = position.timestamp; //获取到地理位置信息的时间戳；一个毫秒数；
+					str += "时间戳：" + timeflag + "\n";
+					var codns = position.coords; //获取地理坐标信息；
+					var lat = codns.latitude; //获取到当前位置的纬度；
+					str += "纬度：" + lat + "\n";
+					var longt = codns.longitude; //获取到当前位置的经度
+					str += "经度：" + longt + "\n";
+					var alt = codns.altitude; //获取到当前位置的海拔信息；
+					str += "海拔：" + alt + "\n";
+					var accu = codns.accuracy; //地理坐标信息精确度信息；
+					str += "精确度：" + accu + "\n";
+					var altAcc = codns.altitudeAccuracy; //获取海拔信息的精确度；
+					str += "海拔精确度：" + altAcc + "\n";
+					var head = codns.heading; //获取设备的移动方向；
+					str += "移动方向：" + head + "\n";
+					var sped = codns.speed; //获取设备的移动速度；
+					str += "移动速度：" + sped;
+					//				console.log(JSON.stringify(position));
+					//				console.log(position.coords.latitude+String(Math.random()));
+				}
+
+				function uploadGps() {
+					getGPS(function(position) {
+						var codns = position.coords; //获取地理坐标信息；
+						var lat = codns.latitude; //获取到当前位置的纬度；
+						var longt = codns.longitude; //获取到当前位置的经度
+						var Gdata = {
+							token: user.utoken(),
+							lat: lat,
+							lng: longt
+						}
+						user.SetGPS(Gdata, function(res) {
+							if(res.error_no == 200) {
+								console.log(res.error_msg)
+							} else {
+								console.log('gps' + res.error_no + res.error_msg)
+							}
+						})
+					})
+				}
+			</script>
+	</body>
+
+</html>

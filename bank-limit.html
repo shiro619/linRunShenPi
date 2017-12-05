@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection" content="telephone=no, email=no" />
+<title>聚车金融</title>
+<link href="css/mui.min.css" rel="stylesheet" type="text/css" />
+<link href="css/css.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="fonts/iconfont.css" />
+<link href="css/recharge.css" rel="stylesheet" type="text/css" />
+  
+
+<style>
+	html,
+	body {
+		height: 100%;
+		background-color: #ffffff
+	}
+	
+	.header1 {
+		overflow: hidden;
+		position: fixed;
+		top: 0;
+	}
+	
+	.header1 .icon-back {
+		display: inline-block;
+		width: 50px;
+		height: 45px;
+		line-height: 45px;
+		position: absolute;
+		left: 0;
+		color: #ffffff;
+		z-index: 10;
+		font-size: 20px;
+		float: left;
+	}
+	
+	.mui-content {
+		padding-top: 64px !important;
+		background-color: #ffffff
+	}
+
+.mui-table-view-cell:after {
+	position: absolute;
+	bottom: 0;
+	left: 48px;
+	height: 1px;
+	content: '';
+	-webkit-transform: scaleY(.5);
+	transform: scaleY(.5);
+	background-color: #EEEEEE
+}
+
+.mui-content>.mui-table-view:first-child{margin-top: 0px;}
+.bank-main{ margin-top: 0px; font-size: 15px;  font-weight: 300;line-height: 24px;}
+.black-moblie{ float: right;color: #666;font-weight: normal;font-size: 14px;font-weight: 300; line-height: 24px;} 
+.black-cont{font-size: 14px; color: #535353;}
+.black-cont span{font-size: 14px; color: #000; font-weight: normal;}
+.black-bi{ float: left; width: 33.33%;}
+.black-ri{ float: left;width: 33.33%; 
+		   border-left: solid 1px #d8d8d8;
+		   border-right: solid 1px #d8d8d8; 
+		   text-align: center;
+		   
+		   }
+.black-yue{ float: right;width: 33.33%;
+            text-align:right ;
+            
+            }
+.black-detj{ width: 65px; 
+             padding: 1px 6px;			
+			 display: inline-block; 
+			 background: #f96268; 
+			 color: #fff; 
+			 border-radius: 10px;
+			 text-align: center;
+			 margin-left: 10px;
+			 font-size: 12px;
+			 font-weight: normal;
+			 
+			 
+			 }      
+ .black-icon-1{background: url(images/bank.png) no-repeat 0px 0px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:18px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }   
+ .blank-icon-2{background: url(images/bank.png) no-repeat 0px -18px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:18px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }  
+ .blank-icon-3{background: url(images/bank.png) no-repeat 0px -36px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:18px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }    
+ .blank-icon-4{background: url(images/bank.png) no-repeat 0px -54px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:18px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }  
+ .blank-icon-5{background: url(images/bank.png) no-repeat 0px -72px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:18px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }    
+ .blank-icon-6{background: url(images/bank.png) no-repeat 0px -90px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:18px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }  
+ .blank-icon-7{background: url(images/bank.png) no-repeat 0px -108px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:18px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }   
+ .blank-icon-8{background: url(images/bank.png) no-repeat 0px -126px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:18px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }
+ .blank-icon-9{background: url(images/bank.png) no-repeat 0px -144px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:18px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }    
+ .blank-icon-10{background: url(images/bank.png) no-repeat 0px -162px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:18px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }   
+ .blank-icon-11{background: url(images/bank.png) no-repeat 0px -180px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:18px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }   
+ .blank-icon-12{background: url(images/bank.png) no-repeat 0px -198px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:18px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }   
+ .blank-icon-13{background: url(images/bank.png) no-repeat 0px -216px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:18px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }   
+ .blank-icon-14{background: url(images/bank.png) no-repeat 0px -234px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:18px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }   
+ .blank-icon-15{background: url(images/bank.png) no-repeat 0px -252px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:18px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }   
+ .blank-icon-16{background: url(images/bank.png) no-repeat 0px -270px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:18px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }  
+ .blank-icon-17{background: url(images/bank.png) no-repeat 0px -288px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:18px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }  
+ .blank-icon-18{background: url(images/bank.png) no-repeat 0px -306px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:18px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }  
+ .blank-icon-19{background: url(images/bank.png) no-repeat 0px -324px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:18px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }   
+ .blank-icon-20{background: url(images/bank.png) no-repeat 0px -342px; 
+             width: 20px; height: 21px; 
+             display: block;
+             background-size:18px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }  
+ .blank-icon-21{background: url(images/bank.png) no-repeat 0px -360px; 
+             width: 20px; height: 21px; 
+             display: block;
+             background-size:18px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }  
+ .blank-icon-22{background: url(images/bank.png) no-repeat 0px -378px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:18px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }  
+ .blank-icon-23{background: url(images/bank.png) no-repeat 0px -396px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:18px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }  
+ .blank-icon-24{background: url(images/bank.png) no-repeat 0px -414px; 
+             width: 20px; height: 20px; 
+             display: block;
+             background-size:18px ;            
+             float: left;
+             margin-right:8px ;             
+             
+             }                                                      
+                
+    .mui-table-view-cell{
+    	padding: 18px 15px;
+    	margin: 0;
+    }  
+    .icon-box{
+    	float: left;
+    	width: 24px;
+    	height: 24px;
+    	padding: 2px;
+    	border-radius: 4px;
+    	border: 1px solid #cfcfcf;
+    	margin-right: 8px;
+    }      
+    .icon-box i{
+    	margin: 0!important;
+    	width: 18px!important;
+    	height: 18px!important;
+    }          
+    .title{
+    	color: 666;
+    	line-height: 40px;
+    	padding: 0 12px;
+    }      
+    .title span{
+    	float: left;
+    }   
+    .black-icon{
+    	width: 20px;
+    	height: 20px;
+    }    
+    .black-icon img{
+    	width: 100%;
+    }                                                                                                                                                                                                           
+</style>
+</head>
+<body>
+<header class="mui-bar mui-bar-nav header1">
+	<span class="iconfont icon-back backBtn"></span>
+	<h1 class="mui-title name" id="title">银行限额</h1>
+</header>
+<div class="mui-content">
+	<p class="title"><span>支持银行</span><span class="rf" style="float: right;">银行限额</span><div style="clear: both;"></div></p>
+	<ul class="mui-table-view bank-main">
+			 
+			 
+			 
+	</ul>	
+	<script type="text/html" id='temp'>
+		{{each rows as item i}}
+			<li class="mui-table-view-cell">
+			 	<div class="icon-box"><i class="black-icon"><img src="{{item.bank_logo}}"/></i></div><span>{{item.bank_name}}</span>
+			 	<span class="black-moblie">单笔{{item.limit_money}} 单日{{item.limit_money_day}}</span>
+			</li>
+		{{/each}}
+	</script>
+</div>
+	<script src="js/mui.min.js"></script>
+	<script src="js/api.js"></script>
+	<script type="text/javascript" src="js/template.js" ></script>
+	<script type="text/javascript" src="js/template.function.js" ></script>
+    <script type="text/javascript" charset="utf-8">
+      	mui.plusReady(function(){
+      		mui('body').on('tap', '.backBtn', function() {
+				mui.back();
+			})
+//    		cunguan.bankLimit({},function(res){
+//    			console.log(JSON.stringify(res))
+//    			for(var i in res.result.rows){
+//    				var row = res.result.rows[i]
+//    				if(parseInt(row.limit_money_day)>=10000){
+//    					row.limit_money_day = row.limit_money_day/10000+'万'
+//    				}else{
+//    					
+//    				}
+//    				if(parseInt(row.limit_money)>=10000){
+//    					row.limit_money = row.limit_money/10000+'万'
+//    				}
+//    			}
+//    			var html = template('temp',res.result)
+//    			document.querySelector('.bank-main').innerHTML = html
+//    		})
+      	})
+    </script>
+</body>
+</html>

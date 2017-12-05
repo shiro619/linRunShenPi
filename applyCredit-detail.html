@@ -1,0 +1,870 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/css.css" />
+		<link rel="stylesheet" type="text/css" href="fonts/iconfont.css" />
+		<style>
+			/*preview*/
+			
+			.mui-preview-image.mui-fullscreen {
+				position: fixed;
+				z-index: 1000;
+				background-color: #000;
+			}
+			
+			.mui-content {
+				padding-top: 64px !important;
+			}
+			
+			.mui-preview-header,
+			.mui-preview-footer {
+				position: absolute;
+				width: 100%;
+				left: 0;
+				z-index: 10;
+			}
+			
+			.mui-preview-header {
+				height: 44px;
+				top: 0;
+			}
+			
+			.mui-preview-footer {
+				height: 50px;
+				bottom: 0px;
+			}
+			
+			.mui-preview-header .mui-preview-indicator {
+				display: block;
+				line-height: 25px;
+				color: #fff;
+				text-align: center;
+				margin: 15px auto;
+				width: 70px;
+				background-color: rgba(0, 0, 0, 0.4);
+				border-radius: 12px;
+				font-size: 16px;
+			}
+			
+			.mui-preview-image {
+				display: none;
+				-webkit-animation-duration: 0.5s;
+				animation-duration: 0.5s;
+				-webkit-animation-fill-mode: both;
+				animation-fill-mode: both;
+			}
+			
+			.mui-preview-image.mui-preview-in {
+				-webkit-animation-name: fadeIn;
+				animation-name: fadeIn;
+			}
+			
+			.mui-preview-image.mui-preview-out {
+				background: none;
+				-webkit-animation-name: fadeOut;
+				animation-name: fadeOut;
+			}
+			
+			.mui-preview-image.mui-preview-out .mui-preview-header,
+			.mui-preview-image.mui-preview-out .mui-preview-footer {
+				display: none;
+			}
+			
+			.mui-zoom-scroller {
+				position: absolute;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+				-webkit-box-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				-webkit-backface-visibility: hidden;
+			}
+			
+			.mui-zoom {
+				-webkit-transform-style: preserve-3d;
+				transform-style: preserve-3d;
+			}
+			/*.mui-preview-image.mui-fullscreen{
+				background: rgba(0,0,0,0.5);
+			}
+			
+			.mui-slider .mui-slider-group{
+				width: 80%;
+				height: 80%;
+				margin: 10%;
+				background: rgba(0,0,0,1);
+			}
+			.mui-fullscreen.mui-slider .mui-slider-group{
+				height: 80%;
+				margin: 10%;
+				background: rgba(0,0,0,1);
+			}*/
+			
+			.mui-slider .mui-slider-group .mui-slider-item img {
+				width: auto;
+				height: auto;
+				max-width: 100%;
+				max-height: 100%;
+			}
+			
+			.mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
+				width: 100%;
+			}
+			
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
+				display: inline-table;
+			}
+			
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
+				display: table-cell;
+				vertical-align: middle;
+			}
+			
+			.mui-preview-loading {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				display: none;
+			}
+			
+			.mui-preview-loading.mui-active {
+				display: block;
+			}
+			
+			.mui-preview-loading .mui-spinner-white {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -25px;
+				margin-top: -25px;
+				height: 50px;
+				width: 50px;
+			}
+			
+			.mui-preview-image img.mui-transitioning {
+				-webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+				transition: transform 0.5s ease, opacity 0.5s ease;
+			}
+			
+			@-webkit-keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			
+			@keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			
+			@-webkit-keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			
+			@keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			
+			p img {
+				max-width: 100%;
+				height: auto;
+			}
+			
+			html,
+			body {
+				height: 100%;
+				color: #272d37;
+			}
+			
+			.header1 {
+				overflow: hidden;
+			}
+			
+			.header1 .icon-back {
+				display: inline-block;
+				width: 50px;
+				height: 45px;
+				line-height: 45px;
+				position: absolute;
+				left: 0;
+				color: #ffffff;
+				z-index: 10;
+				font-size: 20px;
+				float: left;
+			}
+			
+			.mui-content {
+				padding-top: 64px !important;
+			}
+			
+			.apply-wrap {
+				width: 100%;
+				margin: 0;
+			}
+			
+			.data-ul {
+				width: 100%;
+				/*margin-top: 15px;*/
+				/*padding: 0 5%;*/
+				background: #ffffff;
+			}
+			
+			.data-li {
+				/*width: 100%;*/
+				height: 45px;
+				margin: 0 15px;
+				padding: 0 9px;
+				box-sizing: border-box;
+				line-height: 45px;
+				border-bottom: 1px solid #eeeff2;
+				font-size: 15px;
+				position: relative;
+			}
+			
+			.data-title.data-li {
+				border: none;
+			}
+			
+			.data-ul>.data-li:last-of-type {
+				border: none;
+			}
+			
+			.data-li>span {
+				display: inline-block;
+				height: 100%;
+				float: left;
+				/*font-size: 13px;*/
+			}
+			
+			.data-li>span:nth-of-type(1) {
+				width: 30%;
+				/*padding-left: 2%;*/
+				color: #272d37;
+				overflow: hidden;
+			}
+			/*.data-li>span:nth-of-type(1):before {
+				content: "• ";
+			}*/
+			
+			.data-li>span:nth-of-type(2) {
+				width: 68%;
+				overflow: hidden;
+				text-align: right;
+				color: #646b76;
+			}
+			
+			.data-li>span.inquire-result {
+				color: #646b76;
+			}
+			
+			.data-title {
+				height: 55px;
+				line-height: 65px;
+				margin: 0;
+				padding: 0 24px;
+				/*font-size: 14px;*/
+				background-color: #f0f0f0;
+			}
+			
+			.data-title .data-div .creditinfo-icon {
+				height: 40px;
+			}
+			
+			.data-title .data-div .creditimg-icon {
+				height: 40px;
+			}
+			
+			.data-title .data-div>span {
+				display: inline-block;
+				height: 100%;
+				font-size: 15px;
+				font-weight: bold;
+			}
+			
+			.mui-table-view-cell.mui-collapse.mui-active {
+				margin-top: 0px;
+			}
+			
+			.mui-table-view-cell {
+				font-size: 15px;
+			}
+			
+			.mui-table-view-cell.mui-active {
+				background-color: #ffffff;
+			}
+			
+			.mui-table-view-cell>a {
+				padding-left: 24px !important;
+			}
+			
+			.collect-img-div {
+				width: 23%;
+				margin: 5px 1%;
+				height: 60px;
+				float: left;
+				position: relative;
+				display: inline-block;
+				border: 1px solid #e0e1e4;
+				background-image: url(images/applyimg.png);
+				background-size: 100% 100%;
+			}
+			
+			.collect-img-delete {
+				/*width: 20px;
+				height: 15px;*/
+				font-size: 20px;
+				background-color: white;
+				border-radius: 3px;
+				display: inline-block;
+				position: absolute;
+				right: 0;
+				top: 0;
+			}
+			
+			.collect-img {
+				width: 100%;
+				height: 60px;
+				float: left;
+				border: 1px solid #e0e1e4;
+				background-image: url(images/applyimg.png);
+				background-size: 100% 100%;
+			}
+			
+			.collect-addimg {
+				width: 23%;
+				margin: 5px 1%;
+				background: url(images/addimg.png);
+				background-size: 100% 100%;
+			}
+			
+			.inquire-result {
+				width: 100% !important;
+			}
+			
+			.partNum {
+				position: absolute;
+				right: 40px;
+			}
+			
+			.mui-table-view-cell.mui-active>a.mui-navigate-right{
+				padding-left: 9px !important;
+				border: none;
+				border-bottom: 1px solid #eeeff2;
+			}
+			
+			.mui-table-view-cell>a.mui-navigate-right{
+				padding-left: 9px !important;
+				border: none;
+				border-bottom: none;
+			}
+			
+			.mui-table-view-cell:after{
+				right: 15px;
+			}
+			
+			.flowAll{
+				line-height: 30px;
+				box-sizing: border-box;
+				padding-left: 25px;
+				padding-bottom: 20px;
+				background-color: #ffffff;
+			}
+			
+			.flowYMD{
+				box-sizing: border-box;
+				padding-top: 10px;
+				line-height: 20px;
+			}
+			
+			.flowYMDSpan{
+				border-radius: 4px;
+				background-color: #357ced;
+				position: relative;
+				left: -20px;
+				display: inline-block;
+				padding: 0 5px;
+				line-height: 20px;
+				color: #ffffff;
+			}
+			
+			.flowBox{
+				padding: 5px;
+				position: relative;
+				display: none;
+			}
+			
+			.flowBox.lastBox{
+				display: block;
+			}
+			
+			.flowDiv{
+				background-color: #ffffff;
+				border: 1px solid #f0f0f0;
+				border-radius: 5px;
+				position: relative;
+			}
+			
+			.flowBox:before{
+				width: 25px;
+				height: 100%;
+				position: absolute;
+				left: -25px;
+				top: 0;
+				overflow: hidden;
+				content: url(images/listFinacing-bg1.png);
+			}
+			
+			.flowBox.lastBox:before{
+				width: 25px;
+				height: 100%;
+				position: absolute;
+				left: -25px;
+				top: 0;
+				overflow: hidden;
+				content: url(images/listFinacing-bg.png);
+			}
+			
+			.flowTitle{
+				border-bottom: 1px solid #f0f0f0;
+				overflow: hidden;
+				position: relative;
+				box-sizing: border-box;
+				padding-left: 5px;
+			}
+			
+			.flowContent{
+				box-sizing: border-box;
+				padding-left: 5px;
+			}
+			
+			.flowTitle-title{
+				float: left;
+			}
+			
+			.flowTitle-time{
+				position: absolute;
+				right: 5px;
+			}
+			
+			.flowBtn{
+				width: 200px;
+				height: 40px;
+				margin: 20px auto;
+				line-height: 40px;
+				font-size: 14px;
+				text-align: center;
+				transform: translateX(-10px);
+				border: 1px solid #333;
+				border-radius: 5px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav header1">
+			<span class="iconfont icon-back backBtn"></span>
+			<h1 class="mui-title name" id="title">申请件详情</h1>
+		</header>
+		<div class="mui-content">
+			<div class="apply-wrap" style="padding-bottom: 57px;">
+				<ul class="data-ul">
+					<li class="data-li data-title">
+						<div class="data-div">
+							<!--<span class="icon creditinfo-icon"></span>--><span>客户基本信息</span>
+						</div>
+					</li>
+					<li class="data-li">
+						<span>客户姓名</span>
+						<span class="customer-name"></span>
+					</li>
+					<li class="data-li">
+						<span>客户电话</span>
+						<span class="customer-tel"></span>
+					</li>
+					<li class="data-li" style="border: none;">
+						<span>身份证号</span>
+						<span class="customer-id"></span>
+					</li>
+					<li class="data-li" style="display: none;">
+						<span>受理人</span>
+						<span class="agent-name"></span>
+					</li>
+					<li class="data-li" style="display: none;">
+						<span>受理人手机号</span>
+						<span class="agent-tel"></span>
+					</li>
+					<li class="data-li" style="display: none;">
+						<span>详细地址</span>
+						<span class="customer-add"></span>
+					</li>
+				</ul>
+				<ul class="data-ul">
+					<li class="data-li data-title">
+						<div class="data-div">
+							<!--<span class="icon creditinfo-icon"></span>--><span>产品信息</span>
+						</div>
+					</li>
+					<li class="data-li">
+						<span>客户来源</span>
+						<span class="customer-source"></span>
+					</li>
+					<li class="data-li">
+						<span>产品类型</span>
+						<span class="car-type"></span>
+					</li>
+				</ul>
+				<ul class="mui-table-view data-ul">
+					<li class="data-li data-title">
+						<div class="data-div">
+							<!--<span class="icon creditimg-icon"></span>--><span>客户征信资料</span>
+						</div>
+					</li>
+					<li class="mui-table-view-cell mui-collapse mui-active" imgtype="1">
+						<a class="mui-navigate-right" href="#">身份证照片<span class="partNum" imgtype="1">(0)</span></a>
+						<div class="mui-collapse-content imgDiv" imgtype="1">
+							<!--<div class="collect-img collect-addimg" imgtype="1"></div>-->
+						</div>
+					</li>
+					<li class="mui-table-view-cell mui-collapse" imgtype="2">
+						<a class="mui-navigate-right" href="#">授权书照片<span class="partNum" imgtype="2">(0)</span></a>
+						<div class="mui-collapse-content imgDiv" imgtype="2">
+							<!--<div class="collect-img collect-addimg" imgtype="2"></div>-->
+						</div>
+					</li>
+				</ul>
+				<ul class="data-ul">
+					<div class="data-li data-title">
+						<div class="data-div">
+							<span>当前流程</span>
+						</div>
+					</div>
+					<div class="flowAll" id="flowAll">
+						<div class="flowYMD">
+							<span class="flowYMDSpan"></span>
+						</div>
+						<div id="flowList"></div>
+						<div class="flowBtn">查看完整流程</div>
+						<!--<div class="flowBox">
+							<div class="flowDiv">
+								<div class="flowTitle"><span class="flowTitle-title">人行征信申请（王大锤）</span><span class="flowTitle-time">2017-07-30  10:23:45</span></div>
+								<div class="flowContent">抵达地点：浙江省杭州市西湖区紫荆花路(2017-10-30 17)抵达地点：浙江省杭州市西湖区紫荆花路(2017-10-30 17)</div>
+							</div>
+						</div>
+						<div class="flowBox lastBox">
+							<div class="flowDiv">
+								<div class="flowTitle"><span class="flowTitle-title">人行征信申请（王大锤）</span><span class="flowTitle-time">2017-07-30  10:23:45</span></div>
+								<div class="flowContent">抵达地点：浙江省杭州市西湖区紫荆花路(2017-10-30 17)</div>
+							</div>
+						</div>-->
+						
+					</div>
+				</dul>
+				<!--<ul class="data-ul inquireUl">
+					<li class="data-li data-title">
+						<div class="data-div">
+							<span>征信信息</span>
+						</div>
+					</li>
+					<li class="data-li">
+						<span>征信结果</span>
+						<span class="customer-inquire"></span>
+					</li>
+					<li class="data-li" style="min-height: 45px;height: auto;padding: 12px 0;">
+						<p class="inquire-result" style="line-height: 20px;"></p>
+					</li>
+				</ul>-->
+			</div>
+		</div>
+		<script id="tpl-1" type="text/html">
+			{{each rows as item i}}
+			<div class="flowBox {{if (i == rows.length - 1) && item.task_status != 2}}lastBox{{/if}}">
+				<div class="flowDiv">
+					<div class="flowTitle"><span class="flowTitle-title">{{item.task_title}}（{{item.name}}）</span><span class="flowTitle-time">{{timeExchange item.create_time}}</span></div>
+					<div class="flowContent">{{spaceDel item.msg}}</div>
+				</div>
+			</div>
+			{{if (i == rows.length - 1) && (item.task_status == 2)}}
+			<div class="flowBox lastBox">
+				<div class="flowDiv">
+					<div class="flowTitle"><span class="flowTitle-title">已拒件（{{item.name}}）</span><span class="flowTitle-time">{{timeExchange item.create_time}}</span></div>
+					<div class="flowContent">已拒件</div>
+				</div>
+			</div>
+			{{/if}}
+			{{/each}}
+		</script>
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/api.js"></script>
+		<script src="js/jquery-1.11.2.min.js"></script>
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.zoom.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.previewimage.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/template.js"></script>
+		<script src="js/template.function.js"></script>
+		<script>
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview()
+				var workid = self.workid;
+				var hasCompleted = self.hasCompleted;
+				var flowStatus = false;
+				if(hasCompleted != 1) {
+					$('.inquireUl').css('display', 'none');
+				}
+				console.log(workid)
+				var applyData = {
+					token: user.utoken(),
+					work_id: workid
+				}
+				console.log('id'+workid)
+				mui.previewImage();
+				mui("body").on('tap', '.backBtn', function() {
+					mui.back();
+				})
+				listInfo.getCustomerInfo(applyData, function(res) {
+					if(res.error_no == '200') {
+//						console.log(JSON.stringify(res))
+						$(".customer-name").html(res.result.customer_name);
+						$(".customer-tel").html(telExchange(res.result.customer_telephone));
+						$(".customer-id").html(res.result.customer_certificate_number);
+						//						$(".agent-name").html(res.result.receiver_name);
+						//						$(".agent-tel").html(telExchange(res.result.receiver_telephone));
+						$(".customer-source").html(res.result.merchant_name);
+						$(".car-type").html(res.result.product_name);
+						$(".apply-id").html(res.result.request_no);
+						var applyData1 = {
+							token: user.utoken(),
+							workid: workid
+						}
+						listInfo.getCreditFlow_manager(applyData1,function(res1){
+							if(res1.error_no == 200){
+								console.log(JSON.stringify(res1))
+								// 流程
+								var resultF = {}
+								resultF.rows = res1.result;
+								var html = template('tpl-1', resultF);
+								var ul = document.getElementById('flowList')
+								ul.innerHTML = html;
+								$(".flowYMDSpan").html(timeExchange(res1.result[0].create_time));
+								mui('body').on('tap', '.flowBtn', function(e) {
+									flowStatus = !flowStatus;
+									if(flowStatus){
+										$(".flowBox").css('display','block');
+										$(".flowBtn").html('收起');
+									} else {
+										$(".flowBox").css('display','none');
+										$(".flowBox.lastBox").css('display','block');
+										$(".flowBtn").html('查看完整流程');
+									}
+								})
+							}
+						})
+						
+//						$(".customer-add").html(res.result.customer_address);
+//						$(".customer-inquire").html(res.result.inquire_result == 1? '通过':'拒绝');
+//						$(".inquire-result").html(res.result.inquire_description);
+						
+						
+						
+						// 点击号码拨打
+						mui('body').on('tap', '.customer-tel', function(e) {
+							e.stopPropagation();
+							var teldata = res.result.customer_telephone;
+							if(verCompare('10.3.3', plus.os.version)){
+								plus.device.dial(teldata,false);
+							} else {
+								mui.confirm('呼叫', telExchange(teldata), ['取消', '呼叫'], function(e) {
+								if (e.index == 1) {
+										plus.device.dial(teldata,false);
+									} else {
+									}
+								})
+							}
+						})
+
+						function copyToClip(copyContent) {
+							if(plus.os.name == 'Android') {
+								var Context = plus.android.importClass("android.content.Context");
+								var main = plus.android.runtimeMainActivity();
+								var clip = main.getSystemService(Context.CLIPBOARD_SERVICE);
+								// plus.android.invoke(clip,"setText","I'm copy from Native.js");
+								plus.android.invoke(clip, "setText", copyContent);
+							} else {
+								var UIPasteboard = plus.ios.importClass("UIPasteboard");
+								var generalPasteboard = UIPasteboard.generalPasteboard();
+								// 设置/获取文本内容:
+								generalPasteboard.setValueforPasteboardType(copyContent, "public.utf8-plain-text");
+								var value = generalPasteboard.valueForPasteboardType("public.utf8-plain-text");
+							}
+						}
+						uploader.getimgs({
+							token: user.utoken(),
+							work_id: workid
+						}, function(res1) {
+							if(res1.error_no == '200') {
+								console.log('img' + JSON.stringify(res1))
+								createImg(res1.result)
+							} else {
+								mui.toast(res1.error_msg);
+							}
+						})
+					} else {
+						mui.toast(res.error_msg);
+					}
+
+				})
+				// 铺设图片
+				function createImg(result1) {
+					//					$(".imgDiv>.collect-img-div").remove();
+//					console.log(JSON.stringify(result1))
+					var imgSum1 = 0;
+					var imgSum2 = 0;
+					for(var j in result1) {
+						if(result1[j].file_class_id != 1 && result1[j].file_class_id != 2) {
+							continue;
+						}
+						if(result1[j].file_class_id == 1) {
+							imgSum1++;
+						} else if(result1[j].file_class_id == 2) {
+							imgSum2++;
+						}
+						var imgDiv = $(".imgDiv[imgtype=" + result1[j].file_class_id + "]")[0];
+						var oDiv = document.createElement("div");
+						oDiv.className = 'collect-img-div';
+						//var oDelete = document.createElement("span");
+						//oDelete.className = 'mui-icon mui-icon-trash collect-img-delete';
+						//oDelete.setAttribute('fileid', result1[j].id);
+						var oImg = document.createElement("img");
+						oImg.src = result1[j].file_path;
+						oImg.className = "collect-img";
+						oImg.setAttribute("data-preview-src", '');
+						oImg.setAttribute("data-preview-group", '1');
+						imgDiv.appendChild(oDiv);
+						oDiv.appendChild(oImg);
+						//oDiv.appendChild(oDelete);
+						//					console.log(oImg.src)
+					}
+					$(".partNum[imgtype=1]").html("(" + imgSum1 + ")");
+					$(".partNum[imgtype=2]").html("(" + imgSum2 + ")");
+				}
+			})
+			var page = {
+				init: function() {
+					$("#upload").click($.proxy(this.upload, this));
+
+				},
+				upload: function() {
+					var file = $("#file")[0].files[0], //文件对象
+						name = file.name, //文件名
+						size = file.size, //总大小
+						succeed = 0;
+					var shardSize = 2 * 1024 * 1024, //以2MB为一个分片
+						shardCount = Math.ceil(size / shardSize); //总片数 
+					//显示文件  
+					uploader.make({
+						token: user.utoken(),
+						filename: name,
+						type: 'image'
+					}, function(res) {
+						console.log(JSON.stringify(res))
+						var file_token = res.result.file_token
+						for(var i = 0; i < shardCount; ++i) {
+							//计算每一片的起始与结束位置
+							var start = i * shardSize,
+								end = Math.min(size, start + shardSize);
+							//构造一个表单
+							var form = new FormData();
+							form.append("token", user.utoken());
+							form.append("data", file.slice(start, end)); //slice方法用于切出文件的一部分
+							// form.append("data", ejz);
+							form.append("file_token", file_token);
+							//Ajax提交
+							var tmp = file;
+							for(var j in tmp) {
+								alert(j);
+								alert(tmp[j])
+							}
+							var request = {
+								'data': form,
+								'token': user.utoken(),
+								'file_token': file_token
+							}
+							$.ajax({
+								url: apiurl + 'file/getuploadfile',
+								type: "POST",
+								data: form,
+								async: true,
+								processData: false, //很重要，告诉jquery不要对form进行处理
+								contentType: false, //很重要，指定为false才能形成正确的Content-Type
+								success: function(res) {
+									console.log(res)
+										++succeed;
+									$("#output").text(succeed + " / " + shardCount);
+									//console.log(JSON.stringify(ejz))  
+								}
+							});
+						}
+
+					})
+
+				}
+
+			};
+			$(function() {
+				//				page.init();
+			})
+			// template帮助函数 转换时间格式
+			function telExchange(tel) {
+				var str1 = tel.substring(0, 3);
+				var str2 = tel.substring(3, 7);
+				var str3 = tel.substring(7, 11);
+				return str1 + '-' + str2 + '-' + str3;
+			}
+			// template帮助函数 转换时间格式
+			function timeExchange(time){
+				var time1 = new Date();
+				var time2 = new Date(time * 1000);
+				return numZero(time2.getFullYear()) + "-" + numZero(time2.getMonth() + 1) + '-' + numZero(time2.getDate());
+				function numZero(num){
+					return (num >= 10 ? num : '0' + num);
+				}
+			}
+		</script>
+	</body>
+
+</html>

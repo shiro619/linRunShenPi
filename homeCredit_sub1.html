@@ -1,0 +1,1069 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/css.css" />
+		<link rel="stylesheet" type="text/css" href="fonts/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="css/mui.picker.css" />
+		<link rel="stylesheet" type="text/css" href="css/mui.poppicker.css" />
+		<style>
+			/*preview*/
+			
+			.mui-preview-image.mui-fullscreen {
+				position: fixed;
+				z-index: 1000;
+				background-color: #000;
+			}
+			
+			.mui-content {
+				padding-top: 64px !important;
+			}
+			
+			.mui-preview-header,
+			.mui-preview-footer {
+				position: absolute;
+				width: 100%;
+				left: 0;
+				z-index: 10;
+			}
+			
+			.mui-preview-header {
+				height: 44px;
+				top: 0;
+			}
+			
+			.mui-preview-footer {
+				height: 50px;
+				bottom: 0px;
+			}
+			
+			.mui-preview-header .mui-preview-indicator {
+				display: block;
+				line-height: 25px;
+				color: #fff;
+				text-align: center;
+				margin: 15px auto;
+				width: 70px;
+				background-color: rgba(0, 0, 0, 0.4);
+				border-radius: 12px;
+				font-size: 16px;
+			}
+			
+			.mui-preview-image {
+				display: none;
+				-webkit-animation-duration: 0.5s;
+				animation-duration: 0.5s;
+				-webkit-animation-fill-mode: both;
+				animation-fill-mode: both;
+			}
+			
+			.mui-preview-image.mui-preview-in {
+				-webkit-animation-name: fadeIn;
+				animation-name: fadeIn;
+			}
+			
+			.mui-preview-image.mui-preview-out {
+				background: none;
+				-webkit-animation-name: fadeOut;
+				animation-name: fadeOut;
+			}
+			
+			.mui-preview-image.mui-preview-out .mui-preview-header,
+			.mui-preview-image.mui-preview-out .mui-preview-footer {
+				display: none;
+			}
+			
+			.mui-zoom-scroller {
+				position: absolute;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+				-webkit-box-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				-webkit-backface-visibility: hidden;
+			}
+			
+			.mui-zoom {
+				-webkit-transform-style: preserve-3d;
+				transform-style: preserve-3d;
+			}
+			/*.mui-preview-image.mui-fullscreen{
+				background: rgba(0,0,0,0.5);
+			}
+			
+			.mui-slider .mui-slider-group{
+				width: 80%;
+				height: 80%;
+				margin: 10%;
+				background: rgba(0,0,0,1);
+			}
+			.mui-fullscreen.mui-slider .mui-slider-group{
+				height: 80%;
+				margin: 10%;
+				background: rgba(0,0,0,1);
+			}*/
+			
+			.mui-slider .mui-slider-group .mui-slider-item img {
+				width: auto;
+				height: auto;
+				max-width: 100%;
+				max-height: 100%;
+			}
+			
+			.mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
+				width: 100%;
+			}
+			
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
+				display: inline-table;
+			}
+			
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
+				display: table-cell;
+				vertical-align: middle;
+			}
+			
+			.mui-preview-loading {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				display: none;
+			}
+			
+			.mui-preview-loading.mui-active {
+				display: block;
+			}
+			
+			.mui-preview-loading .mui-spinner-white {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -25px;
+				margin-top: -25px;
+				height: 50px;
+				width: 50px;
+			}
+			
+			.mui-preview-image img.mui-transitioning {
+				-webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+				transition: transform 0.5s ease, opacity 0.5s ease;
+			}
+			
+			@-webkit-keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			
+			@keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			
+			@-webkit-keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			
+			@keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			
+			p img {
+				max-width: 100%;
+				height: auto;
+			}
+			
+			html,
+			body {
+				height: 100%;
+				color: #272d37;
+			}
+			
+			.header1 {
+				overflow: hidden;
+			}
+			
+			.header1 .icon-back {
+				display: inline-block;
+				width: 50px;
+				height: 45px;
+				line-height: 45px;
+				position: absolute;
+				left: 0;
+				color: #ffffff;
+				z-index: 10;
+				font-size: 20px;
+				float: left;
+			}
+			
+			.mui-content {
+				padding-top: 0px !important;
+				min-height: 100%;
+				background-color: #ffffff
+			}
+			
+			.user-wrap {
+				width: 100%;
+				margin: 0;
+			}
+			
+			.data-ul {
+				width: 100%;
+				/*margin-top: 15px;*/
+				background: #f0f0f0;
+				overflow: hidden;
+			}
+			
+			.data-li {
+				width: 100%;
+				height: 50px;
+				line-height: 45px;
+				padding: 0 5%;
+				background: #ffffff;
+				position: relative;
+			}
+			
+			.data-div {
+				width: 100%;
+				height: 100%;
+				border-bottom: 1px solid #eeeff2;
+				position: relative;
+			}
+			
+			.data-title .data-div{
+				border: none;
+			}
+			
+			.data-ul .data-li:last-of-type .data-div {
+				border: none;
+			}
+			
+			.data-div>span {
+				display: inline-block;
+				height: 100%;
+				float: left;
+				font-size: 14px;
+			}
+			
+			.data-div>input {
+				font-size: 14px;
+			}
+			
+			.addLi .data-div>span {
+				height: 50px;
+			}
+			
+			.addLi .data-div .iInput {
+				width: 100% !important;
+			}
+			
+			.icon-more {
+				float: right;
+				line-height: 50px;
+			}
+			
+			.mui-table-view-cell>a {
+				height: 50px;
+				line-height: 28px;
+			}
+			
+			.mui-table-view-cell {
+				font-size: 18px;
+			}
+			
+			.cellContent {
+				font-size: 15px;
+			}
+			
+			.data-title {
+				height: 55px;
+				line-height: 65px;
+				background-color: #f0f0f0;
+			}
+			
+			.data-title .data-div>span {
+				font-size: 15px;
+			}
+			
+			.mui-table-view-cell.mui-collapse.mui-active {
+				margin-top: 0px;
+			}
+			
+			.collect-img-div {
+				width: 23%;
+				margin: 5px 1%;
+				height: 60px;
+				float: left;
+				position: relative;
+				display: inline-block;
+				border: 1px solid #e0e1e4;
+				background-image: url(images/applyimg.png);
+				background-size: 100% 100%;
+			}
+			
+			.collect-img-delete {
+				/*width: 20px;
+				height: 15px;*/
+				font-size: 20px;
+				background-color: white;
+				border-radius: 3px;
+				display: inline-block;
+				position: absolute;
+				right: 0;
+				top: 0;
+			}
+			
+			.collect-img {
+				width: 100%;
+				height: 60px;
+				float: left;
+				border: 1px solid #e0e1e4;
+				background-image: url(images/applyimg.png);
+				background-size: 100% 100%;
+			}
+			
+			.collect-addimg {
+				width: 23%;
+				margin: 5px 1%;
+				background: url(images/addimg.png);
+				background-size: 100% 100%;
+			}
+			
+			.iSpan {
+				width: 30%;
+			}
+			
+			.iInput {
+				width: 70% !important;
+				height: 40px !important;
+				text-align: right;
+				margin: auto !important;
+				padding-right: 30px !important;
+				border: none !important;
+			}
+			
+			.iInput::-webkit-input-placeholder{
+				color: #babcbf;
+			}
+			
+			#subBtn {
+				width: 80%;
+				height: 45px;
+				line-height: 45px;
+				font-size: 16px;
+				text-align: center;
+				margin: 50px 10%;
+				color: #ffffff;
+				background-color: #f0ad4e;
+				border-radius: 4px;
+			}
+			
+			#subBtn.subBtn {
+				width: 86%;
+				height: 45px;
+				line-height: 45px;
+				font-size: 16px;
+				text-align: center;
+				margin: 50px 7%;
+				color: #ffffff;
+				background-color: #fd9603;
+				border-radius: 4px;
+			}
+			
+			.addSpan {
+				width: 70%;
+				display: inline-block;
+				height: 40px !important;
+				line-height: 40px;
+				text-align: right;
+				margin: 2.5px 0;
+				padding-right: 20px;
+				color: #babcbf;
+				/*border: 1px solid #000000;*/
+				overflow: hidden;
+			}
+			
+			.cartypeSpan {
+				width: 70%;
+				display: inline-block;
+				height: 40px !important;
+				line-height: 40px;
+				text-align: right;
+				margin: 2.5px 0;
+				padding-right: 20px;
+				color: #babcbf;
+				/*border: 1px solid #000000;*/
+				overflow: hidden;
+			}
+			
+			.icon-more {
+				line-height: 40px;
+				/*height: 45px;*/
+			}
+			
+			.addLi {
+				height: 100px;
+			}
+			
+			.productName {
+				width: 90%;
+				direction: rtl;
+			}
+			
+			.data-ul .mui-icon-clear {
+				margin-top: 6px;
+			}
+			
+			.mui-table-view-cell {
+				font-size: 14px;
+			}
+			
+			.mui-table-view-cell.mui-active {
+				background-color: #ffffff;
+			}
+			
+			.data-title .data-div .creditinfo-icon {
+				height: 40px;
+				margin-top: 3px;
+			}
+			
+			.data-title .data-div .creditimg-icon {
+				height: 40px;
+				margin-top: 3px;
+			}
+			
+			.partNum {
+				position: absolute;
+				right: 40px;
+			}
+			
+			.mui-table-view-cell.mui-active>a.mui-navigate-right{
+				padding-left: 9px !important;
+				border: none;
+				border-bottom: 1px solid #eeeff2;
+			}
+			
+			.mui-table-view-cell>a.mui-navigate-right{
+				padding-left: 9px !important;
+				border: none;
+				border-bottom: none;
+			}
+			
+			.mui-table-view-cell:after{
+				right: 15px;
+		</style>
+	</head>
+
+	<body>
+		<!--<header class="mui-bar mui-bar-nav header1">
+			<h1 class="mui-title name" id="title">征信申请</h1>
+		</header>-->
+		<div class="mui-content">
+			<div class="user-wrap">
+				<ul class="data-ul">
+					<li class="data-li data-title">
+						<div class="data-div">
+							<!--<span class="icon creditinfo-icon"></span>--><span>客户基本信息</span>
+						</div>
+					</li>
+					<li class="data-li" id="customerName">
+						<div class="data-div mui-input-row">
+							<span class="iSpan">客户姓名</span>
+							<input type="text" name="customer_name" id="" value="" class="iInput mui-input-clear" placeholder="请输入客户的姓名" />
+						</div>
+					</li>
+					<li class="data-li" id="customerTel">
+						<div class="data-div mui-input-row">
+							<span class="iSpan">客户电话</span>
+							<input type="text" name="customer_tel" id="" value="" maxlength="11" pattern="[0-9]*" class="iInput mui-input-clear" placeholder="请输入客户的电话" />
+						</div>
+					</li>
+					<li class="data-li" id="customerID">
+						<div class="data-div mui-input-row" style="border: none;">
+							<span class="iSpan">身份证号</span>
+							<input type="text" name="customer_id" id="" value="" maxlength="18" class="iInput mui-input-clear" placeholder="请输入客户的身份证号" />
+						</div>
+					</li>
+					<li class="data-li addLi" style="display: none;">
+						<div class="data-div" style="border: none;">
+							<span class="iSpan">居住地址</span>
+							<span class="addSpan" id="addSpan">请选择客户所在省市区<i class="iconfont icon-more"></i></span>
+							<div id='cityResult3' class="ui-alert"></div>
+							<input type="text" name="add" id="add" value="" class="iInput" placeholder="请填写详细地址" />
+						</div>
+					</li>
+					<li class="data-li" id="agentName" style="display: none;">
+						<div class="data-div mui-input-row">
+							<input type="text" name="customer_name" id="" value="" class="iInput mui-input-clear" placeholder="请填写受理人姓名" />
+						</div>
+					</li>
+					<li class="data-li" id="agentTel" style="display: none;">
+						<div class="data-div mui-input-row">
+							<input type="text" name="customer_name" id="" value="" class="iInput mui-input-clear" placeholder="受理人手机号" />
+						</div>
+					</li>
+					<!--<li class="data-li">
+						<div class="data-div">
+							<select name="product_name" class="productName">
+								<option value="0" selected="selected">请选择</option>
+								<option value="1">新车A</option>
+								<option value="2">新车B</option>
+								<option value="3">二手车A</option>
+								<option value="4">二手车B</option>
+							</select><i class="iconfont icon-more"></i>
+						</div>
+					</li>-->
+					<li class="data-li data-title">
+						<div class="data-div">
+							<!--<span class="icon creditimg-icon"></span>--><span class="iSpan">产品信息</span>
+						</div>
+					</li>
+					<li class="data-li cartypeLi">
+						<div class="data-div">
+							<span class="iSpan">客户来源</span>
+							<span class="cartypeSpan" id="customertypeSpan" style="color: #272d37;">经销商<!--<i style="visibility: hidden;" class="iconfont icon-more"></i>--></span>
+							<!--<div id='screeningResult1' class="ui-alert"></div>-->
+						</div>
+					</li>
+					<li class="data-li cartypeLi">
+						<div class="data-div" style="border: none;">
+							<span class="iSpan">产品类型</span>
+							<span class="cartypeSpan" id="cartypeSpan">请选择产品类型<i class="iconfont icon-more"></i></span>
+							<div id='screeningResult' class="ui-alert"></div>
+						</div>
+					</li>
+
+					<li class="data-li data-title">
+						<div class="data-div">
+							<!--<span class="icon creditimg-icon"></span>--><span class="iSpan">客户征信资料</span>
+						</div>
+					</li>
+					<ul class="mui-table-view" id="listUl">
+						<li class="mui-table-view-cell mui-collapse mui-active" imgtype="1">
+							<a class="mui-navigate-right" href="#">身份证照片<span class="partNum" imgtype="1">(0)</span></a>
+							<div class="mui-collapse-content imgDiv" imgtype="1">
+								<div class="collect-img collect-addimg addImg" imgtype="1"></div>
+							</div>
+						</li>
+						<li class="mui-table-view-cell mui-collapse" imgtype="2">
+							<a class="mui-navigate-right" href="#">授权书照片<span class="partNum" imgtype="2">(0)</span></a>
+							<div class="mui-collapse-content imgDiv" imgtype="2">
+								<div class="collect-img collect-addimg addImg" imgtype="2"></div>
+							</div>
+						</li>
+					</ul>
+					<div id="subBtn" class="subBtn">确认提交</div>
+				</ul>
+				<div id="picture" class="mui-popover mui-popover-action mui-popover-bottom">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell">
+							<a href="#" class="usecamera" style="color: #fd9603;">拍照</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href="#" class="usegallery" style="color: #fd9603;">从手机相册选择</a>
+						</li>
+					</ul>
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell">
+							<a href="#picture"><b>取消</b></a>
+						</li>
+					</ul>
+				</div>
+
+			</div>
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/api.js"></script>
+		<script src="js/jquery-1.11.2.min.js"></script>
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.zoom.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.previewimage.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.picker.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.poppicker.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/city.data.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/city.data-3.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			mui.plusReady(function() {
+				// 防止back
+				mui.back = function(){}
+				//var customerName = '';
+				//var customerID = '';
+				//var customerTel = '';
+				var agentName = store.get('uname');
+				var agentTel = store.get('username')
+				//var province = '';
+				//var city = '';
+				//var town = '';
+				//var add = '';
+				var productId = '';
+				var productName = '';
+				var sourceId = 1;
+				var sourceName = '经销商';
+				var clickType;
+				// 图片数量
+				var imgSum1 = 0;
+				var imgSum2 = 0;
+				$("#agentName input").val(agentName);
+				$("#agentTel input").val(agentTel);
+				// picker选择器
+				var _getParam = function(obj, param) {
+					return obj[param] || '';
+				};
+				// 产品类型选择器
+				var screeningData = [{
+					value: '1',
+					text: '新车',
+				}, {
+					value: '2',
+					text: '二手车',
+				}];
+//				var customerData = [{
+//					value: '1',
+//					text: '商户A',
+//				}, {
+//					value: '2',
+//					text: '商户B',
+//				}, {
+//					value: '3',
+//					text: '商户C',
+//				}];
+				var screeningPicker = new mui.PopPicker({
+					layer: 1
+				});
+//				var customerPicker = new mui.PopPicker({
+//					layer: 1
+//				});
+				screeningPicker.setData(screeningData);
+//				customerPicker.setData(customerData);
+
+				// 删除图片
+				mui('body').on('tap', '.collect-img-delete', function(e) {
+					var _this = $(this);
+					var btnArray = ['取消', '确定'];
+					mui.confirm('确定删除？', '删除图片', btnArray, function(e) {
+						if(e.index == 1) {
+							_this.parent().remove();
+							// 计算图片数量
+							var tapType = _this.parent().attr("imgtype");
+							if(tapType == 1) {
+								imgSum1--;
+								$(".partNum[imgtype=1]").html("(" + imgSum1 + ")");
+//								if(imgSum1 < 2) {
+//									$(".imgDiv[imgtype=1] .collect-addimg").css("display", "inline-block");
+//								}
+							} else if(tapType == 2) {
+								imgSum2--;
+								$(".partNum[imgtype=2]").html("(" + imgSum2 + ")");
+//								if(imgSum2 < 2) {
+//									$(".imgDiv[imgtype=2] .collect-addimg").css("display", "inline-block");
+//								}
+							}
+						} else {
+
+						}
+					})
+
+				})
+
+				mui.previewImage();
+				// 图片添加按钮点击事件
+				mui('body').on('tap', '.addImg', function(e) {
+					// 强制input失去焦点，收起键盘
+					$("input").blur();
+					//					var workid = $(this).attr('data-id');
+					//										getImage();
+					clickType = $(this).attr('imgtype');
+
+					mui('#picture').popover('toggle');
+					return;
+
+				})
+				mui('body').on('tap', '.usecamera', function(e) {
+					getImage()
+				})
+				mui('body').on('tap', '.usegallery', function(e) {
+					galleryImg()
+				})
+				mui('body').on('tap', '#cartypeSpan', function(e) {
+					// 强制input失去焦点，收起键盘
+					$("input").blur();
+					screeningPicker.hide(function(items) {})
+					screeningPicker.show(function(items) {
+						$("#cartypeSpan").html(_getParam(items[0], 'text'))
+						$("#cartypeSpan").css("color", "#272d37")
+						productId = _getParam(items[0], 'value');
+						productName = _getParam(items[0], 'text');
+						console.log(productId)
+					});
+				})
+//				mui('body').on('tap', '#customertypeSpan', function(e) {
+//					// 强制input失去焦点，收起键盘
+//					$("input").blur();
+//					customerPicker.hide(function(items) {})
+//					customerPicker.show(function(items) {
+//						$("#customertypeSpan").html(_getParam(items[0], 'text'))
+//						$("#customertypeSpan").css("color", "#272d37")
+//						sourceId = _getParam(items[0], 'value');
+//						sourceName = _getParam(items[0], 'text');
+//						//						console.log(productId)
+//					});
+//				})
+
+				mui('body').on('tap', '#addSpan', function(e) {
+					// 强制input失去焦点，收起键盘
+					$("input").blur();
+
+					mui.openWindow({
+						url: 'userCredit-province.html',
+						id: 'userCredit-province.html',
+						createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+						show: {
+							autoShow: true, //页面loaded事件发生后自动显示，默认为true
+							aniShow: 'pop-in', //页面显示动画，默认为”slide-in-right“；
+						},
+						waiting: {
+							autoShow: false, //自动显示等待框，默认为true
+						},
+						extras: {
+							selectType: 1
+						},
+					})
+				})
+				//添加newId自定义事件监听
+//				window.addEventListener('selectAdd', function(event) {
+//					//获得事件参数
+//					province = event.detail.province;
+//					city = event.detail.city;
+//					town = event.detail.town;
+//					$('#addSpan')[0].innerHTML = province + " " + city + " " + town;
+//				});
+
+				mui('body').on('tap', '.subBtn', function(e) {
+					// 判断非空
+					if($("#customerName input").val() == '') {
+						mui.alert('请填写客户姓名');
+						return;
+					}
+					if($("#customerTel input").val() == '') {
+						mui.alert('请填写客户手机号码');
+						return;
+					}
+					if(!/^13[0-9]{9}$|14[0-9]{9}$|15[0-9]{9}$|17[0-9]{9}$|18[0-9]{9}$/.test($("#customerTel input").val())) {
+						mui.alert('客户手机号码格式不正确');
+						return;
+					}
+					if($("#customerID input").val() == '') {
+						mui.alert('请填写客户身份证号码');
+						return;
+					}
+					if(!/^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X|x)$/.test($("#customerID input").val())) {
+						mui.alert('身份证号码格式不正确');
+						return;
+					}
+					if($("#agentName input").val() == '') {
+						mui.alert('请填写受理人姓名');
+						return;
+					}
+					if(!/^13[0-9]{9}$|14[0-9]{9}$|15[0-9]{9}$|17[0-9]{9}$|18[0-9]{9}$/.test($("#agentTel input").val())) {
+						mui.alert('受理人手机号码格式不正确');
+						return;
+					}
+//					if(sourceId == '' || sourceName == '') {
+//						mui.alert('请选择客户来源');
+//						return;
+//					}
+					if(productId == '' || productName == '') {
+						mui.alert('请选择产品名称');
+						return;
+					}
+//					if(province == '' || city == '' || town == '' || $("#add").val() == '') {
+//						mui.alert('请填写完整地址');
+//						return;
+//					}
+					if($("img.collect-img[imgtype=1]").length < 1) {
+						mui.alert('请上传至少一张身份证照片');
+						return;
+					}
+					if($("img.collect-img[imgtype=2]").length < 1) {
+						mui.alert('请上传至少一张授权书照片');
+						return;
+					}
+					$("#subBtn").removeClass("subBtn");
+					$("#subBtn").html("提交中");
+					var imgJson = {
+						'1': {
+							'source_lists': [],
+							'source_type': 'image'
+						},
+						'2': {
+							'source_lists': [],
+							'source_type': 'image'
+						},
+					}
+					$("img.collect-img").each(function() {
+						var imgData = {
+							'alt': $(this).attr('fid'),
+							'org': $(this).attr('src'),
+							'src': $(this).attr('src'),
+						}
+						if($(this).attr('imgtype') == 1) {
+							imgJson['1'].source_lists.push(imgData);
+						} else if($(this).attr('imgtype') == 2) {
+							imgJson['2'].source_lists.push(imgData);
+						}
+
+					})
+					var newData = {
+						'token': user.utoken(),
+						'customer_name': $("#customerName input").val(),
+						'customer_certificate_number': $("#customerID input").val(),
+						'customer_telephone': $("#customerTel input").val(),
+						'receiver_name': $("#agentName input").val(),
+						'receiver_telephone': $("#agentTel input").val(),
+						'merchant_id': sourceId,
+						'merchant_name': sourceName,
+						'product_id': productId,
+						'product_name': productName,
+//						'customer_province': province,
+//						'customer_city': city,
+//						'customer_town': town,
+//						'customer_address_add': $("#add").val(),
+						'imgs': imgJson
+					}
+
+					//					for(var i in newData) {
+					//						console.log(i + ":" + newData[i]);
+					//					}
+					//					console.log(newData.imgs['1'][1])
+					uploader.submitNew(newData, function(res) {
+						$("#subBtn").addClass("subBtn");
+						$("#subBtn").html("确认提交");
+						if(res.error_no == 200) {
+							$("#customerName input").val('');
+							$("#customerID input").val('');
+							$("#customerTel input").val('');
+							//							$("#agentName input").val('');
+							//							$("#agentTel input").val('');
+							//$(".productName")[0].options[0].selected = true;
+							$("#cartypeSpan").html("请选择产品类型<i class='iconfont icon-more'></i>");
+							$("#cartypeSpan").css("color", "");
+//							$('#customertypeSpan').html("请选择客户来源<i class='iconfont icon-more'></i>");
+//							$("#customertypeSpan").css("color", "");
+							productId = '';
+							productName = '';
+//							province = '';
+//							city = '';
+//							town = '';
+//							$(".iInput").val('');
+							$("img.collect-img").parent().remove();
+							imgSum1 = 0;
+							imgSum2 = 0;
+							$(".partNum").html("0");
+							$(".imgDiv .collect-addimg").css("display", "inline-block");
+							mui.alert('提交成功');
+						} else {
+							mui.toast(res.error_msg)
+						}
+						console.log(res.error_no + res.error_msg)
+					})
+				})
+
+				// 拍照
+				function getImage() {
+					//				outSet('开始拍照：');
+					var cmr = plus.camera.getCamera();
+					// alert( "Camera supperted image resolutions: " + cmr.supportedImageResolutions );
+					//					var rees = cmr.supportedImageResolutions[11];
+					//					var fmt = cmr.supportedVideoFormats[0];
+					cmr.captureImage(function(p) {
+						//					outLine('成功：' + p);
+						plus.io.resolveLocalFileSystemURL(p, function(entry) {
+							imgUpload(entry.toLocalURL());
+							//						},300)
+
+						}, function(e) {
+							//						outLine('读取拍照文件错误：' + e.message);
+						});
+					}, function(e) {
+						console.log(JSON.stringify(e))
+						//					outLine('失败：' + e.message);
+					}, {
+						filename: '_doc/camera/',
+						index: 1,
+						//						resolution:rees,
+						//         		 		format:fmt
+					});
+				}
+
+				function galleryImg() {
+					// 从相册中选择图片
+					//				outSet('从相册中选择图片：');
+					plus.gallery.pick(function(path) {
+						//					outLine(path);
+						imgUpload(path)
+						//showImg( path );
+						//createItem(path);
+					}, function(e) {
+						if(e.code == 8) {
+							alert(e.message)
+						}
+						//					outSet('取消选择图片');
+					}, {
+						filter: 'image'
+					});
+				}
+
+				// 铺设图片
+				function createImg(src, fid) {
+					var imgDiv = $(".imgDiv[imgtype=" + clickType + "]")[0];
+					var oDiv = document.createElement("div");
+					var addImg = $(imgDiv).children(".addImg")[0];
+					oDiv.className = 'collect-img-div';
+					oDiv.setAttribute("imgtype", clickType);
+					var oDelete = document.createElement("span");
+					oDelete.className = 'mui-icon mui-icon-trash collect-img-delete';
+					// oDelete.setAttribute('fileid', result1[j].id);
+					var oImg = document.createElement("img");
+					oImg.src = src;
+					console.log('图片地址' + src)
+					oImg.className = "collect-img";
+					oImg.setAttribute("data-preview-src", '');
+					oImg.setAttribute("data-preview-group", '1');
+					oImg.setAttribute("fid", fid);
+					oImg.setAttribute("imgtype", clickType);
+					imgDiv.insertBefore(oDiv,addImg);
+					oDiv.appendChild(oImg);
+					oDiv.appendChild(oDelete);
+					// 计算图片数量
+					if(clickType == 1) {
+						imgSum1++;
+						$(".partNum[imgtype=1]").html('(' + imgSum1 + ')');
+//						if(imgSum1 >= 2) {
+//							$(".imgDiv[imgtype=1] .collect-addimg").css("display", "none");
+//						}
+					} else if(clickType == 2) {
+						imgSum2++;
+						$(".partNum[imgtype=2]").html('(' + imgSum2 + ')');
+//						if(imgSum2 >= 2) {
+//							$(".imgDiv[imgtype=2] .collect-addimg").css("display", "none");
+//						}
+					}
+				}
+
+				// 上传
+				function createUpload(upURL, upData, callback) {
+					var task = plus.uploader.createUpload(apiurl + "file/hbuilderupload/", {
+						method: "POST"
+					}, function(t, status) {
+						// 上传完成
+						//						console.log(status)
+						var res = t.responseText;
+						if(status == 200) {
+							callback(res);
+						} else {
+							mui.toast("Upload failed: " + status, {
+								verticalAlign: 'center'
+							})
+						}
+					});
+					task.addFile(upURL, {
+						key: "file"
+					});
+					for(var j in upData) {
+						task.addData(j, upData[j]);
+					}
+					//task.addEventListener( "statechanged", onStateChanged, false );
+					task.start();
+				}
+
+				function imgUpload(localurl) {
+					plus.nativeUI.showWaiting();
+					$("#picture").hide()
+					$(".mui-backdrop").hide();
+					$(".collect-addimg").removeClass("addImg");
+					//				var localurl = entry.toLocalURL();
+					var upData = {
+						token: user.utoken(),
+						sync_to_upyun: '2',
+						type: 'image'
+					}
+					createUpload(localurl, upData, function(ress) {
+						var res = JSON.parse(ress)
+						if(res.error_no == 200) {
+							mui.toast('上传成功')
+							$(".collect-addimg").addClass("addImg");
+							plus.nativeUI.closeWaiting();
+							//							console.log(JSON.stringify(res))
+							createImg(res.result.url, res.result.fid);
+						} else {
+							mui.toast('上传失败')
+							plus.nativeUI.closeWaiting();
+							$(".collect-addimg").addClass("addImg");
+							console.log('失败：' + res.error_msg + res.error_no)
+						}
+					})
+				}
+
+			})
+
+			function logout() {
+				if(canClick) {
+					// 获取所有Webview窗口
+					var curr = plus.webview.currentWebview();
+					var wvs = plus.webview.all();
+					user.clear();
+					login();
+					for(var i = 0, len = wvs.length; i < len; i++) {
+						//关闭所有页面
+						plus.webview.close(wvs[i]);
+					}
+				}
+
+			}
+			// template帮助函数 转换时间格式
+//			function telExchange(tel) {
+//				var str1 = tel.substring(0, 3);
+//				var str2 = tel.substring(3, 7);
+//				var str3 = tel.substring(7, 11);
+//				return str1 + '-' + str2 + '-' + str3;
+//			}
+		</script>
+	</body>
+
+</html>

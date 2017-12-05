@@ -1,0 +1,1148 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/css.css" />
+		<link rel="stylesheet" type="text/css" href="fonts/iconfont.css" />
+		<style>
+			.header1 {
+				overflow: hidden;
+			}
+			
+			.header1 .icon-back {
+				display: inline-block;
+				width: 50px;
+				height: 45px;
+				line-height: 45px;
+				position: absolute;
+				left: 0;
+				color: #ffffff;
+				z-index: 10;
+				font-size: 20px;
+				float: left;
+			}
+			
+			.mui-content {
+				padding-top: 64px !important;
+			}
+			
+			.mission-wrap {
+				width: 96%;
+				margin: 0 2%;
+			}
+			
+			.data-item {
+				background: #fff;
+				height: 90px;
+				padding: 8px 15px;
+				width: 95%;
+				margin: 10px 2.5% 0 2.5%;
+				border-radius: 6px;
+				-webkit-border-radius: 6px;
+				position: relative;
+			}
+			
+			.data-item>div {
+				height: 50%;
+			}
+			
+			.data-item-top {
+				border-bottom: 1px dotted #f0f0f0;
+			}
+			
+			.data-name {
+				float: left;
+				font-size: 16px;
+				color: #333;
+				line-height: 35px;
+			}
+			
+			.data-name span {
+				color: #333;
+				font-size: 12px;
+			}
+			
+			.data-tip {
+				float: right;
+				width: 80px;
+				font-size: 14px;
+				height: 30px !important;
+				/*border: 1px solid #FD9603;*/
+				line-height: 30px;
+				margin-top: 35px;
+				margin-right: 20px;
+				text-align: center;
+				color: #ffffff;
+				background-color: #FD9603;
+				border-radius: 4px;
+				-webkit-border-radius: 4px;
+			}
+			
+			.data-tip:active {
+				background-color: #fec26c;
+			}
+			
+			.data-tip1 {
+				/*float: right;*/
+				width: 80px;
+				height: 30px !important;
+				right: 35px;
+				top: 10px !important;
+				font-size: 14px;
+				position: absolute;
+				/*border: 1px solid #FD9603;*/
+				line-height: 27px;
+				/*margin-top: 13.5px;
+				margin-right: 20px;*/
+				text-align: center;
+				color: #ffffff;
+				background-color: #FD9603;
+				border-radius: 4px;
+				-webkit-border-radius: 4px;
+			}
+			
+			.data-tel {
+				float: left;
+				/*width: 62px;*/
+				font-size: 16px;
+				margin-left: 5px;
+				color: #4a86ee;
+				line-height: 37px;
+				/*line-height: 20px;*/
+				/*border: 1px solid #FD9603;*/
+				/*line-height: 27px;*/
+				text-align: center;
+			}
+			
+			.data-car {
+				line-height: 27px;
+				color: #999;
+				font-size: 14px;
+				float: left;
+				padding-left: 2px;
+			}
+			
+			.data-time {
+				width: 100%;
+				float: left;
+				font-size: 12px;
+				line-height: 37px;
+				position: relative;
+			}
+			
+			.data-time>span {
+				margin-right: 5px;
+			}
+			
+			.icon-car {
+				display: inline-block;
+				float: left;
+				width: 22px;
+				height: 20px;
+				margin-top: 3px;
+				background: url(images/icon.png) no-repeat -62px -3px;
+				background-size: 380px;
+			}
+			
+			.icon-time {
+				display: inline-block;
+				float: left;
+				width: 19px;
+				height: 20px;
+				margin-top: 3px;
+				background: url(images/icon.png) no-repeat -95px -5px;
+				background-size: 400px;
+			}
+			
+			.mission-list {
+				width: 100%;
+			}
+			
+			.mission-list img {
+				width: 55px;
+			}
+			
+			.list-ul {
+				width: 80%;
+				background-color: #ffffff;
+				border-radius: 7px;
+				display: inline-block;
+				list-style: none;
+				float: left;
+				position: relative;
+			}
+			
+			.mission-list1 {
+				width: 100%;
+				/*height: 75px;*/
+				overflow: hidden;
+				position: relative;
+			}
+			
+			.mission-list1>img {
+				height: 75px;
+				float: left;
+			}
+			
+			.mission-list1>.list-ul {
+				/*height: 55px;*/
+				margin-top: 20px;
+			}
+			
+			.mission-list1 .list-li {
+				border: none;
+				font-weight: bold;
+			}
+			
+			.mission-list1 .list-li:before {
+				content: "• ";
+				position: absolute;
+				left: 0;
+			}
+			
+			.list-li {
+				display: inline-block;
+				width: 90%;
+				margin: 0 5%;
+				padding: 0 5%;
+				height: 55px;
+				font-size: 14px;
+				line-height: 55px;
+				border-bottom: 1px solid #f0f0f0;
+				position: relative;
+				transition: 0.1s;
+				/*overflow: hidden;*/
+			}
+			
+			.list-li1 {
+				height: 100px;
+			}
+			
+			.list-li-tap:active {
+				background-color: #eeeeee;
+			}
+			
+			.mission-list2 {
+				width: 100%;
+				/*height: 340px;*/
+				overflow: hidden;
+			}
+			
+			.mission-list2>img {
+				height: 285px;
+				float: left;
+			}
+			
+			.mission-list2>.list-ul {
+				/*height: 330px;*/
+				margin-top: 10px;
+			}
+			
+			.mission-list2 .list-li:nth-of-type(1) {
+				font-weight: bold;
+			}
+			
+			.mission-list2 .list-li:last-of-type {
+				border: none;
+			}
+			
+			.mission-list2 .list-li:nth-of-type(1):before {
+				content: "• ";
+				position: absolute;
+				left: 0;
+			}
+			
+			.mission-list3 {
+				width: 100%;
+				/*height: 65px;*/
+				overflow: hidden;
+			}
+			
+			.mission-list3 .list-li {
+				border: none;
+				font-weight: bold;
+			}
+			
+			.mission-list3>img {
+				height: 65px;
+				float: left;
+			}
+			
+			.mission-list3>.list-ul {
+				/*height: 55px;*/
+				margin-top: 10px;
+			}
+			
+			.mission-list3 .list-li {
+				font-weight: bold;
+			}
+			
+			.mission-list3 .list-li:before {
+				content: "• ";
+				position: absolute;
+				left: 0;
+			}
+			
+			.arrive-btn-white {
+				background-color: none;
+				float: none;
+				position: absolute;
+				top: 40px;
+				width: 62px;
+				font-size: 15px;
+				/*border: 1px solid #FD9603;*/
+				line-height: 27px;
+				/*margin-top: 13.5px;*/
+				margin-right: 0px;
+				text-align: left;
+				color: #646b76;
+				border-radius: 2px;
+				-webkit-border-radius: 2px;
+				transition: 0.1s;
+				font-weight: normal;
+			}
+			
+			.arrive-btn {
+				float: right;
+				position: absolute;
+				top: 12px;
+				right: 0px;
+				width: 62px;
+				font-size: 12px;
+				/*border: 1px solid #FD9603;*/
+				line-height: 30px;
+				margin-top: 0px;
+				margin-right: 0px;
+				text-align: center;
+				color: #ffffff;
+				background-color: #FD9603;
+				border-radius: 4px;
+				-webkit-border-radius: 4px;
+				transition: 0.1s;
+				font-weight: normal;
+			}
+			
+			.arrive-btn:active {
+				background-color: #fec26c;
+			}
+			
+			.arrive-div {
+				width: 100%;
+				height: 20px;
+				line-height: 20px;
+				overflow: hidden;
+				font-size: 12px;
+				color: #646b76;
+				font-weight: normal;
+				position: absolute;
+				top: 62px;
+			}
+			
+			.leave-btn-white {
+				background-color: none;
+				float: none;
+				position: absolute;
+				top: 40px;
+				width: 62px;
+				font-size: 15px;
+				/*border: 1px solid #FD9603;*/
+				line-height: 27px;
+				/*margin-top: 13.5px;*/
+				margin-right: 0px;
+				text-align: left;
+				color: #646b76;
+				background-color: none;
+				border-radius: 4px;
+				-webkit-border-radius: 4px;
+				transition: 0.1s;
+				font-weight: normal;
+			}
+			
+			.leave-btn {
+				float: right;
+				position: absolute;
+				top: 12px;
+				right: 0;
+				width: 62px;
+				font-size: 12px;
+				/*border: 1px solid #FD9603;*/
+				line-height: 30px;
+				margin-top: 0px;
+				margin-right: 0px;
+				text-align: center;
+				color: #ffffff;
+				background-color: #FD9603;
+				border-radius: 4px;
+				-webkit-border-radius: 4px;
+				transition: 0.1s;
+				font-weight: normal;
+			}
+			
+			.leave-btn:active {
+				background-color: #fec26c;
+			}
+			
+			.leave-div {
+				width: 100%;
+				height: 20px;
+				line-height: 20px;
+				overflow: hidden;
+				font-size: 12px;
+				color: #646b76;
+				font-weight: normal;
+				position: absolute;
+				top: 70px;
+			}
+			
+			.list-li-btn {
+				float: right;
+				width: 62px;
+				font-size: 12px;
+				/*border: 1px solid #FD9603;*/
+				line-height: 27px;
+				margin-top: 13.5px;
+				margin-right: 0px;
+				text-align: center;
+				color: #ffffff;
+				background-color: #FD9603;
+				border-radius: 4px;
+				-webkit-border-radius: 4px;
+				transition: 0.1s;
+				font-weight: normal;
+			}
+			
+			.list-li-btn:active {
+				background-color: #fec26c;
+			}
+			
+			.moreBtn {
+				float: right;
+				position: relative;
+				right: -5%;
+			}
+			
+			.data-address {
+				line-height: 15px;
+				color: #272d37;
+				box-sizing: border-box;
+				width: 100%;
+				position: absolute;
+				left: 0;
+				margin: 0;
+				padding-left: 22px;
+				top: 10px;
+				word-wrap: break-word;
+			}
+			
+			.data-address>span {
+				color: #babcbf;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav header1">
+			<span class="iconfont icon-back backBtn"></span>
+			<h1 class="mui-title name" id="title">家访任务</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mission-wrap">
+				<div class="mission-main">
+					<div class="data-item">
+						<!--<div class="data-tip1">拒件</div>
+						<div class="data-tip">退回任务</div>-->
+						<div class="data-item-top">
+							<p class="data-name"></p>
+							<span class="data-tel"></span>
+						</div>
+						<div class="data-item-bottom">
+							<p class="data-time"><span class="icon add-icon"></span><span class="data-address"></span></p>
+						</div>
+					</div>
+					<div class="mission-list">
+						<div class="mission-list1">
+							<img src="images/list1-bg.png" class="list-bg1" />
+							<ul class="list-ul">
+								<li class="list-li arrive-li">抵达登记
+									<div class="arrive-btn-white" style="display: none;">抵达</div>
+									<div class="arrive-div" style="display: none;"></div>
+								</li>
+							</ul>
+						</div>
+						<div class="mission-list2">
+							<img src="images/list2-bg.png" class="list-bg2" />
+							<ul class="list-ul">
+								<li class="list-li">执行任务</li>
+								<li class="list-li list-li-tap visit-collect"><span class="collectSpan">资料采集</span><span class="iconfont icon-more moreBtn"></span></li>
+								<li class="list-li list-li-tap video-collect1"><span class="videoSpan1">面签视频</span><span class="iconfont icon-more moreBtn"></span>
+									<div class="list-li-btn video-btn1" id="video-btn1" style="display: none;">开始</div>
+									<input type="file" id="videofile" accept="video/*" name="file" capture="camcorder" style="display: none;" />
+									<video id="video" src="" style="display: none;"></video>
+								</li>
+								<li class="list-li list-li-tap video-collect2"><span class="videoSpan2">家访视频</span><span class="iconfont icon-more moreBtn"></span>
+									<div class="list-li-btn video-btn2" id="video-btn2" style="display: none;">开始</div>
+								</li>
+								<li class="list-li list-li-tap visit-finacing" id="visit-finacing"><span class="finacingSpan">融资账户</span><span class="iconfont icon-more moreBtn"></span></li>
+								<li class="list-li list-li-tap visit-contract" style="display: none;">合同登记<span class="iconfont icon-more moreBtn"></span></li>
+								<li class="list-li list-li-tap visit-sum" style="display: none;">拜访总结<span class="iconfont icon-more moreBtn"></span></li>
+							</ul>
+						</div>
+						<div class="mission-list3">
+							<img src="images/list3-bg.png" class="list-bg3" />
+							<ul class="list-ul">
+								<li class="list-li leave-li">离开登记
+									<div class="leave-btn-white" style="display: none;">离开</div>
+									<div class="leave-div" style="display: none;"></div>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/api.js"></script>
+		<script src="js/jquery-1.11.2.min.js"></script>
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			mui.init(function() {
+
+			})
+
+			var isArrive = false;
+			var isLeave = false;
+			var isCollect = false;
+			var videoSum1 = 0;
+			var videoSum2 = 0;
+			var addTxt = '';
+			mui.plusReady(function() {
+				page.init()
+				var self = plus.webview.currentWebview()
+				var workid = self.workid;
+				var userid = self.userid;
+				var isFinacing = true;
+				var applyData = {
+					token: user.utoken(),
+					work_id: workid
+				}
+
+				listInfo.getCustomerInfo(applyData, function(res) {
+					// 显示到达信息
+					$('.arrive-btn-white').css('display', 'block');
+					$('.leave-btn-white').css('display', 'block');
+					if(res.error_no == '200') {
+						var idNo = res.result.customer_certificate_number;
+						// 获取到客户信息后通过身份证获取融资账户开通状态
+						listInfo.getCustomerFinacing({'id_No': idNo}, function(resF) {
+							if(resF.error_no == 200) {
+								if(resF.result.is_open.id == 1){
+									isFinacing = true;
+								} else if(resF.result.is_open.id == 2){
+									isFinacing = false;
+								}
+								// 判断是否抵达
+								if(res.result.visit_arrive_time != null && res.result.visit_arrive_time.length > 0) {
+									// 抵达时间转换
+									//							console.log(res.result.visit_arrive_time)
+									isArrive = true;
+									var arrive = new Date(res.result.visit_arrive_time * 1000);
+									var arriveH = String(arrive.getHours());
+									var arriveM = String(arrive.getMinutes());
+									if(arriveH < 10) {
+										arriveH = '0' + arriveH;
+									}
+									if(arriveM < 10) {
+										arriveM = '0' + arriveM;
+									}
+									var arrivetime = arriveH + ":" + arriveM;
+									//							$(".arrive-btn").attr('class','arrive-btn-white');
+									$(".arrive-btn-white").html(arrivetime);
+									$('.mission-list1>img').css('height', '120px');
+									$(".list-bg1").attr('src', 'images/list1-bg1.png');
+									$('.arrive-li').addClass('list-li1');
+									$('.arrive-div').css('display', 'block').html(res.result.visit_arrive_address);
+								} else {
+									$(".arrive-btn-white").addClass('arrive-btn');
+								}
+								// 判断是否离开
+								if(res.result.visit_leave_time != null && res.result.visit_leave_time.length > 0) {
+									// 抵达时间转换
+									//							console.log(res.result.visit_arrive_time)
+									isLeave = true;
+									var leave = new Date(res.result.visit_leave_time * 1000);
+									var leaveH = String(leave.getHours());
+									var leaveM = String(leave.getMinutes());
+									if(leaveH < 10) {
+										leaveH = '0' + leaveH;
+									}
+									if(leaveM < 10) {
+										leaveM = '0' + leaveM;
+									}
+									var leavetime = leaveH + ":" + leaveM;
+									$(".leave-btn-white").html(leavetime);
+									//							$(".leave-btn-white").html(arrivetime);
+									$(".list-bg3").attr('src', 'images/list3-bg1.png');
+									$(".list-bg2").attr('src', 'images/list2-bg1.png');
+									$('.mission-list3>img').css('height', '110px');
+
+									$('.leave-li').addClass('list-li1');
+									$('.leave-div').css('display', 'block').html(res.result.visit_leave_address);
+								} else {
+									$(".leave-btn-white").addClass('leave-btn');
+								}
+								// 判断资料采集是否完成
+								$(".collectSpan").html("资料采集（" + res.result.data_collection_count + "）");
+								if(res.result.data_collection == true || res.result.data_collection == 'true') {
+									isCollect == true;
+								}
+
+								$(".data-name").html(res.result.customer_name + '<span>' + (res.result.customer_sex == '男' ? '先生' : '女士') + '</span>');
+								//						$(".apply-id").html(res.result.request_to);
+								$(".data-tel").html(telExchange(res.result.customer_telephone));
+								if(res.result.customer_address != null && res.result.customer_address.length > 0) {
+									$(".data-address").html(res.result.customer_address);
+									addTxt = res.result.customer_address;
+								} else {
+									$(".data-address").html("<span>请输入客户的详细居住地址</span>");
+								}
+								// 点击号码拨打
+								mui('body').on('tap', '.data-tel', function(e) {
+									e.stopPropagation();
+									var teldata = res.result.customer_telephone;
+									if(verCompare('10.3.3', plus.os.version)) {
+										plus.device.dial(teldata, false);
+									} else {
+										mui.confirm('呼叫', telExchange(teldata), ['取消', '呼叫'], function(e) {
+											if(e.index == 1) {
+												plus.device.dial(teldata, false);
+											} else {}
+										})
+									}
+								})
+								// 跳转修改地址页
+								mui('body').on('tap', '.data-item-bottom', function(e) {
+									mui.openWindow({
+										url: 'mission-add.html',
+										id: 'mission-add.html',
+										createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+										show: {
+											autoShow: true, //页面loaded事件发生后自动显示，默认为true
+											aniShow: 'pop-in', //页面显示动画，默认为”slide-in-right“；
+										},
+										waiting: {
+											autoShow: false, //自动显示等待框，默认为true
+										},
+										extras: {
+											add: addTxt,
+										},
+									})
+								})
+
+								// 公司视频有无判断
+								videoSum1 = res.result.company_visit_video_count;
+								videoSum2 = res.result.home_visit_video_count;
+								console.log(res.result.company_visit_video_count + "..........")
+								$(".videoSpan1").html("面签视频（" + videoSum1 + "）");
+								$(".videoSpan2").html("家访视频（" + videoSum2 + "）");
+
+								//						missionRate();
+
+								// 抵达登记点击事件
+								var arriveData;
+								var leaveData;
+								mui('body').on('tap', '.arrive-btn', function(e) {
+									getGPS(function(position) {
+										var codns = position.coords; //获取地理坐标信息；
+										var lat = codns.latitude; //获取到当前位置的纬度；
+										var longt = codns.longitude; //获取到当前位置的经度
+										arriveData = {
+											token: user.utoken(),
+											type: '1',
+											work_id: workid,
+											lat: lat,
+											lng: longt,
+										}
+
+										mui.openWindow({
+											url: 'mission-map.html',
+											id: 'mission-map.html',
+											createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+											show: {
+												autoShow: true, //页面loaded事件发生后自动显示，默认为true
+												aniShow: 'pop-in', //页面显示动画，默认为”slide-in-right“；
+											},
+											waiting: {
+												autoShow: false, //自动显示等待框，默认为true
+											},
+											extras: {
+												type: 'arrive',
+												lat: lat,
+												lng: longt
+											},
+										})
+
+									})
+								})
+								// 离开登记点击事件
+								mui('body').on('tap', '.leave-btn', function(e) {
+									if($(".data-address").html().length == 0 || $(".data-address").html() == "<span>请输入客户的详细居住地址</span>") {
+										mui.toast('请先登记地址');
+										return;
+									}
+									//							if(videoSum1 == 0){
+									//								mui.toast('请先采集面签视频');
+									//								return;
+									//							}
+									//							if(videoSum2 == 0){
+									//								mui.toast('请先采集家访视频');
+									//								return;
+									//							}
+									if(!isArrive) {
+										mui.toast('请先进行抵达登记');
+										return;
+									}
+									console.log('getGPSStart')
+									getGPS(function(position) {
+										console.log('getGPS')
+										var codns = position.coords; //获取地理坐标信息；
+										var lat = codns.latitude; //获取到当前位置的纬度；
+										var longt = codns.longitude; //获取到当前位置的经度
+										leaveData = {
+											token: user.utoken(),
+											type: '2',
+											work_id: workid,
+											lat: lat,
+											lng: longt,
+										}
+
+										mui.openWindow({
+											url: 'mission-map.html',
+											id: 'mission-map.html',
+											createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+											show: {
+												autoShow: true, //页面loaded事件发生后自动显示，默认为true
+												aniShow: 'pop-in', //页面显示动画，默认为”slide-in-right“；
+											},
+											waiting: {
+												autoShow: false, //自动显示等待框，默认为true
+											},
+											extras: {
+												type: 'leave',
+												lat: lat,
+												lng: longt
+											},
+										})
+
+										console.log('token:' + user.utoken() + ';' + 'type: 2' + ';' + 'work_id: ' + workid + ';' + 'lat: ' + lat + ';' + 'lng: ' + longt)
+
+									})
+								})
+								//添加修改地址事件监听
+								window.addEventListener('addBack', function(event) {
+									//获得事件参数
+									var backAdd = event.detail.add;
+									var addData = {
+										token: user.utoken(),
+										customer_address: backAdd,
+										work_id: workid,
+									}
+									listInfo.setCustomerAdd(addData, function(addres) {
+										console.log(JSON.stringify(addres) || addres)
+										if(addres.error_no == 200) {
+											$(".data-address").html(backAdd);
+											addTxt = backAdd;
+										} else {
+											mui.toast(addres.error_msg);
+										}
+									})
+								});
+								window.addEventListener('videoDel', function(event) {
+									var delType = event.detail.videoType;
+									var videoSum = event.detail.sum;
+									if(delType == 1) {
+										$(".videoSpan1").html("面签视频（" + videoSum + "）");
+										videoSum1 = videoSum;
+									} else if(delType == 2) {
+										$(".videoSpan2").html("家访视频（" + videoSum + "）");
+										videoSum2 = videoSum;
+									} else if(delType == 0) {
+										$(".collectSpan").html("资料采集（" + videoSum + "）");
+									}
+								})
+								//到达离开地点登记事件监听
+								window.addEventListener('missionMapData', function(event) {
+									//获得事件参数
+									// var backConstract = event.detail.constract;
+									if(event.detail.type == 'arrive') {
+										uploader.submitarrive(arriveData, function(res1) {
+											console.log(JSON.stringify(res1))
+											if(res1.error_no == '200') {
+												isArrive = true;
+												var newTime = new Date();
+												arriveH = String(newTime.getHours());
+												arriveM = String(newTime.getMinutes());
+												if(arriveH < 10) {
+													arriveH = '0' + arriveH;
+												}
+												if(arriveM < 10) {
+													arriveM = '0' + arriveM;
+												}
+												arrivetime = arriveH + ":" + arriveM;
+												$(".arrive-btn-white").removeClass('arrive-btn');
+												$(".arrive-btn-white").html(arrivetime);
+												$(".list-bg1").attr('src', 'images/list1-bg1.png');
+												$('.arrive-li').addClass('list-li1');
+												$('.mission-list1>img').css('height', '120px');
+												$('.arrive-div').css('display', 'block').html(res1.result.address);
+											}
+										})
+									} else if(event.detail.type == 'leave') {
+										uploader.submitarrive(leaveData, function(res1) {
+											if(res1.error_no == '200') {
+												isLeave = true;
+												var newTime = new Date();
+												leaveH = String(newTime.getHours());
+												leaveM = String(newTime.getMinutes());
+												if(leaveH < 10) {
+													leaveH = '0' + leaveH;
+												}
+												if(leaveM < 10) {
+													leaveM = '0' + leaveM;
+												}
+												leavetime = leaveH + ":" + leaveM;
+												$(".leave-btn-white").removeClass('leave-btn');
+												$(".leave-btn-white").html(leavetime);
+												$('.mission-list3>img').css('height', '110px');
+												$(".list-bg3").attr('src', 'images/list3-bg1.png');
+												$(".list-bg2").attr('src', 'images/list2-bg1.png');
+												$('.leave-li').addClass('list-li1');
+												$('.leave-div').css('display', 'block').html(res1.result.address);
+												//										missionRate();
+											} else {
+												console.log(res1.error_msg + res1.error_no)
+												mui.toast(res1.error_msg)
+												for(var i in leaveData) {
+													console.log(i + ":" + leaveData[i] + ",")
+												}
+											}
+										})
+									}
+								});
+
+								// 打开资料采集页面
+								mui('body').on('tap', '.visit-collect', function(e) {
+									//					var workid = $(this).attr('data-id');
+									if(!isArrive) {
+										mui.toast('请先进行抵达登记');
+										return;
+									}
+									if(isLeave) {
+										return;
+									}
+
+									mui.openWindow({
+										url: 'apply-collect.html',
+										id: 'apply-collect.html',
+										createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+										show: {
+											autoShow: true, //页面loaded事件发生后自动显示，默认为true
+											aniShow: 'pop-in', //页面显示动画，默认为”slide-in-right“；
+										},
+										waiting: {
+											autoShow: false, //自动显示等待框，默认为true
+										},
+										extras: {
+											workid: workid
+										},
+									})
+								})
+								// 打开面签视频采集页面
+								mui('body').on('tap', '.video-collect1', function(e) {
+									if(!isArrive) {
+										mui.toast('请先进行抵达登记');
+										return;
+									}
+									if(isLeave) {
+										return;
+									}
+									mui.openWindow({
+										url: 'apply-videoCollect.html',
+										id: 'apply-videoCollect.html',
+										createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+										show: {
+											autoShow: true, //页面loaded事件发生后自动显示，默认为true
+											aniShow: 'pop-in', //页面显示动画，默认为”slide-in-right“；
+										},
+										waiting: {
+											autoShow: false, //自动显示等待框，默认为true
+										},
+										extras: {
+											workid: workid,
+											type: 1,
+										},
+										styles: {
+											hardwareAccelerated: true //开启硬件加速
+										}
+									})
+								})
+								// 打开家访视频采集页面
+								mui('body').on('tap', '.video-collect2', function(e) {
+									if(!isArrive) {
+										mui.toast('请先进行抵达登记');
+										return;
+									}
+									if(isLeave) {
+										return;
+									}
+									mui.openWindow({
+										url: 'apply-videoCollect.html',
+										id: 'apply-videoCollect.html',
+										createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+										show: {
+											autoShow: true, //页面loaded事件发生后自动显示，默认为true
+											aniShow: 'pop-in', //页面显示动画，默认为”slide-in-right“；
+										},
+										waiting: {
+											autoShow: false, //自动显示等待框，默认为true
+										},
+										extras: {
+											workid: workid,
+											type: 2,
+										},
+										styles: {
+											hardwareAccelerated: true //开启硬件加速
+										}
+									})
+								})
+								// 根据是否开通融资账户进入不同页面
+								var finacingleap = 'finacing-register.html';
+								if(isFinacing){
+									finacingleap = 'finacing-show.html';
+								}
+								// 打开融资账户页面
+								mui('body').on('tap', '.visit-finacing', function(e) {
+									if(!isArrive) {
+										mui.toast('请先进行抵达登记');
+										return;
+									}
+									if(isLeave) {
+										return;
+									}
+									$("#visit-finacing").removeClass('visit-finacing');
+									// 打开融资页面之前再获取一下开通融资账户的状态，根据状态进入不同页面
+									listInfo.getCustomerFinacing({'id_No': idNo}, function(resF) {
+//										console.log(JSON.stringify(resF))
+										$("#visit-finacing").addClass('visit-finacing');
+										if(resF.error_no == 200) {
+											var extras = {
+												workid: workid,
+												uId: res.result.customer_certificate_number,
+												customerName: res.result.customer_name,
+												customerId: res.result.customer_certificate_number,
+												customerTel: res.result.customer_telephone
+											};
+											if(resF.result.is_open.id == 1){
+												isFinacing = true;
+											} else if(resF.result.is_open.id == 2){
+												isFinacing = false;
+											}
+											if(isFinacing){
+												if(resF.result.has_set_password.id == 2){
+													finacingleap = 'finacing-password.html';
+													extras.onlyPW = 1;
+												} else {
+													finacingleap = 'finacing-show.html';
+												}
+											} else {
+												finacingleap = 'finacing-register.html';
+											}
+											mui.openWindow({
+												url: finacingleap,
+												id: finacingleap,
+												createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+												show: {
+													autoShow: true, //页面loaded事件发生后自动显示，默认为true
+													aniShow: 'pop-in', //页面显示动画，默认为”slide-in-right“；
+												},
+												waiting: {
+													autoShow: false, //自动显示等待框，默认为true
+												},
+												extras: extras,
+											})
+											
+											
+										}
+									})
+									
+
+									
+								})
+							}
+						})
+
+					} else {
+						mui.toast(res.error_msg);
+					}
+
+					//添加自定义事件监听
+					window.addEventListener('closePage', function(event) {
+						//获得事件参数
+						// mui('#pullrefresh').pullRefresh().pullupLoading();
+
+						var curr = plus.webview.currentWebview();
+						curr.close();
+					});
+
+				})
+				//				// 打开拜访总结页面
+				//				mui('body').on('tap', '.visit-sum', function(e) {
+				//					//					var workid = $(this).attr('data-id');
+				//					//					console.log(sumTxt)
+				//					mui.openWindow({
+				//						url: 'mission-sum.html',
+				//						id: 'mission-sum.html',
+				//						createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+				//						show: {
+				//							autoShow: true, //页面loaded事件发生后自动显示，默认为true
+				//							aniShow: 'pop-in', //页面显示动画，默认为”slide-in-right“；
+				//						},
+				//						waiting: {
+				//							autoShow: false, //自动显示等待框，默认为true
+				//						},
+				//						extras: {
+				//							workid: workid,
+				//							sum: sumTxt
+				//						},
+				//					})
+				//				})
+				//				// 打开合同登记页面
+				//				mui('body').on('tap', '.visit-contract', function(e) {
+				//					//					var workid = $(this).attr('data-id');
+				//					//					console.log(constractTxt)
+				//					mui.openWindow({
+				//						url: 'mission-contract.html',
+				//						id: 'mission-contract.html',
+				//						createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+				//						show: {
+				//							autoShow: true, //页面loaded事件发生后自动显示，默认为true
+				//							aniShow: 'pop-in', //页面显示动画，默认为”slide-in-right“；
+				//						},
+				//						waiting: {
+				//							autoShow: false, //自动显示等待框，默认为true
+				//						},
+				//						extras: {
+				//							workid: workid,
+				//							constract: constractTxt
+				//						},
+				//					})
+				//				})
+
+				//添加自定义事件监听
+				//				window.addEventListener('constractTxtBack', function(event) {
+				//					//获得事件参数
+				//					var backConstract = event.detail.constract;
+				//					isConstract = true;
+				//					constractTxt = backConstract;
+				//				});
+				//添加自定义事件监听
+				//				window.addEventListener('sumTxtBack', function(event) {
+				//					//获得事件参数
+				//					var backSumTxt = event.detail.sum;
+				//					isSum = true;
+				//					sumTxt = backSumTxt;
+				//					console.log(sumTxt)
+				//				});
+
+			})
+			var page = {
+				init: function() {
+					//					$("#upload").click($.proxy(this.upload, this));
+					mui('body').on('tap', ".backBtn", function() {
+						if(isLeave) {
+							var homeSub2Page = plus.webview.getWebviewById('home_sub2.html');
+							mui.fire(homeSub2Page, 'refreshPage', {});
+							mui.back();
+						} else {
+							mui.back();
+						}
+					})
+				},
+			};
+
+			function missionRate() {
+				return;
+				var rate = 0;
+				if(isArrive) {
+					rate++;
+				}
+
+				if(isLeave == true) {
+					$(".data-tip").css('display', 'none');
+					$(".data-tip1").css('display', 'none');
+					rate = 3;
+				}
+				switch(rate) {
+					case 1:
+						$(".list-bg1").attr('src', 'images/list1-bg1.png');
+						break;
+					case 2:
+						$(".list-bg1").attr('src', 'images/list1-bg1.png');
+						$(".list-bg2").attr('src', 'images/list2-bg1.png');
+						break;
+					case 3:
+						$(".list-bg1").attr('src', 'images/list1-bg1.png');
+						$(".list-bg2").attr('src', 'images/list2-bg1.png');
+						$(".list-bg3").attr('src', 'images/list3-bg1.png');
+						break;
+				}
+				return rate;
+			}
+
+			function getGPS(geoInf) {
+				plus.geolocation.getCurrentPosition(geoInf, function(e) {
+					console.log(e);
+				}, {
+					geocode: false
+				});
+			}
+
+			function GPSgeoInf(position) {
+				var str = "";
+				str += "地址：" + position.addresses + "\n"; //获取地址信息
+				str += "坐标类型：" + position.coordsType + "\n";
+				var timeflag = position.timestamp; //获取到地理位置信息的时间戳；一个毫秒数；
+				str += "时间戳：" + timeflag + "\n";
+				var codns = position.coords; //获取地理坐标信息；
+				var lat = codns.latitude; //获取到当前位置的纬度；
+				str += "纬度：" + lat + "\n";
+				var longt = codns.longitude; //获取到当前位置的经度
+				str += "经度：" + longt + "\n";
+				var alt = codns.altitude; //获取到当前位置的海拔信息；
+				str += "海拔：" + alt + "\n";
+				var accu = codns.accuracy; //地理坐标信息精确度信息；
+				str += "精确度：" + accu + "\n";
+				var altAcc = codns.altitudeAccuracy; //获取海拔信息的精确度；
+				str += "海拔精确度：" + altAcc + "\n";
+				var head = codns.heading; //获取设备的移动方向；
+				str += "移动方向：" + head + "\n";
+				var sped = codns.speed; //获取设备的移动速度；
+				str += "移动速度：" + sped;
+				//				console.log(JSON.stringify(position));
+				//				console.log(position.coords.latitude+String(Math.random()));
+			}
+
+			//			function telExchange(tel) {
+			//				var str1 = tel.substring(0, 3);
+			//				var str2 = tel.substring(3, 7);
+			//				var str3 = tel.substring(7, 11);
+			//				return str1 + '-' + str2 + '-' + str3;
+			//			}
+		</script>
+	</body>
+
+</html>

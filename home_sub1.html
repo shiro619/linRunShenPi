@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/css.css" />
+		<style>
+			body,
+			.mui-content,
+			#scroll1-content {
+				background: #f4f4f4;
+			}
+			
+			.mui-content {
+				padding: 10px 0;
+			}
+			
+			.data-item {
+				background: #fff;
+				height: 110px;
+				padding: 0px 15px;
+				width: 95%;
+				margin: 0px 2.5% 12px 2.5%;
+				border-radius: 5px;
+				-webkit-border-radius: 6px;
+				position: relative;
+			}
+			/*.data-item:active {
+				background-color: #eeeeee;
+			}*/
+			
+			.data-item>div {
+				/*height: 50%;*/
+			}
+			
+			.data-name {
+				float: left;
+				position: absolute;
+				left: 0;
+				top: 5px;
+				font-size: 15px;
+				padding-left: 10px;
+				color: #272d37;
+				line-height: 25px;
+			}
+			
+			.data-name span {
+				/*color: #333;
+				font-size: 12px;*/
+				margin-left: 5px;
+			}
+			
+			.data-tip {
+				position: absolute;
+				right: 10px;
+				top: 75px;
+				width: 70px;
+				line-height: 30px;
+				font-size: 15px;
+				font-weight: bold;
+				border: none;
+				color: #FD9603;
+				text-align: center;
+			}
+			
+			.data-item-top {
+				line-height: 44px;
+				position: relative;
+				height: 44px;
+				border-bottom: 1px dotted #cfd1d8;
+			}
+			
+			.data-item-top p {
+				color: #919191;
+			}
+			
+			.data-item-bottom {
+				line-height: 47px;
+				height: 47px;
+				position: relative;
+				top: 7px;
+			}
+			
+			.data-requestno {
+				font-size: 12px;
+				position: absolute;
+				padding-left: 10px;
+				left: 0;
+			}
+			
+			.data-tel {
+				float: left;
+				position: absolute;
+				height: 20px;
+				line-height: 20px;
+				top: 29px;
+				/*width: 62px;*/
+				font-size: 16px;
+				padding-left: 10px;
+				color: #4a86ee;
+				/*line-height: 20px;*/
+				/*border: 1px solid #FD9603;*/
+				/*line-height: 27px;*/
+				text-align: center;
+			}
+			
+			.data-car {
+				line-height: 27px;
+				color: #999;
+				font-size: 14px;
+				float: left;
+				padding-left: 2px;
+			}
+			
+			.data-time {
+				position: absolute;
+				right: 0;
+				height: 44px;
+				font-size: 12px;
+				line-height: 20px;
+				overflow: hidden;
+			}
+			
+			.data-time>span {
+				margin-right: 5px;
+				float: left;
+				display: inline-block;
+				margin: 12px 2px;
+				height: 20px;
+			}
+			
+			.icon-car {
+				display: inline-block;
+				float: left;
+				width: 22px;
+				height: 20px;
+				margin-top: 3px;
+				background: url(images/icon.png) no-repeat -62px -3px;
+				background-size: 380px;
+			}
+			
+			.icon-time {
+				display: inline-block;
+				width: 19px;
+				height: 20px;
+				/*margin-top: 12px;*/
+				background: url(images/icon.png) no-repeat -95px -5px;
+				background-size: 400px;
+			}
+			/*安卓刷新容器位置*/
+			
+			.mui-bar-nav~.mui-content .mui-pull-top-pocket {
+				top: 60px !important;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--下拉刷新容器-->
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+
+			<div class="mui-scroll" id="scroll1">
+				<!--数据列表-->
+				<ul class="mui-table-view mui-table-view-chevron" id="scroll1-content">
+				</ul>
+			</div>
+
+		</div>
+		<script id="tpl-1" type="text/html">
+			{{each rows as item i}}
+			<div class="data-item" data-id={{item.work_id}}>
+				<div class="data-tip">待认领</div>
+				<div class="data-item-top">
+					<p class="data-requestno"><span>申请编号：</span><span>{{item.request_no}}</span></p>
+					<p class="data-time">
+						<!--<span class="icon-time"></span>--><span>{{timeExchange item.create_time}}</span></p>
+				</div>
+				<div class="data-item-bottom">
+					<p class="data-name">{{item.customer_name}}<span>{{item.customer_sex == '男'?'先生':'女士'}}</span></p>
+					<span class="data-tel" data-tel={{item.customer_telephone}}>{{telExchange item.customer_telephone}}</span>
+				</div>
+			</div>
+			{{/each}}
+		</script>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/api.js"></script>
+		<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+		<script src="js/template.js"></script>
+		<script src="js/template.function.js"></script>
+		<script>
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+			//scroll-1显示
+			var index = 0
+			var count = 0;
+			var empty_flag = 0;
+			var Jdate = new Date();
+			var searchdate = dateRewrite(Jdate);
+
+			// 日期处理
+			function dateRewrite(Sdate) {
+				var Syear = String(Sdate.getFullYear());
+				var Smonth;
+				if(Sdate.getMonth() + 1 < 10) {
+					Smonth = "0" + String(Sdate.getMonth() + 1);
+				} else {
+					Smonth = String(Sdate.getMonth() + 1);
+				}
+				var Sday;
+				if(Sdate.getDate() + 1 < 10) {
+					Sday = "0" + String(Sdate.getDate());
+				} else {
+					Sday = String(Sdate.getDate());
+				}
+				seldate = Syear + Smonth + Sday;
+				return seldate;
+			}
+			/** 
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				setTimeout(function() {
+					empty_flag = 0;
+					count = 1;
+					putHomeLi(searchdate, 1, 10)
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+					mui('#pullrefresh').pullRefresh().refresh(true);
+				}, 200);
+			}
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			function pullupRefresh() {
+				empty_flag = 0;
+				setTimeout(function() {
+					count++;
+					putHomeLi(searchdate, count, 10);
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh(empty_flag);
+				}, 200);
+			}
+
+			document.addEventListener('changeTab', function(e) {
+				//index = e.detail.index;
+				//var index2 = 1-parseInt(index)
+			})
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					setTimeout(function() {
+						mui('#pullrefresh').pullRefresh().pullupLoading();
+
+						//添加自定义事件监听
+						window.addEventListener('refreshPage', function(event) {
+							//获得事件参数
+							// mui('#pullrefresh').pullRefresh().pullupLoading();
+							console.log('认领refresh1')
+							putHomeLi(searchdate, 1, 10)
+						});
+					}, 200);
+					mui.back = function(){}// 防止back
+				});
+			} else {
+				mui.ready(function() {
+					mui('#pullrefresh').pullRefresh().pullupLoading();
+				});
+			}
+
+			// 写入待认领列表
+			function putHomeLi(date, page, size) {
+
+				//									console.log(date)
+				select = 0;
+
+				var listData = {
+					token: user.utoken(),
+					carclass: 0,
+					type: 1,
+					date: date, // date
+					size: size,
+					page: page
+				}
+
+				listInfo.getApply(listData, function(res) {
+					//					if(store.get('roletype') == 3){
+					//						return;
+					//					}
+					if(res.error_no != 200) {
+						mui.toast(res.error_msg)
+						return false;
+					}
+					console.log(JSON.stringify(res))
+					//					console.log('getApply');
+					var result1 = res.result.rows;
+					//					if(res.result.rows.length == 0) {
+					//						mui.toast('没有更多数据');
+					//						return;
+					//					}
+					var lastdatecount = res.result.lastdatecount.count;
+					var nextdatecount = res.result.nextdatecount.count;
+					var todaycount = res.result.todaycount.count;
+					var homePage = plus.webview.getWebviewById('home.html');
+					mui.fire(homePage, 'sub1countData', {
+						lastdatecount: lastdatecount,
+						nextdatecount: nextdatecount,
+						todaycount: todaycount
+					});
+					//					console.log("fire")
+					var html = template('tpl-1', res.result);
+					var ul = document.getElementById('scroll1-content')
+					if(page != 1) {
+						ul.innerHTML = ul.innerHTML + html;
+					} else {
+						ul.innerHTML = html;
+						if(ul.innerHTML == '' && result1.length == 0){
+							ul.innerHTML = "<li class='data-item-error2'></li>";
+							$(ul).scrollTop('0px');
+						}
+					}
+
+				})
+			}
+			mui('body').on('tap', '.data-item', function() {
+				var workid = $(this).attr('data-id');
+				mui.openWindow({
+					url: 'home-detail.html',
+					id: 'home-detail.html',
+					createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+					show: {
+						autoShow: true, //页面loaded事件发生后自动显示，默认为true
+						aniShow: 'pop-in', //页面显示动画，默认为”slide-in-right“；
+					},
+					waiting: {
+						autoShow: false, //自动显示等待框，默认为true
+					},
+					extras: {
+						workid: workid
+					},
+				})
+			})
+			// 点击号码拨打
+			mui('body').on('tap', '.data-tel', function(e) {
+				e.stopPropagation();
+				var teldata = $(this).attr('data-tel');
+				if(verCompare('10.3.3', plus.os.version)) {
+					plus.device.dial(teldata, false);
+				} else {
+					mui.confirm('呼叫', telExchange(teldata), ['取消', '呼叫'], function(e) {
+						if(e.index == 1) {
+							plus.device.dial(teldata, false);
+						} else {}
+					})
+				}
+			})
+			// template帮助函数 转换时间格式
+			template.helper('timeExchange', function(time) {
+				var time1 = new Date();
+				var time2 = new Date(time * 1000);
+				//				if(time2.getFullYear() == time1.getFullYear() && time2.getMonth() == time1.getMonth() && time2.getDate() == time1.getDate()){
+				//					return time2.getHours() + ":" + time2.getMinutes();
+				//				} else {
+				//					return numZero(time2.getFullYear()) + "-" + numZero(time2.getMonth()) + '-' + numZero(time2.getDate()) + ' ' + numZero(time2.getHours()) + ':'+ numZero(time2.getMinutes()) + ':' + numZero(time2.getSeconds());
+				//				}
+				return numZero(time2.getFullYear()) + "-" + numZero(time2.getMonth() + 1) + '-' + numZero(time2.getDate()) + ' ' + numZero(time2.getHours()) + ':' + numZero(time2.getMinutes()) + ':' + numZero(time2.getSeconds());
+
+				function numZero(num) {
+					return(num >= 10 ? num : '0' + num);
+				}
+			})
+			// template帮助函数 转换时间格式
+			template.helper('telExchange', function(tel) {
+				var str1 = tel.substring(0, 3);
+				var str2 = tel.substring(3, 7);
+				var str3 = tel.substring(7, 11);
+				return str1 + '-' + str2 + '-' + str3;
+			})
+
+			//添加自定义事件监听
+			window.addEventListener('homedateData', function(event) {
+				//获得事件参数
+				searchdate = event.detail.date;
+				//				console.log(searchdate)
+				putHomeLi(searchdate, 1, 10)
+			});
+		</script>
+	</body>
+
+</html>

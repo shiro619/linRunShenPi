@@ -1,0 +1,427 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/css.css" />
+		<link rel="stylesheet" type="text/css" href="fonts/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="css/mui.picker.css" />
+		<link rel="stylesheet" type="text/css" href="css/mui.poppicker.css" />
+		<style>
+			html,
+			body {
+				height: 100%;
+			}
+			
+			.header1 {
+				overflow: hidden;
+				position: fixed;
+				top: 0;
+			}
+			
+			.header1 .icon-back {
+				display: inline-block;
+				width: 50px;
+				height: 45px;
+				line-height: 45px;
+				position: absolute;
+				left: 0;
+				color: #ffffff;
+				z-index: 10;
+				font-size: 20px;
+				float: left;
+			}
+			
+			.mui-content {
+				padding-top: 0px !important;
+				min-height: 100%;
+				/*background-color: #ffffff*/
+			}
+			
+			.mui-content,
+			#scroll1-content {
+				background: #f0f0f0;
+			}
+			
+			.mui-content {
+				padding: 10px 0;
+			}
+			
+			.wrap-ul {
+				width: 100%;
+				margin-top: 15px;
+				/*background: #ffffff;*/
+			}
+			
+			.data-li {
+				width: 100%;
+				/*height: 45px;
+				line-height: 45px;*/
+				padding: 0 5%;
+				position: relative;
+			}
+			
+			.data-item {
+				background: #fff;
+				height: 90px;
+				padding: 18px 15px;
+				width: 95%;
+				margin: 0px 2.5% 12px 2.5%;
+				border-radius: 6px;
+				-webkit-border-radius: 6px;
+				position: relative;
+			}
+			/*.data-item:active {
+				background-color: #eeeeee;
+			}*/
+			
+			/*.data-item>div {
+				height: 50%;
+			}*/
+			
+			.data-item-top {
+				position: absolute;
+				left: 15px;
+				top: 20px;
+				overflow: hidden;
+			}
+			
+			.data-item-bottom {
+				position: absolute;
+				left: 15px;
+				top: 48px;
+				overflow: hidden;
+			}
+			
+			.data-name {
+				float: left;
+				font-size: 18px;
+				color: #333;
+				/*line-height: 25px;*/
+			}
+			
+			.data-name span {
+				color: #999;
+				font-size: 12px;
+			}
+			
+			.data-tip {
+				width: 80px;
+				height: 30px !important;
+				font-size: 14px;
+				position: absolute;
+				top: 45px;
+				right: 15px;
+				border: none;
+				line-height: 28px;
+				border: 1px solid #FD9603;
+				background-color: #FD9603;
+				text-align: center;
+				color: #ffffff;
+				border-radius: 4px;
+				-webkit-border-radius: 4px;
+			}
+			
+			.data-tip1 {
+				position: absolute;
+				width: 80px;
+				top: 20px;
+				right: 15px;
+				font-size: 12px;
+				border: none;
+				line-height: 20px;
+				/*border: 1px solid #FD9603;*/
+				/*background-color: #FD9603;*/
+				text-align: center;
+				color: #FD9603;
+			}
+			
+			.data-tel {
+				float: left;
+				/*width: 62px;*/
+				font-size: 15px;
+				/*margin-left: 5px;*/
+				color: #4a86ee;
+				/*line-height: 20px;*/
+				/*border: 1px solid #FD9603;*/
+				/*line-height: 27px;*/
+				text-align: center;
+			}
+			
+			.data-car {
+				line-height: 27px;
+				color: #999;
+				font-size: 14px;
+				float: left;
+				padding-left: 2px;
+			}
+			
+			.data-time {
+				float: left;
+				font-size: 12px;
+				line-height: 27px;
+			}
+			
+			.data-time>span {
+				margin-right: 5px;
+			}
+			
+			.icon-car {
+				display: inline-block;
+				float: left;
+				width: 22px;
+				height: 20px;
+				margin-top: 3px;
+				background: url(images/icon.png) no-repeat -62px -3px;
+				background-size: 380px;
+			}
+			
+			.icon-time {
+				display: inline-block;
+				float: left;
+				width: 19px;
+				height: 20px;
+				margin-top: 3px;
+				background: url(images/icon.png) no-repeat -95px -5px;
+				background-size: 400px;
+			}
+			
+			.mui-icon-location {
+				font-size: 14px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--下拉刷新容器-->
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+
+			<div class="mui-scroll" id="scroll1">
+				<!--数据列表-->
+				<ul class="wrap-ul" id="scroll1-content">
+				
+				</ul>
+			</div>
+		</div>
+		<script id="tpl-1" type="text/html">
+			{{each rows as item i}}
+			<!--<div class="data-item" data={{item.id}}>
+				<div class="data-tip" data={{item.id}}>定位</div>
+				<div class="data-item-top">
+					<p class="data-name">{{item.name}}<span> (家访员{{item.employee_number}})</span></p>
+				</div>
+				<div class="data-item-bottom">
+					<p class="data-time"><span class="icon tel-icon"></span><span>{{telExchange item.account}}</span></p>
+				</div>
+			</div>-->
+			<div class="data-item" data={{item.id}} data-name={{item.name}}>
+				<div class="data-tip" data={{item.id}} data-name={{item.name}}>分派任务</div>
+				<div class="data-tip1" data={{item.id}}>剩余任务{{item.taskcount}}件</div>
+				<div class="data-item-top">
+					<p class="data-name">{{item.name}}<span> (家访员{{item.employee_number}})</span></p>
+					<!--<span class="data-tel"></span>-->
+				</div>
+				<div class="data-item-bottom">
+					<p class="data-tel" data={{item.id}} data-tel={{item.account}}><span>{{telExchange item.account}}</span></p>
+				</div>
+			</div>
+			{{/each}}
+		</script>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/api.js"></script>
+		<script src="js/jquery-1.11.2.min.js"></script>
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/template.js"></script>
+		<script src="js/template.function.js"></script>
+		<script>
+			var count = 0;
+			var empty_flag = 0;
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+			/** 
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				setTimeout(function() {
+					empty_flag = 0;
+					count = 1;
+					putHomeLi(0, 1, 10)
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+					mui('#pullrefresh').pullRefresh().refresh(true);
+				}, 200);
+			}
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			function pullupRefresh() {
+				empty_flag = 0;
+				setTimeout(function() {
+					count++;
+					putHomeLi(0, count, 10);
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh(empty_flag);
+				}, 200);
+			}
+
+			function putHomeLi(date, page, size) {
+
+				//					console.log(date)
+				//					select = 0;
+
+				var listData = {
+					token: user.utoken(),
+					size: size,
+					page: page,
+				}
+//				listInfo.getsubordinates()
+				// 非家访主管不会请求数据
+				if(store.get('roletype') != 1){
+					return;
+				}
+				listInfo.getsubordinates(listData, function(res) {
+					if(res.error_no != 200) {
+						mui.toast(res.error_msg)
+						return false;
+					}
+					//					console.log('getApply');
+					var result1 = res.result.rows;
+					if(res.result.rows.length == 0) {
+//						mui.toast('没有更多数据');
+						//						return;
+					}
+					//					var lastdatecount = res.result.lastdatecount.count;
+					//					var nextdatecount = res.result.nextdatecount.count;
+					//					var todaycount = res.result.count.count;
+					//					var homePage = plus.webview.getWebviewById('home.html');
+					//					mui.fire(homePage, 'sub1countData', {
+					//						lastdatecount: lastdatecount,
+					//						nextdatecount: nextdatecount,
+					//						todaycount: todaycount
+					//					});
+					//					console.log("fire")
+					var html = template('tpl-1', res.result);
+					var ul = document.getElementById('scroll1-content')
+					if(page != 1) {
+						ul.innerHTML = ul.innerHTML + html;
+					} else {
+						ul.innerHTML = html;
+						if(ul.innerHTML == '' && result1.length == 0){
+							ul.innerHTML = "<li class='data-item-error'></li>";
+							$(ul).scrollTop('0px');
+						}
+					}
+				})
+			}
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					setTimeout(function() {
+						mui('#pullrefresh').pullRefresh().pullupLoading();
+					}, 200);
+
+				});
+			} else {
+				mui.ready(function() {
+					mui('#pullrefresh').pullRefresh().pullupLoading();
+				});
+			}
+			mui.plusReady(function() {
+				mui('body').on('tap', '.backBtn', function() {
+					mui.back();
+				})
+				// 点击号码拨打
+				mui('body').on('tap', '.data-tel', function(e) {
+					e.stopPropagation();
+					var teldata = $(this).attr('data-tel');
+					if(verCompare('10.3.3', plus.os.version)){
+						plus.device.dial(teldata,false);
+					} else {
+						mui.confirm('呼叫', telExchange(teldata), ['取消', '呼叫'], function(e) {
+						if (e.index == 1) {
+								plus.device.dial(teldata,false);
+							} else {
+							}
+						})
+					}
+				})
+				mui('body').on('tap', '.data-item', function(e) {
+					e.stopPropagation()
+					var Sid = $(this).attr('data');
+					var Sname = $(this).attr('data-name');
+					mui.openWindow({
+						url: 'subordinates-mission.html',
+						id: 'subordinates-mission.html',
+						createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+						show: {
+							autoShow: true, //页面loaded事件发生后自动显示，默认为true
+							aniShow: 'pop-in', //页面显示动画，默认为”slide-in-right“；
+						},
+						waiting: {
+							autoShow: false, //自动显示等待框，默认为true
+						},
+						extras: {
+							workid: Sid,
+							workname: Sname,
+						},
+					})
+				})
+				// 分派任务
+				mui('body').on('tap', '.data-tip', function(e) {
+					e.stopPropagation()
+//					$(".data-item").removeClass('onSelect');
+//					$(this).parent().addClass('onSelect');
+					var Sid = $(this).attr('data');
+					var Sname = $(this).attr('data-name');
+					mui.openWindow({
+						url: 'subordinates-allot.html',
+						id: 'subordinates-allot.html',
+						createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+						show: {
+							autoShow: true, //页面loaded事件发生后自动显示，默认为true
+							aniShow: 'pop-in', //页面显示动画，默认为”slide-in-right“；
+						},
+						waiting: {
+							autoShow: false, //自动显示等待框，默认为true
+						},
+						extras: {
+							workid: Sid,
+							workname: Sname,
+						},
+					})
+				})
+
+				putHomeLi(0, 1, 10)
+				// 写入待认领列表
+				
+				document.addEventListener('subordinatesSidback', function(e) {
+					putHomeLi(0, 1, 10)
+				})
+				window.addEventListener('refreshPage', function(event) {
+					//获得事件参数
+					// mui('#pullrefresh').pullRefresh().pullupLoading();
+					putHomeLi(0, 1, 10)
+				});
+
+			})
+			// template帮助函数 转换时间格式
+			template.helper('telExchange', function(tel) {
+				var str1 = tel.substring(0, 3);
+				var str2 = tel.substring(3, 7);
+				var str3 = tel.substring(7, 11);
+				return str1 + '-' + str2 + '-' + str3;
+			})
+		</script>
+	</body>
+
+</html>

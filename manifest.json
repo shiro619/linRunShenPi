@@ -1,0 +1,955 @@
+{
+	"@platforms": [
+		"android",
+		"iPhone",
+		"iPad"
+	],
+	"id": "H5A09B2CE",/*应用的标识，创建应用时自动生成，勿手动修改*/
+	"name": "林润审批",/*应用名称，程序桌面图标名称*/
+	"version": {
+		"name": "1.1",/*应用版本名称*/
+		"code": "100"
+	},
+	"description": "",/*应用描述信息*/
+	"icons": {
+		"72": "icon.png"
+	},
+	"launch_path": "index.html",/*应用的入口页面，默认为根目录下的index.html；支持网络地址，必须以http://或https://开头*/
+	"developer": {
+		"name": "",/*开发者名称*/
+		"email": "",/*开发者邮箱地址*/
+		"url": "http://www.dcloud.io"
+	},
+	"permissions": {
+		"Accelerometer": {
+			"description": "访问加速度感应器"
+		},
+		"Audio": {
+			"description": "访问麦克风"
+		},
+		"Cache": {
+			"description": "管理应用缓存"
+		},
+		"Camera": {
+			"description": "访问摄像头"
+		},
+		"Console": {
+			"description": "跟踪调试输出日志"
+		},
+		"Contacts": {
+			"description": "访问系统联系人信息"
+		},
+		"Device": {
+			"description": "访问设备信息"
+		},
+		"Downloader": {
+			"description": "文件下载管理"
+		},
+		"Events": {
+			"description": "应用扩展事件"
+		},
+		"File": {
+			"description": "访问本地文件系统"
+		},
+		"Gallery": {
+			"description": "访问系统相册"
+		},
+		"Geolocation": {
+			"description": "访问位置信息"
+		},
+		"Invocation": {
+			"description": "使用Native.js能力"
+		},
+
+		"Orientation": {
+			"description": "访问方向感应器"
+		},
+		"Proximity": {
+			"description": "访问距离感应器"
+		},
+		"Storage": {
+			"description": "管理应用本地数据"
+		},
+
+		"Uploader": {
+			"description": "管理文件上传任务"
+		},
+		"Runtime": {
+			"description": "访问运行期环境"
+		},
+		"XMLHttpRequest": {
+			"description": "跨域网络访问"
+		},
+		"Zip": {
+			"description": "文件压缩与解压缩"
+		},
+
+		"Maps": {},
+
+		"Webview": {
+			"description": "窗口管理"
+		},
+		"NativeUI": {
+			"description": "原生UI控件"
+		},
+		"Navigator": {
+			"description": "浏览器信息"
+		},
+		"NativeObj": {
+			"description": "原生对象"
+		},"Messaging":{}
+	},
+	"plus": {
+		"statusbar": {
+			"immersed": true
+		},
+		"splashscreen": {
+			"autoclose": false,/*是否自动关闭程序启动界面，true表示应用加载应用入口页面后自动关闭；false则需调plus.navigator.closeSplashscreen()关闭*/
+			"waiting": true,
+			"delay": "0"
+		},
+		"runmode": "liberate",/*应用的首次启动运行模式，可取liberate或normal，liberate模式在第一次启动时将解压应用资源（Android平台File API才可正常访问_www目录）*/
+		"signature": "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw==",/*可选，保留给应用签名，暂不使用*/
+		"distribute": {
+			"plugins": {
+				"maps": {"baidu":{"appkey_ios":"Y9htNkiQb0YGH2EUW20mPgznXV2UC3Go","appkey_android":"Y9htNkiQb0YGH2EUW20mPgznXV2UC3Go","appkey":"","description":""}
+					
+				}
+			},
+			"apple": {
+				"appid": "",/*iOS应用标识，苹果开发网站申请的appid，如io.dcloud.HelloH5*/
+				"mobileprovision": "",/*iOS应用打包配置文件*/
+				"password": "",/*iOS应用打包个人证书导入密码*/
+				"p12": "",/*iOS应用打包个人证书，打包配置文件关联的个人证书*/
+				"devices": "universal",/*iOS应用支持的设备类型，可取值iphone/ipad/universal*/
+				"frameworks": [],
+				"plistcmds":[
+    				"Set :NSCameraUsageDescription 拍照/摄像/扫描二维码",
+    				"Set :NSMicrophoneUsageDescription 录制音频文件/语音识别",
+    				"Set :NSPhotoLibraryUsageDescription 选择/保存图片",
+    				"Set :NSLocationWhenInUseUsageDescription 获取位置信息"
+				]
+			},
+			"google": {
+				"packagename": "",/*Android应用包名，如io.dcloud.HelloH5*/
+				"keystore": "",/*Android应用打包使用的密钥库文件*/
+				"password": "",/*Android应用打包使用密钥库中证书的密码*/
+				"aliasname": "",/*Android应用打包使用密钥库中证书的别名*/
+				"permissions": ["<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>","<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>","<uses-permission android:name=\"com.android.launcher.permission.INSTALL_SHORTCUT\"/>","<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>","<uses-permission android:name=\"android.permission.SEND_SMS\"/>","<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>","<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>","<uses-permission android:name=\"android.permission.INTERNET\"/>","<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>","<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>","<uses-permission android:name=\"android.permission.VIBRATE\"/>","<uses-permission android:name=\"android.permission.READ_LOGS\"/>","<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>","<uses-permission android:name=\"android.permission.CALL_PHONE\"/>","<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>","<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>","<uses-feature android:name=\"android.hardware.camera\"/>","<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>","<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>","<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>","<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>","<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>","<uses-permission android:name=\"android.permission.WRITE_SMS\"/>","<uses-permission android:name=\"com.android.launcher.permission.UNINSTALL_SHORTCUT\"/>","<uses-permission android:name=\"android.permission.CAMERA\"/>","<uses-permission android:name=\"android.permission.READ_SMS\"/>"]
+			},
+			"orientation": [
+				"portrait-primary"
+			],/*应用支持的方向，portrait-primary：竖屏正方向；portrait-secondary：竖屏反方向；landscape-primary：横屏正方向；landscape-secondary：横屏反方向*/
+			"icons": {
+				"ios": {
+					"prerendered": true, /*应用图标是否已经高亮处理，在iOS6及以下设备上有效*/
+					"auto": "", /*应用图标，分辨率：512x512，用于自动生成各种尺寸程序图标*/
+					"iphone": {
+						"normal": "unpackage/res/icons/57x57.png",/*iPhone普通屏幕程序图标，分辨率：57x57*/
+						"retina": "unpackage/res/icons/114x114.png",/*iPhone高分屏程序图标，分辨率：114x114*/
+						"retina7": "unpackage/res/icons/120x120.png",/*iPhone iOS7高分屏程序图标，分辨率：120x120*/
+						"spotlight-normal": "unpackage/res/icons/29x29.png", /*iPhone Spotlight搜索程序图标，分辨率：29x29*/
+						"spotlight-retina": "unpackage/res/icons/58x58.png", /*iPhone高分屏Spotlight搜索程序图标，分辨率：58x58*/
+						"spotlight-retina7": "unpackage/res/icons/80x80.png",/*iPhone iOS7高分屏Spotlight搜索程序图标，分辨率：80x80*/
+						"settings-normal": "unpackage/res/icons/29x29.png", /*iPhone设置页面程序图标，分辨率：29x29*/
+						"settings-retina": "unpackage/res/icons/58x58.png","retina8":"unpackage/res/icons/180x180.png","settings-retina8":"unpackage/res/icons/87x87.png"
+					},
+					"ipad": {
+						"normal": "unpackage/res/icons/72x72.png", /*iPad普通屏幕程序图标，分辨率：72x72*/
+						"retina": "unpackage/res/icons/144x144.png", /*iPad高分屏程序图标，分辨率：144x144*/
+						"normal7": "unpackage/res/icons/76x76.png", /*iPad iOS7程序图标，分辨率：76x76*/
+						"retina7": "unpackage/res/icons/152x152.png", /*iPad iOS7高分屏程序图标，分辨率：152x152*/
+						"spotlight-normal": "unpackage/res/icons/50x50.png", /*iPad Spotlight搜索程序图标，分辨率：50x50*/
+						"spotlight-retina": "unpackage/res/icons/100x100.png", /*iPad高分屏Spotlight搜索程序图标，分辨率：100x100*/
+						"spotlight-normal7": "unpackage/res/icons/40x40.png",/*iPad iOS7 Spotlight搜索程序图标，分辨率：40x40*/
+						"spotlight-retina7": "unpackage/res/icons/80x80.png",/*iPad iOS7高分屏Spotlight搜索程序图标，分辨率：80x80*/
+						"settings-normal": "unpackage/res/icons/29x29.png",/*iPad设置页面程序图标，分辨率：29x29*/
+						"settings-retina": "unpackage/res/icons/58x58.png"
+					}
+				},
+				"android": {
+					"mdpi": "unpackage/res/icons/48x48.png", /*普通屏程序图标，分辨率：48x48*/
+					"ldpi": "unpackage/res/icons/48x48.png", /*大屏程序图标，分辨率：48x48*/
+					"hdpi": "unpackage/res/icons/72x72.png", /*高分屏程序图标，分辨率：72x72*/
+					"xhdpi": "unpackage/res/icons/96x96.png",/*720P高分屏程序图标，分辨率：96x96*/
+					"xxhdpi": "unpackage/res/icons/144x144.png","xxxhdpi":"unpackage/res/icons/192x192.png"
+				}
+			},
+			"splashscreen": {
+				"ios": {
+					"iphone": {
+						"default": "", /*iPhone3启动图片选，分辨率：320x480*/
+						/*3.5英寸设备(iPhone4)启动图片，分辨率：640x960*/
+
+
+
+						"retina55l": "images/run/750X1334.png","retina55":"images/run/1242X2208.png","retina47":"images/run/750X1334.png","retina40":"images/run/640X1136.png","retina35":"images/run/640X960.png"
+					},
+					"ipad": {
+						"portrait": "images/run/750X1334.png", /*iPad竖屏启动图片，分辨率：768x1004*/
+						"portrait-retina": "images/run/750X1334.png",/*iPad高分屏竖屏图片，分辨率：1536x2008*/
+						"landscape": "images/run/750X1334.png", /*iPad横屏启动图片，分辨率：1024x748*/
+						"landscape-retina": "images/run/750X1334.png", /*iPad高分屏横屏启动图片，分辨率：2048x1496*/
+						"portrait7": "images/run/750X1334.png", /*iPad iOS7竖屏启动图片，分辨率：768x1024*/
+						"portrait-retina7": "images/run/750X1334.png",/*iPad iOS7高分屏竖屏图片，分辨率：1536x2048*/
+						"landscape7": "images/run/750X1334.png", /*iPad iOS7横屏启动图片，分辨率：1024x768*/
+						"landscape-retina7": "images/run/750X1334.png"
+					}
+				},
+				"android": {
+					"mdpi": "", /*普通屏启动图片，分辨率：240x282*/
+					"ldpi": "", /*大屏启动图片，分辨率：320x442*/
+					"hdpi": "images/run/480X800.png", /*高分屏启动图片，分辨率：480x762*/
+					"xhdpi": "images/run/720X1280.png", /*720P高分屏启动图片，分辨率：720x1242*/
+					"xxhdpi": "images/run/1080X1920.png"
+				}
+			}
+		}
+	},
+	"dependencies": {
+		"pages": {
+			"index.html": {
+				"href": "index.html",
+				"resources": [
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"fonts/mui.ttf",
+					"css/css.css",
+					"home.html",
+					"js/common.js",
+					"images/icon.png",
+					"js/api.js",
+					"images/fairy.png",
+					"js/jquery-1.11.2.min.js",
+					"apply.html",
+					"user.html",
+					"homeCredit.html"
+				],
+				"priority": 0,
+				"refer": [
+					"customer.html",
+					"login.html",
+					"schedule.html",
+					"applyCredit.html",
+					"apply-subordinates.html",
+					"homemini.html",
+					"userCredit.html"
+				]
+			},
+			"home.html": {
+				"resources": [
+					"js/jquery-1.11.2.min.js",
+					"css/css.css",
+					"js/mui.min.js",
+					"images/icon.png",
+					"css/mui.min.css",
+					"js/api.js",
+					"home_sub1.html",
+					"fonts/iconfont.css",
+					"images/fairy.png",
+					"fonts/iconfont.ttf",
+					"fonts/mui.ttf",
+					"css/androidCss.css"
+				],
+				"refer": [
+					"home_sub2.html",
+					"homeAllot.html",
+					"message.html"
+				],
+				"priority": 0
+			},
+			"login.html": {
+				"resources": [
+					"css/css.css",
+					"images/logo_in.png",
+					"css/mui.min.css",
+					"js/common.js",
+					"js/api.js",
+					"js/jquery-1.11.2.min.js",
+					"images/logo.png",
+					"fonts/mui.ttf",
+					"images/icon.png",
+					"js/jQuery.md5.js",
+					"js/mui.min.js"
+				],
+				"refer": [
+					"index.html"
+				],
+				"priority": 0
+			},
+			"customer.html": {
+				"resources": [
+					"images/img/img10.jpg",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"user.html": {
+				"resources": [
+					"js/jquery-1.11.2.min.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"css/css.css",
+					"fonts/iconfont.css",
+					"images/fairy.png",
+					"images/avatar.png",
+					"fonts/iconfont.ttf",
+					"images/userbg.png",
+					"index.html"
+				],
+				"refer": [
+					"subordinates.html",
+					"mission-history.html",
+					"apply-history.html",
+					"user-info.html",
+					"message.html",
+					"option.html",
+					"login.html",
+					"mission0.html",
+					"userCredit-info.html",
+					"optionCredit.html"
+				],
+				"priority": 0
+			},
+			"apply.html": {
+				"resources": [
+					"index.html",
+					"fonts/iconfont.css",
+					"images/fairy.png",
+					"apply_sub1.html",
+					"fonts/mui.ttf",
+					"css/css.css",
+					"css/mui.min.css",
+					"fonts/iconfont.ttf",
+					"css/androidCss.css"
+				],
+				"refer": [
+					"message.html"
+				],
+				"priority": 0
+			},
+			"apply_sub1.html": {
+				"resources": [
+					"css/css.css",
+					"js/mui.picker.js",
+					"js/mui.poppicker.js",
+					"css/mui.min.css",
+					"js/template.js",
+					"css/mui.poppicker.css",
+					"js/template.function.js",
+					"css/mui.picker.css"
+				],
+				"refer": [
+					"mission.html",
+					"apply-collect.html",
+					"apply-detail.html"
+				],
+				"priority": 0
+			},
+			"home_sub1.html": {
+				"resources": [
+					"images/icon.png",
+					"css/mui.min.css",
+					"js/template.js",
+					"js/template.function.js",
+					"images/listdefault.png"
+				],
+				"refer": [
+					"home-detail.html"
+				],
+				"priority": 0
+			},
+			"home_sub2.html": {
+				"resources": [
+					"images/icon.png",
+					"css/mui.min.css",
+					"js/template.js",
+					"js/template.function.js"
+				],
+				"refer": [
+					"mission.html"
+				],
+				"priority": 0
+			},
+			"subordinates.html": {
+				"resources": [
+					"subordinates-sub1.html",
+					"css/mui.min.css",
+					"js/common.js",
+					"js/jquery-1.11.2.min.js",
+					"js/mui.min.js",
+					"js/api.js"
+				],
+				"refer": [
+					"subordinatesAdd.html"
+				],
+				"priority": 0
+			},
+			"subordinatesAdd.html": {
+				"resources": [
+					"subordinatesAdd-sub1.html",
+					"css/mui.min.css",
+					"js/common.js",
+					"js/jquery-1.11.2.min.js",
+					"js/mui.min.js",
+					"js/api.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"subordinatesAdd-sub1.html": {
+				"resources": [
+					"js/template.js",
+					"js/template.function.js",
+					"css/mui.min.css"
+				],
+				"refer": [
+					"subordinatesAdd-role.html"
+				],
+				"priority": 0
+			},
+			"baidu-map.html": {
+				"resources": [
+					"css/mui.min.css",
+					"js/common.js",
+					"js/jquery-1.11.2.min.js",
+					"js/mui.min.js",
+					"js/api.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"subordinates-sub1.html": {
+				"resources": [
+					"css/mui.min.css",
+					"js/template.js",
+					"js/template.function.js"
+				],
+				"refer": [
+					"baidu-map.html",
+					"subordinates-info.html"
+				],
+				"priority": 0
+			},
+			"mission-history-sub1.html": {
+				"resources": [
+					"js/template.js",
+					"js/template.function.js",
+					"css/mui.min.css",
+					"images/icon.png"
+				],
+				"refer": [
+					"apply-detail.html"
+				],
+				"priority": 0
+			},
+			"mission-history.html": {
+				"resources": [
+					"mission-history-sub1.html",
+					"js/common.js",
+					"js/jquery-1.11.2.min.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/api.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"apply-history-sub1.html": {
+				"resources": [
+					"js/template.js",
+					"js/template.function.js",
+					"css/mui.min.css"
+				],
+				"refer": [
+					"apply-detail.html"
+				],
+				"priority": 0
+			},
+			"apply-history.html": {
+				"resources": [
+					"apply-history-sub1.html",
+					"js/common.js",
+					"js/jquery-1.11.2.min.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/api.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"mission.html": {
+				"resources": [
+					"images/list1-bg1.png",
+					"images/list3-bg.png",
+					"css/mui.min.css",
+					"images/list2-bg.png",
+					"images/list1-bg.png",
+					"css/css.css",
+					"fonts/iconfont.css",
+					"js/common.js",
+					"js/jquery-1.11.2.min.js",
+					"js/mui.min.js",
+					"fonts/iconfont.ttf",
+					"js/api.js",
+					"images/list2-bg1.png",
+					"images/list3-bg1.png"
+				],
+				"refer": [
+					"apply-collect.html",
+					"video-play.html",
+					"mission-add.html",
+					"apply-videoCollect.html",
+					"mission-map.html"
+				],
+				"priority": 0
+			},
+			"apply-collect.html": {
+				"resources": [
+					"js/mui.zoom.js",
+					"images/applyimg.png",
+					"js/mui.previewimage.js",
+					"images/addimg.png",
+					"js/common.js",
+					"js/jquery-1.11.2.min.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/api.js",
+					"js/jwplayer-7.2.4/jwplayer.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"apply-detail.html": {
+				"resources": [
+					"js/common.js",
+					"js/jquery-1.11.2.min.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/api.js",
+					"js/mui.zoom.js",
+					"js/mui.previewimage.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"user-info.html": {
+				"resources": [
+					"css/mui.min.css"
+				],
+				"refer": [
+					"login.html",
+					"user-alter.html",
+					"user-avatar.html",
+					"user-foget.html"
+				],
+				"priority": 0
+			},
+			"user-alter.html": {
+				"resources": [
+					"css/mui.min.css",
+					"js/city.data.js",
+					"js/city.data-3.js",
+					"js/mui.picker.js",
+					"js/mui.poppicker.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"user-avatar.html": {
+				"resources": [
+					"css/mui.min.css"
+				],
+				"refer": [
+					"user-avatar-cut.html"
+				],
+				"priority": 0
+			},
+			"homeAllot.html": {
+				"resources": [
+					"css/mui.min.css",
+					"homeAllot_sub1.html",
+					"images/fairy.png",
+					"fonts/mui.ttf"
+				],
+				"refer": [
+					"homeAllot_sub2.html"
+				],
+				"priority": 0
+			},
+			"homeAllot_sub1.html": {
+				"resources": [
+					"css/mui.min.css"
+				],
+				"refer": [
+					"homeAllot-detail.html"
+				],
+				"priority": 0
+			},
+			"user-avatar-cut.html": {
+				"resources": [
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"homeAllot_sub2.html": {
+				"resources": [],
+				"refer": [
+					"homeAllot-detail.html"
+				],
+				"priority": 0
+			},
+			"homeAllot-detail.html": {
+				"resources": [
+					"css/mui.min.css"
+				],
+				"refer": [
+					"homeAllot-allot.html"
+				],
+				"priority": 0
+			},
+			"homeAllot-allot.html": {
+				"resources": [
+					"homeAllot-allot-sub1.html",
+					"css/mui.min.css",
+					"fonts/mui.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"homeAllot-allot-sub1.html": {
+				"resources": [
+					"css/mui.min.css",
+					"fonts/mui.ttf"
+				],
+				"refer": [
+					"subordinates-info.html"
+				],
+				"priority": 0
+			},
+			"home-detail.html": {
+				"resources": [
+					"js/mui.picker.min.js",
+					"css/mui.min.css",
+					"css/mui.picker.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"subordinates-info.html": {
+				"resources": [
+					"images/avatar.png",
+					"css/mui.min.css",
+					"js/common.js",
+					"js/jquery-1.11.2.min.js",
+					"js/mui.min.js",
+					"js/api.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"user-foget.html": {
+				"resources": [
+					"js/jQuery.md5.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"message.html": {
+				"resources": [
+					"css/mui.min.css",
+					"js/common.js",
+					"js/jquery-1.11.2.min.js",
+					"js/mui.min.js",
+					"js/template.js",
+					"js/template.function.js",
+					"js/api.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"option.html": {
+				"resources": [
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"schedule.html": {
+				"resources": [
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"video-play.html": {
+				"resources": [
+					"css/mui.min.css",
+					"js/city.data.js",
+					"js/city.data-3.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"mission0.html": {
+				"resources": [
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"applyCredit_sub1.html": {
+				"resources": [
+					"js/template.js",
+					"js/template.function.js",
+					"css/mui.min.css",
+					"images/listdefault.png",
+					"js/mui.picker.js",
+					"js/mui.poppicker.js"
+				],
+				"refer": [
+					"applyCredit-detail.html"
+				],
+				"priority": 0
+			},
+			"applyCredit.html": {
+				"resources": [
+					"applyCredit_sub1.html",
+					"fonts/mui.ttf",
+					"fonts/iconfont.ttf",
+					"css/androidCss.css",
+					"css/mui.min.css",
+					"images/fairy.png"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"homeCredit.html": {
+				"resources": [
+					"js/mui.picker.js",
+					"js/mui.zoom.js",
+					"js/mui.poppicker.js",
+					"fonts/mui.ttf",
+					"js/mui.previewimage.js",
+					"js/city.data.js",
+					"css/mui.poppicker.css",
+					"css/mui.picker.css",
+					"images/addimg.png",
+					"js/city.data-3.js",
+					"css/css.css",
+					"fonts/iconfont.css",
+					"css/mui.min.css",
+					"fonts/iconfont.ttf",
+					"js/common.js",
+					"images/applyimg.png",
+					"homeCredit_sub1.html"
+				],
+				"refer": [
+					"homeCredit_sub2.html"
+				],
+				"priority": 0
+			},
+			"apply-subordinates.html": {
+				"resources": [
+					"apply-subordinates-sub1.html",
+					"css/mui.poppicker.css",
+					"css/mui.picker.css",
+					"js/common.js",
+					"css/mui.min.css",
+					"js/jquery-1.11.2.min.js",
+					"js/mui.min.js",
+					"js/api.js",
+					"fonts/iconfont.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"homemini.html": {
+				"resources": [
+					"homemini_sub2.html",
+					"css/androidCss.css",
+					"fonts/iconfont.css",
+					"fonts/iconfont.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"apply-subordinates-sub1.html": {
+				"resources": [
+					"css/mui.min.css",
+					"js/template.js",
+					"js/template.function.js",
+					"css/css.css",
+					"fonts/iconfont.css",
+					"js/common.js",
+					"js/jquery-1.11.2.min.js",
+					"js/mui.min.js",
+					"css/mui.poppicker.css",
+					"js/api.js",
+					"css/mui.picker.css"
+				],
+				"refer": [
+					"subordinates-allot.html",
+					"subordinates-mission.html",
+					"login.html"
+				],
+				"priority": 0
+			},
+			"subordinates-allot.html": {
+				"resources": [
+					"subordinates-allot_sub1.html",
+					"css/mui.min.css",
+					"js/common.js",
+					"js/jquery-1.11.2.min.js",
+					"js/mui.min.js",
+					"js/api.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"subordinates-allot_sub1.html": {
+				"resources": [
+					"css/mui.min.css",
+					"js/template.js",
+					"js/template.function.js"
+				],
+				"refer": [
+					"login.html"
+				],
+				"priority": 0
+			},
+			"homemini_sub2.html": {
+				"resources": [
+					"js/template.js",
+					"js/template.function.js",
+					"images/listdefault.png",
+					"css/mui.min.css"
+				],
+				"refer": [
+					"home-mission-detail.html",
+					"mission.html"
+				],
+				"priority": 0
+			},
+			"subordinates-mission.html": {
+				"resources": [
+					"subordinates-mission_sub1.html",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"optionCredit.html": {
+				"resources": [
+					"js/common.js",
+					"js/jquery-1.11.2.min.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/api.js"
+				],
+				"refer": [
+					"login.html",
+					"user-foget.html"
+				],
+				"priority": 0
+			},
+			"userCredit.html": {
+				"resources": [
+					"js/common.js",
+					"js/jquery-1.11.2.min.js",
+					"js/mui.min.js",
+					"css/mui.min.css",
+					"js/api.js"
+				],
+				"refer": [
+					"optionCredit.html",
+					"userCredit-info.html"
+				],
+				"priority": 0
+			},
+			"home-mission-detail.html": {
+				"resources": [
+					"css/mui.min.css"
+				],
+				"refer": [
+					"mission.html"
+				],
+				"priority": 0
+			},
+			"userCredit-info.html": {
+				"resources": [
+					"css/mui.min.css",
+					"js/common.js",
+					"js/jquery-1.11.2.min.js",
+					"js/mui.min.js",
+					"js/api.js"
+				],
+				"refer": [
+					"user-avatar-cut.html"
+				],
+				"priority": 0
+			},
+			"applyCredit-detail.html": {
+				"resources": [
+					"images/applyimg.png",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"mission-add.html": {
+				"resources": [
+					"js/mui.min.js",
+					"css/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"apply-videoCollect.html": {
+				"resources": [
+					"js/mui.zoom.js",
+					"css/mui.min.css",
+					"js/mui.previewimage.js",
+					"js/common.js",
+					"js/jquery-1.11.2.min.js",
+					"js/mui.min.js",
+					"js/jwplayer-7.2.4/jwplayer.js",
+					"js/api.js",
+					"fonts/mui.ttf",
+					"images/play.png"
+				],
+				"refer": [
+					"video-play.html"
+				],
+				"priority": 0
+			},
+			"mission-map.html": {
+				"resources": [
+					"css/mui.min.css",
+					"js/common.js",
+					"js/jquery-1.11.2.min.js",
+					"js/mui.min.js",
+					"js/api.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"homeCredit_sub2.html": {
+				"resources": [],
+				"refer": [
+					"homeCredit-credit.html"
+				],
+				"priority": 0
+			}
+		},
+		"idle": {
+			"resources": [
+				"js/mui.js",
+				"css/mui.css"
+			]
+		}
+	},
+	"fullscreen": true
+}

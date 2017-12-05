@@ -1,0 +1,975 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/css.css" />
+		<link rel="stylesheet" type="text/css" href="fonts/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="css/mui.picker.css" />
+		<link rel="stylesheet" type="text/css" href="css/mui.poppicker.css" />
+		<style>
+			/*preview*/
+			
+			.mui-preview-image.mui-fullscreen {
+				position: fixed;
+				z-index: 1000;
+				background-color: #000;
+			}
+			
+			.mui-content {
+				padding-top: 64px !important;
+			}
+			
+			.mui-preview-header,
+			.mui-preview-footer {
+				position: absolute;
+				width: 100%;
+				left: 0;
+				z-index: 10;
+			}
+			
+			.mui-preview-header {
+				height: 44px;
+				top: 0;
+			}
+			
+			.mui-preview-footer {
+				height: 50px;
+				bottom: 0px;
+			}
+			
+			.mui-preview-header .mui-preview-indicator {
+				display: block;
+				line-height: 25px;
+				color: #fff;
+				text-align: center;
+				margin: 15px auto;
+				width: 70px;
+				background-color: rgba(0, 0, 0, 0.4);
+				border-radius: 12px;
+				font-size: 16px;
+			}
+			
+			.mui-preview-image {
+				display: none;
+				-webkit-animation-duration: 0.5s;
+				animation-duration: 0.5s;
+				-webkit-animation-fill-mode: both;
+				animation-fill-mode: both;
+			}
+			
+			.mui-preview-image.mui-preview-in {
+				-webkit-animation-name: fadeIn;
+				animation-name: fadeIn;
+			}
+			
+			.mui-preview-image.mui-preview-out {
+				background: none;
+				-webkit-animation-name: fadeOut;
+				animation-name: fadeOut;
+			}
+			
+			.mui-preview-image.mui-preview-out .mui-preview-header,
+			.mui-preview-image.mui-preview-out .mui-preview-footer {
+				display: none;
+			}
+			
+			.mui-zoom-scroller {
+				position: absolute;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+				-webkit-box-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				-webkit-backface-visibility: hidden;
+			}
+			
+			.mui-zoom {
+				-webkit-transform-style: preserve-3d;
+				transform-style: preserve-3d;
+			}
+			/*.mui-preview-image.mui-fullscreen{
+				background: rgba(0,0,0,0.5);
+			}
+			
+			.mui-slider .mui-slider-group{
+				width: 80%;
+				height: 80%;
+				margin: 10%;
+				background: rgba(0,0,0,1);
+			}
+			.mui-fullscreen.mui-slider .mui-slider-group{
+				height: 80%;
+				margin: 10%;
+				background: rgba(0,0,0,1);
+			}*/
+			
+			.mui-slider .mui-slider-group .mui-slider-item img {
+				width: auto;
+				height: auto;
+				max-width: 100%;
+				max-height: 100%;
+			}
+			
+			.mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
+				width: 100%;
+			}
+			
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
+				display: inline-table;
+			}
+			
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
+				display: table-cell;
+				vertical-align: middle;
+			}
+			
+			.mui-preview-loading {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				display: none;
+			}
+			
+			.mui-preview-loading.mui-active {
+				display: block;
+			}
+			
+			.mui-preview-loading .mui-spinner-white {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -25px;
+				margin-top: -25px;
+				height: 50px;
+				width: 50px;
+			}
+			
+			.mui-preview-image img.mui-transitioning {
+				-webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+				transition: transform 0.5s ease, opacity 0.5s ease;
+			}
+			
+			@-webkit-keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			
+			@keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			
+			@-webkit-keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			
+			@keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			
+			p img {
+				max-width: 100%;
+				height: auto;
+			}
+			
+			html,
+			body {
+				height: 100%;
+				color: #272d37;
+			}
+			
+			.header1 {
+				overflow: hidden;
+			}
+			
+			.header1 .icon-back {
+				display: inline-block;
+				width: 50px;
+				height: 45px;
+				line-height: 45px;
+				position: absolute;
+				left: 0;
+				color: #ffffff;
+				z-index: 10;
+				font-size: 20px;
+				float: left;
+			}
+			
+			.mui-content {
+				padding-top: 84px !important;
+				min-height: 100%;
+				background-color: #f0f0f0
+			}
+			
+			.user-wrap {
+				width: 100%;
+				margin: 0;
+			}
+			
+			.data-ul {
+				width: 100%;
+				/*margin-top: 15px;*/
+				background: #f0f0f0;
+				overflow: hidden;
+			}
+			
+			.data-li {
+				width: 100%;
+				height: 50px;
+				line-height: 45px;
+				padding: 0 5%;
+				background: #ffffff;
+				position: relative;
+			}
+			
+			.data-div {
+				width: 100%;
+				height: 100%;
+				border-bottom: 1px solid #eeeff2;
+				position: relative;
+			}
+			
+			.data-title .data-div{
+				border: none;
+			}
+			
+			.data-ul .data-li:last-of-type .data-div {
+				border: none;
+			}
+			
+			.data-div>span {
+				display: inline-block;
+				height: 100%;
+				float: left;
+				font-size: 14px;
+			}
+			
+			.data-div>input {
+				font-size: 14px;
+			}
+			
+			.addLi .data-div>span {
+				height: 50px;
+			}
+			
+			.addLi .data-div .iInput {
+				width: 100% !important;
+			}
+			
+			.icon-more {
+				float: right;
+				line-height: 50px;
+			}
+			
+			.mui-table-view-cell>a {
+				height: 50px;
+				line-height: 28px;
+			}
+			
+			.mui-table-view-cell {
+				font-size: 18px;
+			}
+			
+			.cellContent {
+				font-size: 15px;
+			}
+			
+			.data-title {
+				height: 55px;
+				line-height: 65px;
+				background-color: #f0f0f0;
+			}
+			
+			.data-title .data-div>span {
+				font-size: 15px;
+			}
+			
+			.mui-table-view-cell.mui-collapse.mui-active {
+				margin-top: 0px;
+			}
+			
+			.collect-img-div {
+				width: 23%;
+				margin: 5px 1%;
+				height: 60px;
+				float: left;
+				position: relative;
+				display: inline-block;
+				border: 1px solid #e0e1e4;
+				background-image: url(images/applyimg.png);
+				background-size: 100% 100%;
+			}
+			
+			.collect-img-delete {
+				/*width: 20px;
+				height: 15px;*/
+				font-size: 20px;
+				background-color: white;
+				border-radius: 3px;
+				display: inline-block;
+				position: absolute;
+				right: 0;
+				top: 0;
+			}
+			
+			.collect-img {
+				width: 100%;
+				height: 60px;
+				float: left;
+				border: 1px solid #e0e1e4;
+				background-image: url(images/applyimg.png);
+				background-size: 100% 100%;
+			}
+			
+			.collect-addimg {
+				width: 23%;
+				margin: 5px 1%;
+				background: url(images/addimg.png);
+				background-size: 100% 100%;
+			}
+			
+			.iSpan {
+				width: 30%;
+			}
+			
+			.iInput {
+				width: 70% !important;
+				height: 40px !important;
+				text-align: left;
+				margin: auto !important;
+				padding-right: 30px !important;
+				border: none !important;
+			}
+			
+			.iInput::-webkit-input-placeholder{
+				color: #babcbf;
+			}
+			
+			#subBtn {
+				width: 80%;
+				height: 45px;
+				line-height: 45px;
+				font-size: 16px;
+				text-align: center;
+				margin: 50px 10%;
+				color: #ffffff;
+				background-color: #f0ad4e;
+				border-radius: 4px;
+			}
+			
+			#subBtn.subBtn {
+				width: 86%;
+				height: 45px;
+				line-height: 45px;
+				font-size: 16px;
+				text-align: center;
+				margin: 50px 7%;
+				color: #ffffff;
+				background-color: #fd9603;
+				border-radius: 4px;
+			}
+			
+			.addSpan {
+				width: 70%;
+				display: inline-block;
+				height: 40px !important;
+				line-height: 40px;
+				text-align: right;
+				margin: 2.5px 0;
+				padding-right: 20px;
+				color: #babcbf;
+				/*border: 1px solid #000000;*/
+				overflow: hidden;
+			}
+			
+			.cartypeSpan {
+				width: 70%;
+				display: inline-block;
+				height: 40px !important;
+				line-height: 40px;
+				text-align: right;
+				margin: 2.5px 0;
+				padding-right: 20px;
+				color: #babcbf;
+				/*border: 1px solid #000000;*/
+				overflow: hidden;
+			}
+			
+			.icon-more {
+				line-height: 40px;
+				/*height: 45px;*/
+			}
+			
+			.addLi {
+				height: 100px;
+			}
+			
+			.productName {
+				width: 90%;
+				direction: rtl;
+			}
+			
+			.data-ul .mui-icon-clear {
+				margin-top: 6px;
+			}
+			
+			#customerPin .mui-icon-clear{
+				margin-right: 80px;
+			}
+			
+			.mui-table-view-cell {
+				font-size: 14px;
+			}
+			
+			.mui-table-view-cell.mui-active {
+				background-color: #ffffff;
+			}
+			
+			.data-title .data-div .creditinfo-icon {
+				height: 40px;
+				margin-top: 3px;
+			}
+			
+			.data-title .data-div .creditimg-icon {
+				height: 40px;
+				margin-top: 3px;
+			}
+			
+			.partNum {
+				position: absolute;
+				right: 40px;
+			}
+			
+			.mui-table-view-cell.mui-active>a.mui-navigate-right{
+				padding-left: 9px !important;
+				border: none;
+				border-bottom: 1px solid #eeeff2;
+			}
+			
+			.mui-table-view-cell>a.mui-navigate-right{
+				padding-left: 9px !important;
+				border: none;
+				border-bottom: none;
+			}
+			
+			.mui-table-view-cell:after{
+				right: 15px;
+			}
+			.getpin {
+				color: #777777;
+				position: absolute;
+				right: 0;
+				top: 0px;
+				line-height: 50px;
+				font-size: 15px;
+			}
+			
+			.getpinblue {
+				color: #357ced;
+			}
+			
+			.banklist {
+				color: #777777;
+				position: absolute;
+				right: 0;
+				top: 0px;
+				line-height: 50px;
+				font-size: 15px;
+			}
+			
+			.iInput-pin{
+				padding-right: 80px !important;
+			}
+			
+			.checkDiv{
+				width: 90%;
+				margin: 20px auto;
+			}
+			
+			.checkA{
+				cursor: pointer;
+				text-decoration: underline;
+			}
+			
+			.checkInp{
+				vertical-align: top;
+			}
+			
+			/*图形验证码*/
+			.iImg{
+				background-size: 100% 100%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav header1">
+			<span class="iconfont icon-back backBtn"></span>
+			<h1 class="mui-title name" id="title">开通融资账户</h1>
+		</header>
+		<div class="mui-content">
+			<div class="user-wrap">
+				<ul class="data-ul">
+					<li class="data-li" id="customerName">
+						<div class="data-div mui-input-row">
+							<span class="iSpan">真实姓名</span>
+							<input type="text" name="customer_name" id="" value="" class="iInput mui-input-clear" placeholder="请输入客户的真实姓名"/>
+						</div>
+					</li>
+					<li class="data-li" id="customerID">
+						<div class="data-div mui-input-row">
+							<span class="iSpan">身份证号</span>
+							<input type="text" name="customer_id" id="" value="" maxlength="18" class="iInput mui-input-clear" placeholder="请输入客户的身份证号"/>
+						</div>
+					</li>
+					<li class="data-li" id="customerCard">
+						<div class="data-div mui-input-row">
+							<span class="iSpan">收款卡号</span>
+							<input type="text" name="customer_card" id="" value="" maxlength="19" class="iInput mui-input-clear customer_card" placeholder="请输入客户的收款卡号" />
+							
+						</div>
+					</li>
+					<li class="data-li" id="customerCardtype" style="display: none;">
+						<div class="data-div mui-input-row">
+							<span class="iSpan">卡类型</span>
+							<input type="text" name="customer_cardtype" id="" value="" maxlength="19" class="iInput mui-input-clear" placeholder="" disabled="disabled" />
+							
+						</div>
+					</li>
+					<li class="data-li" id="customerTel">
+						<div class="data-div mui-input-row">
+							<span class="iSpan">手机号码</span>
+							<input type="text" name="customer_tel" id="" value="" maxlength="11" pattern="[0-9]*" class="iInput mui-input-clear customer_tel" placeholder="请输入客户的电话" />
+						</div>
+					</li>
+					<li class="data-li" id="customerPin">
+						<div class="data-div mui-input-row">
+							<span class="iSpan">验证码</span>
+							<input type="text" name="customer_pin" id="" value="" maxlength="11" pattern="[0-9]*" class="iInput iInput-pin mui-input-clear" placeholder="" />
+							<span class="getpin getpinblue">获取验证码</span>
+						</div>
+					</li>
+					<li class="data-li" id="customerimgPin" style="display: none;">
+						<div class="data-div mui-input-row">
+							<span class="iSpan iImg"></span>
+							<input type="text" name="customer_imgpin" id="" value="" maxlength="6" class="iInput iInput-imgpin mui-input-clear" placeholder="请输入图片中的字符" />
+							
+						</div>
+					</li>
+					
+					<div class="checkDiv">
+						<input type="checkbox" name="" id="" value="" class="checkInp" checked="checked"/>
+						<span class="checkSpan">我已阅读并同意</span><a href="###" class="checkA"><span class="protocol-accredit">《用户授权协议》</span></a><span class="checkSpan">和</span><a href="###" class="checkA"><span class="protocol-service">《江西银行网络交易资金账户服务三方协议》</span></a><span class="checkSpan"></span>
+					</div>
+					
+					<div id="subBtn" class="subBtn">立即开通</div>
+				</ul>
+				
+
+			</div>
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/api.js"></script>
+		<script src="js/jquery-1.11.2.min.js"></script>
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.zoom.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.previewimage.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.picker.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.poppicker.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/city.data.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/city.data-3.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/bank.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview()
+				var Workid = self.workid;
+				var uId = self.customerId;
+				var uName = self.customerName;
+				var uTel = self.customerTel;
+				// 防止back
+//				mui.back = function(){}
+				//var customerName = '';
+				//var customerID = '';
+				//var customerTel = '';
+				var agentName = store.get('uname');
+				var agentTel = store.get('username')
+				//var province = '';
+				//var city = '';
+				//var town = '';
+				//var add = '';
+				var productId = '';
+				var productName = '';
+				var sourceId = 1;
+				var sourceName = '经销商';
+				var clickType;
+				var sms_auth; // 短信回执码
+				// 图片数量
+				var imgSum1 = 0;
+				var imgSum2 = 0;
+				var needPin = false;
+				var pinAuth;
+				var isSend = false;
+				// 填充姓名、身份证号、手机号
+				$(".iInput[name='customer_name']").val(uName);
+				$(".iInput[name='customer_id']").val(uId);
+				$(".iInput[name='customer_tel']").val(uTel);
+				
+				var request0 = {
+					'srv_code': 'register',
+					'mobile': uTel,
+				}
+				// 请求是否需要图形验证码
+				user.finacingcodeCreate(request0, function(r0) {
+					if(r0.error_no == 200){
+						if(r0.result.is_necessary == 1){
+							$("#customerimgPin").css('display','block')
+							$(".iImg").css('backgroundImage',"url(" + apiu3 + 'user/image/code/show?image_auth=' + r0.result.image_auth + ")")
+							$(".iImg").attr('auth',r0.result.image_auth)
+							needPin = true;
+							pinAuth = r0.result.image_auth;
+						}
+						
+						mui('body').on('tap',".backBtn",function() {
+							mui.back();
+						})
+						// 用户协议点击事件
+						mui('body').on('tap', '.checkSpan', function(e) {
+							if($('.checkInp').prop('checked')){
+								$('.checkInp').prop('checked',false)
+							} else {
+								$('.checkInp').prop('checked',true)
+							}
+						})
+						// 获取验证码
+						mui('body').on('tap', '.getpinblue', function() {
+							var username = $('.customer_tel').val()
+							var request = {
+								'srv_code': 'wechatAccountOpen',
+								'mobile': username,
+								'image_auth': '',
+								'image_code': ''
+							}
+							if(needPin && $(".iInput-imgpin").val().length == ''){
+								mui.toast('请输入图片中的字符');
+								$(".iInput-imgpin").focus();
+								return false;
+							}
+							if(!/^13[0-9]{9}$|14[0-9]{9}$|15[0-9]{9}$|17[0-9]{9}$|18[0-9]{9}$/.test(username)) {
+								mui.alert('请输入正确的手机号码', function() {
+									$('.customer_tel').focus()
+								})
+								return false;
+							}
+							if(needPin){
+								request.image_auth = pinAuth;
+								request.image_code = $(".iInput-imgpin").val();
+							}
+							// 请求短信验证码
+							user.finacingcodeSend(request, function(data) {
+								if(data.error_no != 200) {
+									mui.toast(data.error_msg)
+									return false;
+								}
+								isSend = true;
+								console.log(JSON.stringify(data))
+								sms_auth = data.result.mobile_auth;
+								sendMessage();
+							})
+		
+							var countTime = 60;
+							var curTime; //当前剩余秒数
+							var timer;
+		
+							function sendMessage() {
+								curTime = countTime;
+								$('.getpin').prop('class', 'getpin')
+								$('.getpin').attr('disabled', "true");
+								$('.getpin').html('重新发送(' + curTime + ')');
+								timer = setInterval(timerHandler, 1000);
+								//向后台发送数据
+								//		$.ajax({
+								//			url: ;
+								//			type:'GET',
+								//			dataType:'jsonp',
+								//			data:{},
+								//			success:function(){
+								//				
+								//			}
+								//		});
+							}
+		
+							function timerHandler() {
+								if(curTime == 0) {
+									clearInterval(timer);
+									$('.getpin').removeAttr('disabled');
+									$('.getpin').prop('class', 'getpin getpinblue')
+									$('.getpin').html('重新发送');
+								} else {
+									curTime--;
+									$('.getpin').html('重新发送(' + curTime + ')');
+								}
+							}
+						})
+						// 判断输入银行卡号是否有效
+						$(".customer_card").on('input',function(){
+							$(".iInput[name='customer_cardtype']").val('');
+							var _this = this;
+							if($(_this).val().length == 16){
+								var bankres = bankCardAttribution($(_this).val());
+								if(bankres != 'error'){
+									$("#customerCardtype").css('display','block')
+									$(".iInput[name='customer_cardtype']").val(bankres.bankName + bankres.cardTypeName)
+								}
+							}else if($(_this).val().length == 19){
+								var bankres = bankCardAttribution($(_this).val());
+								if(bankres != 'error'){
+									$("#customerCardtype").css('display','block')
+									$(".iInput[name='customer_cardtype']").val(bankres.bankName + bankres.cardTypeName)
+								} else {
+									$("#customerCardtype").css('display','block')
+									$(".iInput[name='customer_cardtype']").val('输入银行卡无效,请重新输入')
+								}
+							} else {
+								$("#customerCardtype").css('display','none')
+							}
+						})
+						mui('#customerCard').on('tap', '.mui-icon-clear', function(e) {
+							$("#customerCardtype").css('display','none')
+						})
+						
+						
+						// 打开协议页面
+//						mui('body').on('tap', '.iImg', function(e) {
+//							e.stopPropagation();
+//							// 强制input失去焦点，收起键盘
+//							$("input").blur();
+//		
+//							mui.openWindow({
+//								url: 'finacing-password.html',
+//								id: 'finacing-password.html',
+//								createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+//								show: {
+//									autoShow: true, //页面loaded事件发生后自动显示，默认为true
+//									aniShow: 'pop-in', //页面显示动画，默认为”slide-in-right“；
+//								},
+//								waiting: {
+//									autoShow: false, //自动显示等待框，默认为true
+//								},
+//								extras: {
+//								},
+//							})
+//						})
+						
+						
+						// 打开协议页面
+						mui('body').on('tap', '.protocol-accredit', function(e) {
+							e.stopPropagation();
+							// 强制input失去焦点，收起键盘
+							$("input").blur();
+		
+							mui.openWindow({
+								url: 'protocol-accredit.html',
+								id: 'protocol-accredit.html',
+								createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+								show: {
+									autoShow: true, //页面loaded事件发生后自动显示，默认为true
+									aniShow: 'pop-in', //页面显示动画，默认为”slide-in-right“；
+								},
+								waiting: {
+									autoShow: false, //自动显示等待框，默认为true
+								},
+								extras: {
+								},
+							})
+						})
+						// 打开协议页面
+						mui('body').on('tap', '.protocol-service', function(e) {
+							e.stopPropagation();
+							// 强制input失去焦点，收起键盘
+							$("input").blur();
+		
+							mui.openWindow({
+								url: 'protocol-service.html',
+								id: 'protocol-service.html',
+								createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+								show: {
+									autoShow: true, //页面loaded事件发生后自动显示，默认为true
+									aniShow: 'pop-in', //页面显示动画，默认为”slide-in-right“；
+								},
+								waiting: {
+									autoShow: false, //自动显示等待框，默认为true
+								},
+								extras: {
+								},
+							})
+						})
+						
+						mui('body').on('tap', '.banklist', function(e) {
+							// 强制input失去焦点，收起键盘
+							$("input").blur();
+		
+							mui.openWindow({
+								url: 'bank-limit.html',
+								id: 'bank-limit.html',
+								createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+								show: {
+									autoShow: true, //页面loaded事件发生后自动显示，默认为true
+									aniShow: 'pop-in', //页面显示动画，默认为”slide-in-right“；
+								},
+								waiting: {
+									autoShow: false, //自动显示等待框，默认为true
+								},
+								extras: {
+								},
+							})
+						})
+						
+						
+		
+						mui('body').on('tap', '.subBtn', function(e) {
+							// 强制input失去焦点，收起键盘
+							$("input").blur();
+							// 判断非空
+							if(bankCardAttribution($(".customer_card").val()) == 'error') {
+								mui.alert('请输入正确的银行卡号');
+								return;
+							}
+							if(!isSend){
+								mui.alert('请先获取验证码');
+								return;
+							}
+							if($(".iInput-pin").val() == '') {
+								mui.alert('请填写验证码');
+								return;
+							}
+							if(!/^13[0-9]{9}$|14[0-9]{9}$|15[0-9]{9}$|17[0-9]{9}$|18[0-9]{9}$/.test($(".customer_tel").val())) {
+								mui.alert('客户手机号码格式不正确');
+								return;
+							}
+							if(!$(".checkInp").prop('checked')){
+								mui.alert('请先阅读并同意协议');
+								return;
+							}
+		
+		//					$("#subBtn").removeClass("subBtn");
+		//					$("#subBtn").html("提交中");
+							
+							var newData = {
+								'id_No': uId,
+								'realname': uName,
+								'mobile': uTel,
+								'card_No': $(".iInput[name='customer_card']").val(),
+								'sms_code': $(".iInput[name='customer_pin']").val(),
+								'sms_auth': sms_auth,
+							}
+		
+							for(var i in newData) {
+								console.log(i + ":" + newData[i]);
+							}
+							uploader.submitfinacing(newData, function(resSu) {
+								$("#subBtn").addClass("subBtn");
+								$("#subBtn").html("立即开通");
+								if(resSu.error_no == 200) {
+									user.setFinacingToken(uId,resSu.result.token.token)
+									mui.openWindow({
+										url: 'finacing-password.html',
+										id: 'finacing-password.html',
+										createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+										show: {
+											autoShow: true, //页面loaded事件发生后自动显示，默认为true
+											aniShow: 'pop-in', //页面显示动画，默认为”slide-in-right“；
+										},
+										waiting: {
+											autoShow: false, //自动显示等待框，默认为true
+										},
+										extras: {
+											'uId': uId
+										},
+									})
+								} else {
+									mui.toast(resSu.error_msg)
+								}
+							})
+						})
+						
+					}
+				})
+				//添加自定义事件监听
+				window.addEventListener('closePage', function(event) {
+					//获得事件参数
+					// mui('#pullrefresh').pullRefresh().pullupLoading();
+					setTimeout(function(){
+						var curr = plus.webview.currentWebview();
+						curr.close();
+					},200)
+					
+				});
+				
+				
+
+				
+
+			})
+
+			function logout() {
+				if(canClick) {
+					// 获取所有Webview窗口
+					var curr = plus.webview.currentWebview();
+					var wvs = plus.webview.all();
+					user.clear();
+					login();
+					for(var i = 0, len = wvs.length; i < len; i++) {
+						//关闭所有页面
+						plus.webview.close(wvs[i]);
+					}
+				}
+
+			}
+			// template帮助函数 转换时间格式
+//			function telExchange(tel) {
+//				var str1 = tel.substring(0, 3);
+//				var str2 = tel.substring(3, 7);
+//				var str3 = tel.substring(7, 11);
+//				return str1 + '-' + str2 + '-' + str3;
+//			}
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,272 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/css.css" />
+		<link rel="stylesheet" type="text/css" href="fonts/iconfont.css" />
+		<style>
+			.mengban,.mengban1 {
+				display: none;
+				position: fixed;
+				height: 100%;
+				width: 100%;
+				background: rgba(00, 00, 00, .3);
+				top: 0;
+				bottom: 0;
+				z-index: 999;
+			}
+			
+			.search-box {
+				z-index: 1000;
+				height: 64px;
+				background-color: #357ced;
+				overflow: hidden;
+				position: relative;
+			}
+			
+			#search {
+				width: 75%;
+				height: 30px;
+				font-size: 14px;
+				margin-top: 25px;
+				margin-left: 5%;
+				padding-left: 30px;
+				background: #fff;
+				border-radius: 4px;
+				text-align: left;
+				float: left;
+			}
+			
+			.close-mengban {
+				color: #FFFFFF;
+				font-size: 16px;
+				display: inline-block;
+				width: 20%;
+				margin-top: 25px;
+				float: left;
+				line-height: 28px;
+				text-align: center;
+			}
+			
+			.tab-box {
+				height: 53px;
+				background: #f0f0f0;
+				padding: 10px 3% 5px 3%;
+			}
+			
+			.tab-bar {
+				width: 100%;
+				height: 32px;
+				border:1.5px solid #5291fa;
+				border-radius: 6px;
+				overflow: hidden;
+			}
+			
+			.tab-btn {
+				width: 50%;
+				height: 30px;
+				float: left;
+				text-align: center;
+				line-height: 30px;
+				color: #5291FA;
+				font-size: 15px;
+			}
+			
+			.tab-active{
+				background-color: #5291FA;
+				color: #fff;
+			}
+			
+			.mui-content {
+				/*padding-top: 64px !important;*/
+			}
+			
+			.inputSeach{
+				position: absolute;
+				top: 30px;
+				left: 6%;
+				color: #ACACB4;
+			}
+		</style>
+	</head>
+
+	<body class="applyCreditBody">
+		<header class="mui-bar mui-bar-nav header1">
+			<a class="mui-pull-left top-left-btn" id="top-message" style="display: none;"><span class="icon message2-icon"></span></a>
+			<a class="mui-pull-right top-right-btn" id="top-contact"><span class="icon integral-ico"></span><span class="icon search-icon"></span></a>
+			<h1 class="mui-title name" id="title">申请件</h1>
+		</header>
+		<!--<div class="mui-content">
+			<div class="tab-box">
+				<ul class="tab-bar">-->
+					<!--<li class="tab-btn tab-active" id="cartype" data="home_sub1.html" datatype="0">全部</li>-->
+					<!--<li class="tab-btn tab-active" id="applytype" data="home_sub1.html" datatype="1">待征信</li>
+					<li class="tab-btn screening" data="home_sub1.html" datatype="2">已征信</li>
+				</ul>
+			</div>
+
+		</div>-->
+		<div class="mengban1">
+		</div>
+		<div class="mengban">
+			<div class="search-box">
+				<span class="mui-icon mui-icon-search inputSeach"></span>
+				<input type="search" id="search" placeholder="姓名、电话、申请编号" />
+				<span class="close-mengban">取消</span>
+			</div>
+		</div>
+		<div id="showMeng" style="position: fixed;height: 100%;top: 0;bottom: 0;width: 100%;z-index: 999;background: #FFFFFF;display: none;">搜索<input type="search" /></div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+		<script src="js/api.js"></script>
+		<script type="text/javascript">
+			mui.init({});
+			var data1 = "新车";
+			var data2 = "待家访";
+			var isClose = false;
+			mui.plusReady(function() {
+				// 防止back
+				mui.back = function(){}
+				// 根据系统类型设置刷新条样式
+				if(plus.os.name == 'Android') {
+					var oCss = document.createElement("link");
+					oCss.setAttribute("rel", "stylesheet");
+					oCss.setAttribute("type", "text/css");
+					oCss.setAttribute("href", "css/androidCss.css");
+					document.getElementsByTagName("head")[0].appendChild(oCss); //绑定
+				}
+				var subpages = 'applyCredit_sub1.html'; //bounce: 'vertical', 
+				var subpage_style1 = {
+					top: '60px',
+					bottom: '0px',
+					scrollIndicator: 'none',
+					bounceBackground: '#fff'
+				};
+				var activeTab = subpages;
+				var self = plus.webview.currentWebview();
+				var sub = plus.webview.create(subpages, subpages, subpage_style1); //遍历创建各页面的webview的id 
+				self.append(sub);
+				mui('.mui-bar').on('tap', '#top-contact', function() {
+					$('.mengban').fadeIn()
+					$(".header").addClass('mui-hidden')
+					//document.getElementById("showMeng").style.display='block'  //fadeIn
+					//var applySubPage = plus.webview.getLaunchWebview()
+					var applySubPage = plus.webview.getWebviewById('applyCredit_sub1.html');
+					var indexPage = plus.webview.getWebviewById('index.html') || plus.webview.getLaunchWebview();
+					//console.log('okuru')
+					mui.fire(applySubPage, 'applyMengbanChange', {
+						mengban: 1
+					});
+					mui.fire(indexPage, 'indexMengbanChange', {
+						mengban: 1
+					});
+				})
+				// 关闭蒙版并blur
+				mui('body').on('tap', '.close-mengban', function() {
+					$('.mengban').css('display', 'none')
+					$(".header").removeClass('mui-hidden')
+					// onblur搜索失效
+					isClose = true;
+					$("#search").blur();
+					var applySubPage = plus.webview.getWebviewById('applyCredit_sub1.html');
+					var indexPage = plus.webview.getWebviewById('index.html') || plus.webview.getLaunchWebview();
+					//console.log('okuru')
+					mui.fire(applySubPage, 'applyMengbanChange', {
+						mengban: 0
+					});
+					mui.fire(indexPage, 'indexMengbanChange', {
+						mengban: 0
+					});
+				})
+				mui('body').on('tap', '#top-message', function() {
+					mui.openWindow({
+						url: 'message.html',
+						id: 'message.html',
+						createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+						show: {
+							autoShow: true, //页面loaded事件发生后自动显示，默认为true
+							aniShow: 'pop-in', //页面显示动画，默认为”slide-in-right“；
+						},
+						waiting: {
+							autoShow: false, //自动显示等待框，默认为true
+						}
+					})
+				})
+				// onblur搜索生效
+				$('#search').on("focus",function(){
+					isClose = false;
+				})
+				// enter搜索
+				$('#search').on('keypress', function(event) {
+
+					if(event.keyCode == 13) {
+						$('#search').blur();
+					}
+				});
+				// onblur搜索
+				$('#search').on('blur', function(event) {
+					if(isClose){
+						return;
+					}
+					var keyword = $('#search').val();
+					if(keyword.length == 0) {
+						mui.alert("请输入关键字")
+					} else {
+						$('.mengban').css('display', 'none')
+						$(".header").removeClass('mui-hidden')
+						var applySubPage = plus.webview.getWebviewById('applyCredit_sub1.html');
+						var indexPage = plus.webview.getWebviewById('index.html') || plus.webview.getLaunchWebview();
+						//console.log('okuru')
+						//console.log("okuKeyword:"+keyword)
+						mui.fire(applySubPage, 'applyMengbanChange', {
+							mengban: 0,
+							keyword: keyword
+						});
+						mui.fire(indexPage, 'indexMengbanChange', {
+							mengban: 0
+						});
+					}
+				});
+				document.addEventListener('mui.view.refresh', function() {
+
+				})
+
+				var applySubPage = plus.webview.getWebviewById('applyCredit_sub1.html');
+//				mui('body').on('tap', '.tab-btn', function() {
+//					$(".tab-btn").removeClass('tab-active');
+//					$(this).addClass("tab-active");
+//					//					console.log("SelectStart")
+////					console.log($(this).attr('datatype'))
+//					mui.fire(applySubPage, 'pushApplyData', {
+//						data1: $(this).attr('datatype'),
+//						select: 1
+//					});
+//				})
+
+				//添加自定义事件监听
+				window.addEventListener('backApplyData', function(event) {
+					//获得事件参数
+					$("#cartype").html(event.detail.data1)
+					$("#applytype").html(event.detail.data2)
+					data1 = event.detail.data1;
+					data2 = event.detail.data2;
+					$('.mengban1').css('display', 'none')
+				});
+				
+				//添加自定义事件监听 选择器蒙版1监听
+				window.addEventListener('mengbanCancel', function(event) {
+					//获得事件参数
+					if(event.detail.mengban == 0){
+						$('.mengban1').css('display', 'none')
+					}
+				});
+
+			})
+		</script>
+	</body>
+
+</html>

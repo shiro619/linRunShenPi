@@ -1,0 +1,157 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/css.css" />
+		<link rel="stylesheet" type="text/css" href="fonts/iconfont.css" />
+		<style>
+			.mengban,.mengban1 {
+				display: none;
+				position: fixed;
+				height: 100%;
+				width: 100%;
+				background: rgba(00, 00, 00, .3);
+				top: 0;
+				bottom: 0;
+				z-index: 999;
+			}
+			
+			.search-box {
+				z-index: 1000;
+				height: 64px;
+				background-color: #357ced;
+				overflow: hidden;
+				position: relative;
+			}
+			
+			#search {
+				width: 75%;
+				height: 30px;
+				font-size: 14px;
+				margin-top: 25px;
+				margin-left: 5%;
+				padding-left: 30px;
+				background: #fff;
+				border-radius: 4px;
+				text-align: left;
+				float: left;
+			}
+			
+			.close-mengban {
+				color: #FFFFFF;
+				font-size: 16px;
+				display: inline-block;
+				width: 20%;
+				margin-top: 25px;
+				float: left;
+				line-height: 28px;
+				text-align: center;
+			}
+			
+			.tab-box {
+				height: 45px;
+				background: #f0f0f0;
+				padding: 7px 3%;
+			}
+			
+			.tab-bar {
+				width: 100%;
+				height: 30px;
+				border:1.5px solid #5291fa;
+				border-radius: 6px;
+				overflow: hidden;
+			}
+			
+			.tab-btn {
+				width: 50%;
+				height: 28px;
+				float: left;
+				text-align: center;
+				line-height: 28px;
+				color: #5291FA;
+				font-size: 15px;
+			}
+			
+			.tab-active{
+				background-color: #5291FA;
+				color: #fff;
+			}
+			
+			.mui-content {
+				padding-top: 64px !important;
+			}
+			
+			.inputSeach{
+				position: absolute;
+				top: 30px;
+				left: 6%;
+				color: #ACACB4;
+			}
+		</style>
+	</head>
+
+	<body class="applyCreditBody">
+		<header class="mui-bar mui-bar-nav header1">
+			<a class="mui-pull-left top-left-btn" id="top-message" style="display: none;"><span class="icon message2-icon"></span></a>
+			<h1 class="mui-title name" id="title">工作台</h1>
+		</header>
+		<div class="mengban1">
+		</div>
+		<div id="showMeng" style="position: fixed;height: 100%;top: 0;bottom: 0;width: 100%;z-index: 999;background: #FFFFFF;display: none;">搜索<input type="search" /></div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+		<script src="js/api.js"></script>
+		<script type="text/javascript">
+			mui.init({});
+			var data1 = "新车";
+			var data2 = "待家访";
+			var isClose = false;
+			mui.plusReady(function() {
+				// 防止back
+				mui.back = function(){}
+				// 根据系统类型设置刷新条样式
+				if(plus.os.name == 'Android') {
+					var oCss = document.createElement("link");
+					oCss.setAttribute("rel", "stylesheet");
+					oCss.setAttribute("type", "text/css");
+					oCss.setAttribute("href", "css/androidCss.css");
+					document.getElementsByTagName("head")[0].appendChild(oCss); //绑定
+				}
+				var subpages = 'homemini_sub2.html'; //bounce: 'vertical', 
+				var subpage_style1 = {
+					top: '60px',
+					bottom: '0px',
+					scrollIndicator: 'none',
+					bounceBackground: '#fff'
+				};
+				var activeTab = subpages;
+				var self = plus.webview.currentWebview();
+				var sub = plus.webview.create(subpages, subpages, subpage_style1); //遍历创建各页面的webview的id 
+				self.append(sub);
+				
+				
+				document.addEventListener('mui.view.refresh', function() {
+
+				})
+
+				//添加自定义事件监听
+				window.addEventListener('backApplyData', function(event) {
+					//获得事件参数
+					$("#cartype").html(event.detail.data1)
+					$("#applytype").html(event.detail.data2)
+					data1 = event.detail.data1;
+					data2 = event.detail.data2;
+					$('.mengban1').css('display', 'none')
+				});
+				
+				
+
+			})
+		</script>
+	</body>
+
+</html>

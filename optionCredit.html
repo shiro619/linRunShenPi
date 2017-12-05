@@ -1,0 +1,267 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/css.css" />
+		<link rel="stylesheet" type="text/css" href="fonts/iconfont.css" />
+		<style>
+			html {
+				/*background-color: #ffffff;*/
+			}
+			
+			.header1 {
+				overflow: hidden;
+			}
+			
+			.header1 .icon-back {
+				display: inline-block;
+				width: 50px;
+				height: 45px;
+				line-height: 45px;
+				position: absolute;
+				left: 0;
+				color: #ffffff;
+				z-index: 10;
+				font-size: 20px;
+				float: left;
+			}
+			
+			.mui-content {
+				padding-top: 60px !important;
+				position: relative;
+			}
+			
+			.option-ul {
+				width: 100%;
+				margin-top: 15px;
+				background: #ffffff;
+				/*padding: 0 5%;*/
+			}
+			
+			.option-li {
+				width: 100%;
+				height: 60px;
+				padding: 0 5%;
+				line-height: 60px;
+			}
+			/*.option-li:active{
+				background: #eeeeee;
+			}*/
+			
+			.option-div {
+				width: 100%;
+				height: 60px;
+				line-height: 60px;
+				border-bottom: 1px dotted #eeeeee;
+				overflow: hidden;
+			}
+			
+			.option-li-name {
+				font-size: 15px;
+				margin-left: 5px;
+			}
+			
+			.mui-switch {
+				display: inline-block;
+				float: right;
+				line-height: 60px;
+			}
+			
+			.switchDiv {
+				display: inline-block;
+				float: right;
+				width: 60px;
+				height: 100%;
+				padding-top: 15px;
+			}
+			
+			.option-div .icon-more {
+				float: right;
+			}
+			
+			#logoutBtn {
+				height: 45px;
+				text-align: center;
+			}
+			
+			#logoutBtn .option-div {
+				height: 45px;
+				line-height: 45px;
+			}
+			
+			#logoutBtn .logout {
+				font-size: 15px;
+			}
+			
+			.mui-table-view-cell>a {
+				height: 50px;
+				line-height: 28px;
+			}
+			
+			.mui-table-view-cell {
+				font-size: 18px;
+			}
+			
+			.GPS-icon,.write-icon{
+				position: relative;
+				top: -1.5px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav header1">
+			<span class="iconfont icon-back backBtn"></span>
+			<h1 class="mui-title name" id="title">设置</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="option-ul">
+				<li class="option-li">
+					<div class="option-div">
+						<span class="icon GPS-icon"></span>
+						<span class="option-li-name">GPS位置</span>
+						<div class="switchDiv">
+							<div class="mui-switch mui-switch-mini mui-active GPSBtn ">
+								<div class="mui-switch-handle"></div>
+							</div>
+						</div>
+					</div>
+				</li>
+				<li class="option-li" id="resetPWBtn">
+					<div class="option-div">
+						<span class="icon write-icon"></span>
+						<span class="option-li-name">修改密码</span>
+						<i class="iconfont icon-more"></i>
+					</div>
+				</li>
+			</ul>
+			<ul class="option-ul">
+				<li class="option-li" id="logoutBtn">
+					<div class="option-div">
+						<span class="logout">退出登录</span>
+					</div>
+				</li>
+			</ul>
+			<div id="picture" class="mui-popover mui-popover-action mui-popover-bottom">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell cellContent">
+						<a href="#" style="background: 0 0; color: #919191;">确定要退出当前账号吗？</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="#" onclick="logout()" style="color: #fd9603;">确定</a>
+					</li>
+				</ul>
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<a href="#picture"><b>取消</b></a>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/api.js"></script>
+		<script src="js/jquery-1.11.2.min.js"></script>
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			//			window.addEventListener('pushData', function(event) {
+			//				//获得事件参数
+			//				var type = event.detail.type;
+			//				var data = event.detail.data;
+			//				//根据id向服务器请求新闻详情
+			//				console.log("取到type:" + type + ",取到data:" + data)
+			//				$("#text").val(data);
+			//			});
+			var canClick = false;
+			mui.plusReady(function() {
+				// 获取当前设置
+				(function() {
+					var opt = user.uoption();
+					if(opt.GPS == 'true' || opt.GPS == true) {
+						$(".GPSBtn").addClass('mui-active')
+					} else {
+						$(".GPSBtn").removeClass('mui-active')
+					}
+				})()
+
+				//添加newId自定义事件监听
+				//				window.addEventListener('pushData', function(event) {
+				//					//获得事件参数
+				//					var type = event.detail.type;
+				//					var data = event.detail.data;
+				//					//根据id向服务器请求新闻详情
+				//					console.log("取到type:" + type + ",取到data:" + data)
+				//					$("#text").val(data);
+				//				});
+				mui('body').on('tap',".backBtn",function() {
+					mui.back();
+				})
+				mui('.GPSBtn').each(function() {
+					//					console.log('状态：' + (this.classList.contains('mui-active') ? 'true' : 'false'));
+					var indexPage = plus.webview.getLaunchWebview();
+					var indexPage1 = plus.webview.getWebviewById("index.html");
+					this.addEventListener('toggle', function(event) {
+						var Gps = event.detail.isActive;
+						//						console.log(event.detail.isActive)
+						mui.fire(indexPage, 'GPSData', {
+							GPS: Gps
+						});
+						mui.fire(indexPage1, 'GPSData', {
+							GPS: Gps
+						});
+						//						console.log("GPS"+Gps)
+					});
+				});
+				mui('body').on('tap', '#resetPWBtn', function() {
+					mui.openWindow({
+						url: 'user-foget.html',
+						id: 'user-foget.html',
+						createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+						show: {
+							autoShow: true, //页面loaded事件发生后自动显示，默认为true
+							aniShow: 'pop-in', //页面显示动画，默认为”slide-in-right“；
+						},
+						waiting: {
+							autoShow: false, //自动显示等待框，默认为true
+						}
+					})
+				})
+				document.getElementById("logoutBtn").addEventListener('tap', function() {
+					canClick = false;
+					mui('#picture').popover('toggle');
+					setTimeout(function() {
+						canClick = true;
+					}, 500)
+				});
+
+				//				mui('.remindBtn').each(function() {
+				//					//					console.log('状态：' + (this.classList.contains('mui-active') ? 'true' : 'false'));
+				//					var indexPage = plus.webview.getWebviewById('index.html');
+				//					this.addEventListener('toggle', function(event) {
+				//						var remind = event.detail.isActive ? 'true' : 'false';
+				//						mui.fire(indexPage, 'remindData', {
+				//							remind: remind
+				//						});
+				//						//						console.log('remind'+remind)
+				//					});
+				//				});
+			})
+
+			function logout() {
+				if(canClick) {
+					// 获取所有Webview窗口
+					var curr = plus.webview.currentWebview();
+					var wvs = plus.webview.all();
+					user.clear();
+					login();
+				}
+
+			}
+		</script>
+	</body>
+
+</html>

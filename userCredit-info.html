@@ -1,0 +1,367 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/css.css" />
+		<link rel="stylesheet" type="text/css" href="fonts/iconfont.css" />
+		<style>
+			body{
+				color: #272d37;
+			}
+			.header1 {
+				overflow: hidden;
+			}
+			
+			.header1 .icon-back {
+				display: inline-block;
+				width: 50px;
+				height: 45px;
+				line-height: 45px;
+				position: absolute;
+				left: 0;
+				color: #ffffff;
+				z-index: 10;
+				font-size: 20px;
+				float: left;
+			}
+			
+			.mui-content {
+				padding-top: 64px !important;
+			}
+			
+			.user-wrap {
+				width: 100%;
+				margin: 0;
+			}
+			
+			.data-ul {
+				width: 100%;
+				margin-top: 15px;
+				background: #ffffff;
+			}
+			
+			.data-li {
+				width: 100%;
+				height: 45px;
+				line-height: 45px;
+				padding: 0 5%;
+				position: relative;
+			}
+			
+			.data-div {
+				width: 100%;
+				height: 100%;
+				border-bottom: 1px dotted #eeeeee;
+				position: relative;
+			}
+			
+			.data-li:nth-of-type(1):active {
+				background: #eeeeee;
+			}
+			
+			.data-li:nth-of-type(5):active {
+				background: #eeeeee;
+			}
+			
+			.data-li:nth-of-type(1) {
+				height: 90px;
+			}
+			
+			.data-li:nth-of-type(1) span {
+				line-height: 90px;
+			}
+			
+			.data-ul .data-li:last-of-type .data-div {
+				border: none;
+			}
+			
+			.data-div>span {
+				display: inline-block;
+				height: 100%;
+				float: left;
+				font-size: 14px;
+			}
+			
+			.data-div>span:nth-of-type(1) {
+				width: 28%;
+				padding-left: 2%;
+			}
+			
+			.data-div>span:nth-of-type(2) {
+				/*width: 70%;*/
+				color: #646b76;
+				margin-right: 15px;
+				float: right;
+				text-align: center;
+			}
+			
+			.data-li .avatarImg {
+				margin: 10px 0;
+				display: inline-block;
+				width: 70px !important;
+				height: 70px;
+				background-size: 100% 100%;
+				background-image: url(images/avatar.png);
+				border: 1px solid #000000;
+				border-radius: 35px;
+			}
+			
+			.icon-more {
+				float: right;
+				line-height: 45px;
+			}
+			
+			.data-li:nth-of-type(1) .icon-more {
+				line-height: 90px;
+			}
+			
+			.pwBtn {
+				margin: 0 7%;
+				width: 86%;
+				margin-top: 120px;
+				height: 45px;
+				font-size: 19px;
+				color: #ffffff;
+				border: 1px solid #fd9603;
+				background: #fd9603;
+				line-height: 33px;
+			}
+			
+			.logoutBtn {
+				margin: 0 7%;
+				width: 86%;
+				margin-top: 20px;
+				height: 45px;
+				font-size: 19px;
+				color: #fd9603;
+				border: 1px solid #fd9603;
+				background: none;
+				line-height: 33px;
+			}
+			
+			.mui-table-view-cell>a {
+				height: 50px;
+				line-height: 28px;
+			}
+			
+			.mui-table-view-cell {
+				font-size: 18px;
+			}
+			
+			.cellContent {
+				font-size: 15px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav header1">
+			<span class="iconfont icon-back backBtn"></span>
+			<h1 class="mui-title name" id="title">个人资料</h1>
+		</header>
+		<div class="mui-content">
+			<div class="user-wrap">
+				<ul class="data-ul">
+					<li class="data-li avatarC">
+						<div class="data-div">
+							<span>头像</span>
+							<i class="iconfont icon-more"></i>
+							<span class="avatarImg"></span>
+						</div>
+					</li>
+					<li class="data-li nameC">
+						<div class="data-div">
+							<span>姓名</span>
+							<i class="iconfont icon-more" style="visibility: hidden;"></i>
+							<span class="spandata namespan"></span>
+						</div>
+					</li>
+					<li class="data-li telC">
+						<div class="data-div">
+							<span>手机</span>
+							<i class="iconfont icon-more" style="visibility: hidden;"></i>
+							<span class="spandata telspan"></span>
+						</div>
+					</li>
+				</ul>
+				<div id="picture" class="mui-popover mui-popover-action mui-popover-bottom">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell">
+							<a href="#" style="color: #fd9603;" class="getImage">拍照</a>
+						</li>
+						<li class="mui-table-view-cell">
+							<a href="#" style="color: #fd9603;" class="getGallery">从手机相册选择</a>
+						</li>
+					</ul>
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell">
+							<a href="#picture"><b>取消</b></a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/api.js"></script>
+		<script src="js/jquery-1.11.2.min.js"></script>
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			var canClick = false;
+			var page = {
+				init: function() {
+					var self = plus.webview.currentWebview();
+					var avatar = self.avatar;
+					var name = self.name;
+					var tel = self.tel;
+					
+
+					function putInfo() {
+						// 修改页面用户信息
+						if(avatar.length <= 0) {
+							$(".avatarImg").css({
+								"backgroundImage": "url(images/avatar.png)"
+							});
+							console.log($(".avatarImg").css("backgroundSize"))
+						} else {
+							$(".avatarImg").css({
+								"backgroundImage": "url(" + avatar + ")"
+							});
+						}
+						$(".namespan").html(name);
+						$(".telspan").html(telExchange(tel));
+					}
+					putInfo();
+					mui('body').on('tap', ".backBtn", function() {
+						mui.back();
+					})
+					mui('body').on('tap', '.avatarC', function() {
+						mui('#picture').popover('toggle');
+					})
+					mui('body').on('tap', '.getImage', function() {
+						getImage();
+					})
+					mui('body').on('tap', '.getGallery', function() {
+						galleryImg();
+					})
+					// 拍照
+					function getImage() {
+						//				outSet('开始拍照：');
+						var cmr = plus.camera.getCamera();
+						cmr.captureImage(function(p) {
+							//					outLine('成功：' + p);
+							plus.io.resolveLocalFileSystemURL(p, function(entry) {
+								//						console.log("start")
+								//						console.log(entry.fullPath)
+								//						$(".mui-content").html("");
+								//						var img = document.createElement("img");
+								//						img.src = entry.fullPath;
+								//						$(".mui-content").append(img);
+								//						upload(entry);
+								//						setTimeout(function(){
+								mui.openWindow({
+									url: 'user-avatar-cut.html',
+									id: 'user-avatar-cut.html',
+									createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+									show: {
+										autoShow: true, //页面loaded事件发生后自动显示，默认为true
+										aniShow: 'pop-in', //页面显示动画，默认为”slide-in-right“；
+									},
+									waiting: {
+										autoShow: false, //自动显示等待框，默认为true
+									},
+									extras: {
+										img: entry.fullPath,
+										type: 1
+									}
+								})
+								//						},300)
+
+							}, function(e) {
+								//						outLine('读取拍照文件错误：' + e.message);
+							});
+						}, function(e) {
+							//					outLine('失败：' + e.message);
+						}, {
+							filename: '_doc/camera/',
+							index: 1
+						});
+					}
+
+					function galleryImg() {
+						// 从相册中选择图片
+						//				outSet('从相册中选择图片：');
+						plus.gallery.pick(function(path) {
+							//					outLine(path);
+							mui.openWindow({
+								url: 'user-avatar-cut.html',
+								id: 'user-avatar-cut.html',
+								createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+								show: {
+									autoShow: true, //页面loaded事件发生后自动显示，默认为true
+									aniShow: 'pop-in', //页面显示动画，默认为”slide-in-right“；
+								},
+								waiting: {
+									autoShow: false, //自动显示等待框，默认为true
+								},
+								extras: {
+									img: path,
+									type: 2
+								}
+							})
+							//showImg( path );
+							//createItem(path);
+						}, function(e) {
+							if(e.code == 8) {
+								alert(e.message)
+							}
+							//					outSet('取消选择图片');
+						}, {
+							filter: 'image'
+						});
+					}
+
+					var onpush = false;
+					//添加自定义事件监听
+					window.addEventListener('avatarBack', function(event) {
+						//获得事件参数
+						avatar = event.detail.avatar;
+						$('.avatarImg').css('backgroundImage', "url(" + avatar + ")");
+					});
+
+				}
+			};
+			mui.plusReady(function() {
+				page.init();
+			})
+
+			function logout() {
+				if(canClick) {
+					// 获取所有Webview窗口
+					var curr = plus.webview.currentWebview();
+					var wvs = plus.webview.all();
+					user.clear();
+					login();
+					//					for(var i = 0, len = wvs.length; i < len; i++) {
+					//						//关闭所有页面
+					//						plus.webview.close(wvs[i]);
+					//					}
+				}
+
+			}
+			// template帮助函数 转换时间格式
+			function telExchange(tel) {
+				var str1 = tel.substring(0, 3);
+				var str2 = tel.substring(3, 7);
+				var str3 = tel.substring(7, 11);
+				return str1 + '-' + str2 + '-' + str3;
+			}
+		</script>
+	</body>
+
+</html>

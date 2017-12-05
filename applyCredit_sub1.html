@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/css.css" />
+		<link rel="stylesheet" type="text/css" href="fonts/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="css/mui.picker.css" />
+		<link rel="stylesheet" type="text/css" href="css/mui.poppicker.css" />
+		<style>
+			.mengban {
+				display: none;
+				position: fixed;
+				height: 100%;
+				width: 100%;
+				background: rgba(00, 00, 00, .3);
+				top: 0;
+				bottom: 0;
+				z-index: 1002;
+			}
+			
+			body,
+			.mui-content,
+			#scroll1-content {
+				background: #f4f4f4;
+			}
+			
+			.mui-content {
+				padding: 10px 0;
+			}
+			
+			.data-item {
+				background: #fff;
+				height: 110px;
+				padding: 0px 15px;
+				width: 95%;
+				margin: 0px 2.5% 12px 2.5%;
+				border-radius: 5px;
+				-webkit-border-radius: 6px;
+				position: relative;
+			}
+			
+			/*.data-item:active {
+				background-color: #eeeeee;
+			}*/
+			
+			.data-item>div {
+				/*height: 50%;*/
+			}
+			
+			.data-name {
+				float: left;
+				position: absolute;
+				left: 0;
+				top: 5px;
+				font-size: 15px;
+				padding-left: 10px;
+				color: #333;
+				line-height: 25px;
+			}
+			
+			.data-name span {
+				/*color: #333;
+				font-size: 12px;*/
+				margin-left: 5px;
+			}
+			
+			.data-tel {
+				position: absolute;
+				right: 35px;
+				top: 50px;
+				width: 110px;
+				line-height: 30px;
+				font-size: 15px;
+				border: none;
+				color: #4a86ee;
+				/*background-color: #FD9603;*/
+				text-align: center;
+				border-radius: 4px;
+				/*font-weight: bold;*/
+				z-index: 1;
+			}
+			
+			.data-item-top {
+				line-height: 34px;
+				position: relative;
+				height: 34px;
+				border-bottom: 1px dotted #cfd1d8;
+			}
+			
+			.data-item-top p{
+				color: #919191;
+			}
+			
+			.data-item-bottom {
+				line-height: 57px;
+				height: 57px;
+				position: relative;
+				top: 7px;
+			}
+			
+			.data-requestno {
+				font-size: 12px;
+				position: absolute;
+				padding-left: 10px;
+				left: 0;
+			}
+			
+			.data-flow {
+				float: left;
+				position: absolute;
+				top: 30px;
+				height: 20px;
+				line-height: 20px;
+				top: 29px;	
+				/*width: 62px;*/
+				font-size: 14px;
+				padding-left: 10px;
+				/*color: #4a86ee;*/
+				/*line-height: 20px;*/
+				/*border: 1px solid #FD9603;*/
+				/*line-height: 27px;*/
+				text-align: center;
+			}
+			
+			.data-car {
+				line-height: 27px;
+				color: #999;
+				font-size: 14px;
+				float: left;
+				padding-left: 2px;
+			}
+			
+			.data-time {
+				position: absolute;
+				right: 0;
+				height: 44px;
+				font-size: 12px;
+				line-height: 20px;
+				overflow: hidden;
+			}
+			
+			.data-time>span {
+				margin-right: 5px;
+				float: left;
+				display: inline-block;
+				margin: 7px 2px;
+				height: 20px;
+			}
+			
+			.icon-car {
+				display: inline-block;
+				float: left;
+				width: 22px;
+				height: 20px;
+				margin-top: 3px;
+				background: url(images/icon.png) no-repeat -62px -3px;
+				background-size: 380px;
+			}
+			
+			.icon-time {
+				display: inline-block;
+				width: 19px;
+				height: 20px;
+				/*margin-top: 12px;*/
+				background: url(images/icon.png) no-repeat -95px -5px;
+				background-size: 400px;
+			}
+			.icon-more {
+				position: absolute;
+				right: 10px;
+				top: 50px;
+				width: 30px;
+				line-height: 30px;
+				height: 30px;
+				font-size: 15px;
+				border: none;
+				color: #333;
+				text-align: center;
+				border-radius: 4px;
+				z-index: 1;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--下拉刷新容器-->
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+
+			<div class="mui-scroll" id="scroll1">
+				<!--数据列表-->
+				<ul class="mui-table-view mui-table-view-chevron" id="scroll1-content" style="-webkit-user-select: text;">
+				
+				</ul>
+			</div>
+
+		</div>
+		<div class="mengban">
+		</div>
+		<script id="tpl-1" type="text/html">
+			{{each rows as item i}}
+			<div class="data-item" data-id={{item.id}} hasCompleted={{item.has_completed}}>
+				<!--<div class="data-tip" data-id={{item.work_id}}>{{item.has_completed == '1' ? '已征信' : '待征信'}}</div>-->
+				<span class="data-tel" data-tel={{item.customer_telephone}}>{{telExchange item.customer_telephone}}</span>
+				<i class="iconfont icon-more"></i>
+				<div class="data-item-top">
+					<p class="data-requestno"><span>申请编号：</span><span>{{item.request_no}}</span></p>
+					<p class="data-time"><!--<span class="icon-time"></span>--><span>{{timeExchange item.create_time}}</span></p>
+				</div>
+				<div class="data-item-bottom">
+					<p class="data-name">{{item.customer_name}}<span>{{item.customer_sex == '男'?'先生':'女士'}}</span></p>
+					<span class="data-flow" >当前流程：{{flowExchange item.flow}}</span>
+				</div>
+			</div>
+			
+			{{/each}}
+		</script>
+		<div id='screeningResult' class="ui-alert"></div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/api.js"></script>
+		<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+		<script src="js/template.js"></script>
+		<script src="js/template.function.js"></script>
+		<script src="js/mui.picker.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.poppicker.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			var data1 = 0;
+			var data2 = "待家访";
+			var dataIndex1 = 1;
+			var dataIndex2 = 1;
+			var carclass = 0;
+			var seltype = 0;
+			var selsize = 10;
+			var select = 0;
+			var keyword = "";
+
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+			mui.plusReady(function() {
+//				mui('body').on('tap', '.data-tip', function(e) {
+//					e.stopPropagation()
+//				})
+				mui('body').on('tap', '.data-item', function() {
+					var workid = $(this).attr('data-id');
+					mui.openWindow({
+						url: 'applyCredit-detail.html',
+						id: 'applyCredit-detail.html',
+						createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+						show: {
+							autoShow: true, //页面loaded事件发生后自动显示，默认为true
+							aniShow: 'pop-in', //页面显示动画，默认为”slide-in-right“；
+						},
+						waiting: {
+							autoShow: false, //自动显示等待框，默认为true
+						},
+						extras: {
+							workid: workid,
+							hasCompleted: $(this).attr('hasCompleted')
+						},
+					})
+				})
+				// 点击号码拨打
+				mui('body').on('tap', '.data-tel', function(e) {
+					e.stopPropagation();
+					var teldata = $(this).attr('data-tel');
+					if(verCompare('10.3.3', plus.os.version)){
+						plus.device.dial(teldata,false);
+					} else {
+						mui.confirm('呼叫', telExchange(teldata), ['取消', '呼叫'], function(e) {
+						if (e.index == 1) {
+								plus.device.dial(teldata,false);
+							} else {
+							}
+						})
+					}
+				})
+				function copyToClip(copyContent){
+					if(plus.os.name == 'Android') {
+  				  		var Context = plus.android.importClass("android.content.Context");
+    					var main = plus.android.runtimeMainActivity();
+    					var clip = main.getSystemService(Context.CLIPBOARD_SERVICE);
+    					// plus.android.invoke(clip,"setText","I'm copy from Native.js");
+    					plus.android.invoke(clip,"setText",copyContent);
+    				} else {
+    					var UIPasteboard  = plus.ios.importClass("UIPasteboard");
+						var generalPasteboard = UIPasteboard.generalPasteboard();
+						// 设置/获取文本内容:
+						generalPasteboard.setValueforPasteboardType(copyContent, "public.utf8-plain-text");
+						var value = generalPasteboard.valueForPasteboardType("public.utf8-plain-text"); 
+    				}
+				}
+
+				//添加自定义事件监听
+				window.addEventListener('applyMengbanChange', function(event) {
+					//获得事件参数
+					mengbanNum = event.detail.mengban;
+					if(event.detail.keyword) {
+						keyword = event.detail.keyword;
+						//console.log("ukeKeyword:"+keyword)
+					} else {
+						keyword = "";
+					}
+					console.log("mengban" + mengbanNum)
+					if(mengbanNum == 0) {
+						$('.mengban').css('display', 'none')
+					} else if(mengbanNum == 1) {
+						$('.mengban').fadeIn()
+					}
+					if(keyword.length > 0) {
+						putApplyLi(data1, 1, selsize, keyword)
+					}
+				});
+
+				//添加自定义事件监听
+				window.addEventListener('refreshPage', function(event) {
+					//获得事件参数
+					// mui('#pullrefresh').pullRefresh().pullupLoading();
+					putApplyLi(data1, 1, selsize, keyword)
+				});
+
+			})
+
+			//			screeningSelect();
+
+			
+
+			window.addEventListener('pushApplyData', function(event) {
+				//获得事件参数
+				keyword = "";
+				count = 1;
+				data1 = event.detail.data1;
+				$('#scroll1-content').html('');
+				console.log('data:'+data1)
+				putApplyLi(data1, 1, selsize, keyword)
+			});
+
+			//scroll-1显示
+			var index = 0
+			var count = 1;
+			var empty_flag = 0;
+			/** 
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				setTimeout(function() {
+					empty_flag = 0;
+					count = 1;
+					keyword = "";
+					putApplyLi(data1, count, selsize, keyword)
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+					mui('#pullrefresh').pullRefresh().refresh(true);
+				}, 200);
+			}
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			function pullupRefresh() {
+				empty_flag = 0;
+				setTimeout(function() {
+					count++;
+					putApplyLi(data1, count, selsize, keyword)
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh(empty_flag);
+				}, 200);
+			}
+
+			document.addEventListener('changeTab', function(e) {
+				//index = e.detail.index;
+				//var index2 = 1-parseInt(index)
+			})
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					setTimeout(function() {
+						mui('#pullrefresh').pullRefresh().pulldownLoading();
+					}, 200);
+
+				});
+			} else {
+				mui.ready(function() {
+					mui('#pullrefresh').pullRefresh().pulldownLoading();
+				});
+			}
+
+			// 写入申请件列表
+			function putApplyLi(Fdata1, page, size, keyword1) {
+				if(!keyword1) {
+					keyword = '';
+				} else {
+					keyword = keyword1;
+				}
+				if(keyword.length > 0 && page > 1){
+					return;
+				}
+				data1 = Fdata1;
+				//					console.log(seldate)
+//				select = 0;
+				//					Fdata1 = _getParam(items[0], 'text');
+				//					Fdata2 = _getParam(items[1], 'text');
+//				var applyHeaderPage = plus.webview.getWebviewById('applyCredit.html');
+//				mui.fire(applyHeaderPage, 'backApplyData', {
+//					data1: Fdata1,
+//				});
+				//返回 false 可以阻止选择框的关闭
+				//return false;
+				console.log('keyword:' + keyword)
+
+				var listData = {
+					token: user.utoken(),
+					type: 0,//data1,
+					size: size,
+					page: page,
+					keyword: keyword
+				}
+				
+				//					console.log(listData.carclass+"++"+listData.type+"++"+listData.date+"++"+listData.size+"++"+listData.page)
+				if(store.get('roletype') != 2){
+					return;
+				}
+				listInfo.getApplyCredit(listData, function(res) {
+//					if(res.error_no == 401 || res.error_no == 402) {
+//						login();
+//						return;
+//					}
+					if(res.error_no != 200) {
+						mui.toast(res.error_msg)
+						return false;
+					}
+//					console.log(JSON.stringify(res))
+					//					console.log('getApply');
+					var result1 = res.result.rows;
+					//					if(res.result.rows.length == 0) {
+					//						mui.toast('没有更多数据');
+					//						return;
+					//					}
+					var html = template('tpl-1', res.result);
+					var ul = document.getElementById('scroll1-content')
+					if(page != 1) {
+						ul.innerHTML = ul.innerHTML + html;
+					} else if(page == 1){
+						ul.innerHTML = html;
+						if(result1.length == 0){
+							ul.innerHTML = "<li class='data-item-error" + (parseInt(data1) + 3) + "'></li>";
+							$(ul).scrollTop('0px');
+						}
+					}
+					
+					
+				})
+			}
+			// template帮助函数 转换时间格式
+			template.helper('timeExchange',function(time){
+				var time1 = new Date();
+				var time2 = new Date(time * 1000);
+//				if(time2.getFullYear() == time1.getFullYear() && time2.getMonth() == time1.getMonth() && time2.getDate() == time1.getDate()){
+//					return time2.getHours() + ":" + time2.getMinutes();
+//				} else {
+//					return numZero(time2.getFullYear()) + "-" + numZero(time2.getMonth()) + '-' + numZero(time2.getDate()) + ' ' + numZero(time2.getHours()) + ':'+ numZero(time2.getMinutes()) + ':' + numZero(time2.getSeconds());
+//				}
+				return numZero(time2.getFullYear()) + "-" + numZero(time2.getMonth() + 1) + '-' + numZero(time2.getDate()) + ' ' + numZero(time2.getHours()) + ':'+ numZero(time2.getMinutes()) + ':' + numZero(time2.getSeconds());
+				function numZero(num){
+					return (num >= 10 ? num : '0' + num);
+				}
+			})
+			// template帮助函数 转换手机号格式
+			template.helper('telExchange', function(tel) {
+				var str1 = tel.substring(0, 3);
+				var str2 = tel.substring(3, 7);
+				var str3 = tel.substring(7, 11);
+				return str1 + '-' + str2 + '-' + str3;
+			})
+		</script>
+	</body>
+
+</html>

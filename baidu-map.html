@@ -1,0 +1,280 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<!--<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />-->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta name="format-detection" content="telephone=no, email=no" />
+		<title>聚车金融</title>
+		<link href="css/mui.min.css" rel="stylesheet" type="text/css" />
+		<link href="css/css.css" rel="stylesheet" type="text/css" />
+		<link rel="stylesheet" type="text/css" href="fonts/iconfont.css" />
+		<!--引用百度地图API-->
+		<style type="text/css">
+			body {
+				background: #fff;
+			}
+			
+			.icon {
+				position: absolute;
+				width: 30px;
+				height: 30px;
+				left: 0;
+				top: 7px;
+			}
+			
+			.header1 .icon-back {
+				display: inline-block;
+				width: 50px;
+				height: 45px;
+				line-height: 45px;
+				position: absolute;
+				left: 0;
+				color: #ffffff;
+				z-index: 10;
+				font-size: 20px;
+				float: left;
+			}
+			
+			.mui-content {
+				height: 100%;
+				background: #fff;
+				/*position: relative;*/
+			}
+			
+			html,
+			body {
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				padding: 0;
+			}
+			
+			.iw_poi_title {
+				color: #CC5522;
+				font-size: 14px;
+				font-weight: bold;
+				overflow: hidden;
+				padding-right: 13px;
+				white-space: nowrap
+			}
+			
+			.iw_poi_content {
+				font: 12px arial, sans-serif;
+				overflow: visible;
+				padding-top: 4px;
+				white-space: -moz-pre-wrap;
+				word-wrap: break-word;
+			}
+			
+		</style>
+		<script type="text/javascript" src="http://api.map.baidu.com/api?key=&v=2.0&ak=Y9htNkiQb0YGH2EUW20mPgznXV2UC3Go&services=true"></script>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav header1">
+			<span class="iconfont icon-back backBtn"></span>
+			<h1 class="mui-title name" id="title">下属位置</h1>
+		</header>
+		<div class="mui-content">
+			<!--百度地图容器-->
+			<div style="width:100%;height:100%;border:#ccc solid 1px;" id="dituContent"></div>
+		</div>
+	</body>
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript" src="js/api.js"></script>
+	<script src="js/jquery-1.11.2.min.js"></script>
+	<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		var isknow = true;
+		//创建和初始化地图函数：
+		function initMap(lat, lgn, lat1, lgn1) {
+			createMap(lat, lgn, lat1, lgn1); //创建地图
+			setMapEvent(); //设置地图事件
+			addMapControl(); //向地图添加控件
+		}
+
+		//创建地图函数：
+		function createMap(lat, lgn, lat1, lgn1) {
+			var map = new BMap.Map("dituContent"); //在百度地图容器中创建一个地图
+			if(lat == '' || lat == null || !lat || lgn == '' || lgn == null || !lgn) {
+				lat = lat1;
+				lgn = lgn1;
+				isknow = false;
+			}
+			var point = new BMap.Point(lat, lgn); //定义一个中心点坐标
+			var mypoint = new BMap.Point(lat1, lgn1); //定义一个中心点坐标
+
+			var convertor = new BMap.Convertor();
+			var pointArr = [];
+			if(isknow){
+				pointArr.push(point);
+			}
+			pointArr.push(mypoint);
+			convertor.translate(pointArr, 1, 5, translateCallback)
+
+			//			var marker1 = new BMap.Marker(point1); // 创建标注
+			//			map.addOverlay(marker1); // 将标注添加到地图中
+			//			var label1 = new BMap.Label("我的位置", {
+			//				offset: new BMap.Size(20, -10)
+			//			});
+			//			label1.setStyle({
+			//				backgroundColor: "#ffffff",
+			//				border: "0",
+			//				borderRadius: "5px",
+			//				fontWeight: "bold",
+			//				fontSize: "16px",
+			//			})
+			//			marker1.setLabel(label1);
+			window.map = map; //将map变量存储在全局
+		}
+
+		//地图事件设置函数：
+		function setMapEvent() {
+			map.enableDragging(); //启用地图拖拽事件，默认启用(可不写)
+			//			map.enableScrollWheelZoom(); //启用地图滚轮放大缩小
+			map.enableDoubleClickZoom(); //启用鼠标双击放大，默认启用(可不写)
+			//			map.enableKeyboard(); //启用键盘上下左右键移动地图
+		}
+		translateCallback = function(data) {
+			if(data.status === 0) {
+				if(isknow) {
+					map.centerAndZoom(data.points[0], 14); //设定地图的中心点和坐标并将地图显示在地图容器中
+					var marker = new BMap.Marker(data.points[0]);
+					var marker1 = new BMap.Marker(data.points[1]);
+					map.addOverlay(marker);
+					map.addOverlay(marker1);
+					var label = new BMap.Label("下属位置", {
+						offset: new BMap.Size(20, -10)
+					});
+					var label1 = new BMap.Label("我的位置", {
+						offset: new BMap.Size(20, -10)
+					});
+					label.setStyle({
+						backgroundColor: "#ffffff",
+						border: "0",
+						borderRadius: "5px",
+						fontWeight: "bold",
+						fontSize: "16px",
+					})
+					label1.setStyle({
+						backgroundColor: "#ffffff",
+						border: "0",
+						borderRadius: "5px",
+						fontWeight: "bold",
+						fontSize: "16px",
+					})
+					marker.setLabel(label); //添加百度label
+					addMarker(data.points[0]);
+					marker1.setLabel(label1); //添加百度label
+					addMarker(data.points[1]);
+				} else {
+					map.centerAndZoom(data.points[0], 14); //设定地图的中心点和坐标并将地图显示在地图容器中
+					var marker = new BMap.Marker(data.points[0]);
+					map.addOverlay(marker);
+					var label = new BMap.Label("我的位置", {
+						offset: new BMap.Size(20, -10)
+					});
+					label.setStyle({
+						backgroundColor: "#ffffff",
+						border: "0",
+						borderRadius: "5px",
+						fontWeight: "bold",
+						fontSize: "16px",
+					})
+					marker.setLabel(label); //添加百度label
+					addMarker(data.points[0]);
+					mui.toast('没有下属位置信息')
+				}
+
+			}
+		}
+
+		function addMarker(point) {
+			var marker1 = new BMap.Marker(point);
+			map.addOverlay(marker1);
+		}
+		//		translateCallback1 = function(data) {
+		//			if(data.status === 0) {
+		//				var marker = new BMap.Marker(data.points[0]);
+		//				map.addOverlay(marker1);
+		//				var label1 = new BMap.Label("我的位置", {
+		//					offset: new BMap.Size(20, -10)
+		//				});
+		//				label1.setStyle({
+		//					backgroundColor: "#ffffff",
+		//					border: "0",
+		//					borderRadius: "5px",
+		//					fontWeight: "bold",
+		//					fontSize: "16px",
+		//				})
+		//				marker1.setLabel(label1); //添加百度label
+		//				map.setCenter(data.points[0]);
+		//			}
+		//		}
+
+		//地图控件添加函数：
+		function addMapControl() {
+			//向地图中添加缩放控件
+			//			var ctrl_nav = new BMap.NavigationControl({
+			//				anchor: BMAP_ANCHOR_TOP_LEFT,
+			//				type: BMAP_NAVIGATION_CONTROL_LARGE
+			//			});
+			//			map.addControl(ctrl_nav);
+			//向地图中添加缩略图控件
+			//			var ctrl_ove = new BMap.OverviewMapControl({
+			//				anchor: BMAP_ANCHOR_BOTTOM_RIGHT,
+			//				isOpen: 1
+			//			});
+			//			map.addControl(ctrl_ove);
+			//向地图中添加比例尺控件
+			//			var ctrl_sca = new BMap.ScaleControl({
+			//				anchor: BMAP_ANCHOR_BOTTOM_LEFT
+			//			});
+			//			map.addControl(ctrl_sca);
+		}
+
+		mui.plusReady(function() {
+			mui('body').on('tap',".backBtn",function() {
+				mui.back();
+			})
+			var self = plus.webview.currentWebview()
+			var Sid = self.Sid;
+			var listData = {
+				token: user.utoken(),
+				user_id: Sid
+			}
+			console.log(Sid)
+			console.log(listData.token)
+			listInfo.getsubordinatesInfo(listData, function(res) {
+				if(res.error_no != 200) {
+					mui.toast(res.error_msg + res.error_no)
+					return false;
+				}
+				isknow = true;
+				var slat = res.result.visit_lat; // res.result.lat
+				var slgn = res.result.visit_lng; // res.result.longt
+				console.log(slat + ',' + slgn)
+				getGPS(function(position) {
+					var codns = position.coords; //获取地理坐标信息；
+					var mylat = codns.latitude; //获取到当前位置的纬度；
+					var mylgn = codns.longitude; //获取到当前位置的经度
+					initMap(slgn, slat, mylgn, mylat); //创建和初始化地图
+				})
+			})
+
+		})
+
+		function getGPS(geoInf) {
+			plus.geolocation.getCurrentPosition(geoInf, function(e) {
+				console.log(e);
+			}, {
+				geocode: false
+			});
+		}
+	</script>
+
+</html>

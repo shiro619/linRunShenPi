@@ -1,0 +1,168 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/css.css" />
+		<link rel="stylesheet" type="text/css" href="fonts/iconfont.css" />
+		<style>
+			html,
+			body {
+				height: 100%;
+				background-color: #ffffff
+			}
+			
+			.header1 {
+				overflow: hidden;
+				position: fixed;
+				top: 0;
+			}
+			
+			.header1 .icon-back {
+				display: inline-block;
+				width: 50px;
+				height: 45px;
+				line-height: 45px;
+				position: absolute;
+				left: 0;
+				color: #ffffff;
+				z-index: 10;
+				font-size: 20px;
+				float: left;
+			}
+			
+			.mui-content {
+				padding-top: 64px !important;
+				background-color: #ffffff
+			}
+			
+			.wrap-ul {
+				width: 100%;
+				/*margin-top: 15px;*/
+				background: #ffffff;
+			}
+			
+			.data-li {
+				width: 100%;
+				/*height: 45px;
+				line-height: 45px;*/
+				padding: 0 5%;
+				position: relative;
+			}
+			
+			.data-div {
+				width: 100%;
+				overflow: hidden;
+				/*height: 100%;*/
+				border-bottom: 1px dashed #eeeeee;
+				position: relative;
+			}
+			
+			.data-li:active {
+				background: #eeeeee;
+			}
+			
+			.data-ul .data-li:last-of-type .data-div {
+				border: none;
+			}
+			
+			.data-div>span {
+				display: inline-block;
+				line-height: 21px;
+				margin: 12px 0;
+				float: left;
+				font-size: 14px;
+			}
+			
+			.data-div>span:nth-of-type(1) {
+				width: 73%;
+				padding-left: 2%;
+			}
+			
+			.data-div>span:nth-of-type(2) {
+				width: 25%;
+				color: #919191;
+				/*margin-right: 10px;*/
+				float: right;
+				text-align: right;
+			}
+			
+			.span-old {
+				color: #919191;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav header1">
+			<span class="iconfont icon-back backBtn"></span>
+			<h1 class="mui-title name" id="title">消息列表</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="wrap-ul" id="messageul">
+				
+			</ul>
+		</div>
+		<script id="tpl-1" type="text/html">
+			{{each result as item i}}
+			<li class="data-li">
+				<div class="data-div">
+					<span class={{item.has_read=='1' ? 'span-old': ''}}>{{typeRead item.type}}</span>
+					<span class="spandata">{{timeExchange item.create_time}}</span>
+				</div>
+			</li>
+			{{/each}}
+		</script>
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/api.js"></script>
+		<script src="js/jquery-1.11.2.min.js"></script>
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/template.js"></script>
+		<script src="js/template.function.js"></script>
+		<script>
+			mui.plusReady(function() {
+				mui('body').on('tap', '.backBtn', function() {
+					mui.back();
+				})
+
+				var data = {
+					token: user.utoken(),
+				}
+				listInfo.getmessage(data, function(res) {
+					if(res.error_no == 200) {
+						var html = template('tpl-1', res);
+						var ul = document.getElementById('messageul');
+						ul.innerHTML = html;
+					} else {
+						mui.toast(res.error_msg)
+					}
+				})
+			})
+			// template帮助函数 转换时间格式
+			template.helper('timeExchange',function(time){
+				var time1 = new Date();
+				var time2 = new Date(time * 1000);
+				if(time2.getFullYear() == time1.getFullYear() && time2.getMonth() == time1.getMonth() && time2.getDate() == time1.getDate()){
+					return numZero(time2.getHours()) + ":" + numZero(time2.getMinutes());
+				} else {
+					return numZero(time2.getFullYear()) + "." + numZero(time2.getMonth() + 1) + '.' + numZero(time2.getDate());
+				}
+				function numZero(num) {
+					return(num >= 10 ? num : '0' + num);
+				}
+			})
+			template.helper('typeRead',function(type){
+				if(type == 1){
+					return '你有新的家访任务';
+				} else if (type == 2){
+					return '你有新的补件任务';
+				}
+			})
+		</script>
+	</body>
+
+</html>

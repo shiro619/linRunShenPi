@@ -1,0 +1,533 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/css.css" />
+		<link rel="stylesheet" type="text/css" href="fonts/iconfont.css" />
+		<style>
+			.header1 {
+				overflow: hidden;
+			}
+			
+			.header1 .icon-back {
+				display: inline-block;
+				width: 50px;
+				height: 45px;
+				line-height: 45px;
+				position: absolute;
+				left: 0;
+				color: #ffffff;
+				z-index: 10;
+				font-size: 20px;
+				float: left;
+			}
+			
+			.mui-content {
+				padding-top: 64px !important;
+			}
+			
+			.user-wrap {
+				width: 100%;
+				margin: 0;
+			}
+			
+			.data-ul {
+				width: 100%;
+				margin-top: 15px;
+				background: #ffffff;
+				color: #272D37;
+			}
+			
+			.data-li {
+				width: 100%;
+				height: 45px;
+				line-height: 45px;
+				padding: 0 5%;
+				position: relative;
+			}
+			
+			.data-div {
+				width: 100%;
+				height: 100%;
+				border-bottom: 1px dotted #eeeeee;
+				position: relative;
+				font-size: 15px;
+			}
+			
+			.data-li:active {
+				background: #eeeeee;
+			}
+			
+			.roleC:active {
+				background: #ffffff;
+			}
+			
+			.addC:active {
+				background: #ffffff;
+			}
+			
+			.avatarC {
+				height: 135px;
+				/*line-height: 135px;*/
+			}
+			/*.avatarC span {
+				line-height: 135px;
+			}*/
+			
+			.avatarC .namespan {
+				position: absolute;
+				left: 34%;
+				top: 50px;
+				line-height: normal;
+				color: #272D37 !important;
+			}
+			
+			.avatarC .telspan {
+				position: absolute;
+				left: 34%;
+				top: 75px;
+				line-height: normal;
+			}
+			
+			.data-ul .data-li:last-of-type .data-div {
+				border: none;
+			}
+			/*.data-div>span {
+				display: inline-block;
+				height: 100%;
+				float: left;
+				font-size: 14px;
+			}*/
+			
+			.data-div>span:nth-of-type(1) {
+				width: 28%;
+				padding-left: 2%;
+			}
+			
+			.data-div>span:nth-of-type(2) {
+				color: #919191;
+				margin-right: 10px;
+				float: right;
+				text-align: center;
+			}
+			
+			.avatarC .avatarImg {
+				margin: 22px 0;
+				display: inline-block;
+				width: 90px !important;
+				height: 90px;
+				background-size: 100% 100%;
+				background-image: url(images/avatar.png);
+				border: 1px solid #000000;
+				border-radius: 45px;
+				position: absolute;
+				left: 0;
+			}
+			
+			.icon-more {
+				float: right;
+				line-height: 45px;
+			}
+			
+			.avatarC .icon-more {
+				line-height: 135px;
+			}
+			
+			.pwBtn {
+				margin: 0 7%;
+				width: 86%;
+				margin-top: 80px;
+				height: 45px;
+				font-size: 19px;
+				color: #ffffff;
+				border: 1px solid #fd9603;
+				background: #fd9603;
+				line-height: 33px;
+			}
+			
+			.logoutBtn {
+				margin: 0 7%;
+				width: 86%;
+				margin-top: 20px;
+				height: 45px;
+				font-size: 19px;
+				color: #fd9603;
+				border: 1px solid #fd9603;
+				background: none;
+				line-height: 33px;
+			}
+			
+			.mui-table-view-cell>a {
+				height: 50px;
+				line-height: 28px;
+			}
+			
+			.mui-table-view-cell {
+				font-size: 18px;
+			}
+			
+			.cellContent {
+				font-size: 15px;
+			}
+			
+			.option-div {
+				width: 100%;
+				height: 45px;
+				line-height: 45px;
+				border-bottom: 1px dashed #eeeeee;
+				overflow: hidden;
+			}
+			
+			.option-li-name {
+				font-size: 15px;
+				margin-left: 5px;
+			}
+			
+			.mui-switch {
+				display: inline-block;
+				float: right;
+				line-height: 45px;
+			}
+			
+			.switchDiv {
+				display: inline-block;
+				float: right;
+				width: 60px;
+				height: 100%;
+				padding-top: 7px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav header1">
+			<!--<span class="iconfont icon-back backBtn"></span>-->
+			<h1 class="mui-title name" id="title">我的</h1>
+		</header>
+		<div class="mui-content">
+			<div class="user-wrap">
+				<ul class="data-ul">
+					<li class="data-li avatarC">
+						<div class="data-div">
+							<i class="iconfont icon-more"></i>
+							<span class="avatarImg"></span>
+							<span class="spandata namespan"></span>
+							<span class="spandata telspan"></span>
+						</div>
+					</li>
+				</ul>
+				<ul class="data-ul">
+					<li class="data-li roleC">
+						<div class="data-div">
+							<span>角色</span>
+							<i class="iconfont icon-more" style="visibility: hidden;"></i>
+							<span class="spandata rolespan"></span>
+						</div>
+					</li>
+					<li class="data-li addC">
+						<div class="data-div">
+							<span>地址</span>
+							<!--<i class="iconfont icon-more"></i>-->
+							<span class="spandata addspan"></span>
+						</div>
+					</li>
+					<!--<li class="data-li gpsC">
+						<div class="data-div option-div">
+
+							<span><span class="icon GPS-icon"></span>GPS位置</span>
+
+							<div class="switchDiv">
+								<div class="mui-switch mui-switch-mini mui-active GPSBtn ">
+									<div class="mui-switch-handle"></div>
+								</div>
+							</div>
+						</div>
+					</li>-->
+				</ul>
+				<ul class="data-ul">
+					<li class="data-li subordinatesC" style="display: none;">
+						<div class="data-div">
+							<span>我的下属</span>
+							<i class="iconfont icon-more"></i>
+						</div>
+					</li>
+					<li class="data-li historyC">
+						<div class="data-div">
+							<span>家访记录</span>
+							<i class="iconfont icon-more"></i>
+						</div>
+					</li>
+				</ul>
+				<ul class="data-ul">
+					<li class="data-li optC">
+						<div class="data-div">
+							<span>设置</span>
+							<i class="iconfont icon-more"></i>
+						</div>
+					</li>
+				</ul>
+				<!--<div class="mui-btn pwBtn" id="resetPWBtn">修改密码</div>-->
+				<!--<div class="mui-btn logoutBtn" id="logoutBtn">退出当前账户</div>-->
+
+			</div>
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/api.js"></script>
+		<script src="js/jquery-1.11.2.min.js"></script>
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/api.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			var page = {
+				init: function() {
+					// 防止back
+					mui.back = function(){}
+					if(store.get('roletype') == 1){
+						$(".subordinatesC").css('display','block')
+					}
+					(function() {
+						var opt = user.uoption();
+						if(opt.GPS == 'true' || opt.GPS == true) {
+							//							$(".GPSBtn").css('transition-duration','0s');
+							//							$(".mui-switch-handle").css('transition-duration','0s');
+							$(".GPSBtn").addClass('mui-active')
+							//							$(".GPSBtn").removeAttr("style");
+							//							$(".mui-switch-handle").removeAttr("style");
+						} else {
+							//							$(".GPSBtn").css('transition-duration','0s');
+							//							$(".mui-switch-handle").css('transition-duration','0s');
+							$(".GPSBtn").removeClass('mui-active')
+							//							$(".GPSBtn").removeAttr("style");
+							//							$(".mui-switch-handle").removeAttr("style");
+						}
+					})()
+					mui('.GPSBtn').each(function() {
+						//					console.log('状态：' + (this.classList.contains('mui-active') ? 'true' : 'false'));
+						var indexPage = plus.webview.getLaunchWebview();
+						var indexPage1 = plus.webview.getWebviewById("index.html");
+						this.addEventListener('toggle', function(event) {
+							var Gps = event.detail.isActive;
+							//						console.log(event.detail.isActive)
+							mui.fire(indexPage, 'GPSData', {
+								GPS: Gps
+							});
+							mui.fire(indexPage1, 'GPSData', {
+								GPS: Gps
+							});
+							//						console.log("GPS"+Gps)
+						});
+					});
+					//					console.log(user.utoken());
+					var data = {
+						token: user.utoken()
+					}
+					var name = '';
+					var avatar = '';
+					var role = '';
+					var tel = '';
+					var province = '';
+					var city = '';
+					var town = '';
+					var add = '';
+					mui('body').on('tap', '.optC', function() {
+						mui.openWindow({
+							url: 'optionCredit.html',
+							id: 'optionCredit.html',
+							createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+							show: {
+								autoShow: true, //页面loaded事件发生后自动显示，默认为true
+								aniShow: 'pop-in', //页面显示动画，默认为”slide-in-right“；
+							},
+							waiting: {
+								autoShow: false, //自动显示等待框，默认为true
+							},
+						})
+					})
+					user.getUserInfo(data, function(res) {
+						if(res.error_no != 200) {
+							mui.toast(res.error_msg)
+							return false;
+						}
+						// 获取用户信息
+						name = res.result.name;
+						avatar = res.result.head_portrait;
+						role = res.result.rolename;
+						tel = res.result.account;
+						province = res.result.province;
+						city = res.result.city;
+						town = res.result.town;
+
+						mui('body').on('tap', '.avatarC', function() {
+							mui.openWindow({
+								url: 'userCredit-info.html',
+								id: 'userCredit-info.html',
+								createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+								show: {
+									autoShow: true, //页面loaded事件发生后自动显示，默认为true
+									aniShow: 'pop-in', //页面显示动画，默认为”slide-in-right“；
+								},
+								waiting: {
+									autoShow: false, //自动显示等待框，默认为true
+								},
+								extras: {
+									avatar: avatar,
+									name: name,
+									tel: tel
+								},
+							})
+						})
+						
+
+						//添加自定义事件监听
+						window.addEventListener('avatarBack', function(event) {
+							//获得事件参数
+							avatarSrc = event.detail.avatar;
+							$('.avatarImg').attr('src', avatarSrc);
+						});
+
+						function putInfo() {
+							// 修改页面用户信息
+							if(avatar.length <= 0) {
+								$(".avatarImg").css({
+									"backgroundImage": "url(images/avatar.png)"
+								});
+								console.log($(".avatarImg").css("backgroundSize"))
+							} else {
+								$(".avatarImg").css({
+									"backgroundImage": "url(" + avatar + ")"
+								});
+							}
+							$(".namespan").html(name);
+							$(".rolespan").html(role);
+							$(".telspan").html(telExchange(tel));
+							if(province.length <= 0) {
+								$(".addspan").html("无")
+							} else {
+								$(".addspan").html(province + city + town)
+							}
+						}
+						putInfo();
+						// 点击事件
+						mui('body').on('tap', '.addC', function() {
+							return;
+							if(onpush) {
+								console.log(onpush)
+								return false;
+							}
+							//var useralter = plus.webview.create( "user-alter.html", "user-alter.html", {} );  
+							var spanData = $(this).find(".spandata").html();
+							//console.log(JSON.stringify(useralter ))
+							var user_alter = plus.webview.getWebviewById('user-alter.html')
+							//						mui.fire(user_alter, 'pushData', {
+							//							type: "add",
+							//							data: spanData
+							//						});
+							onpush = true;
+							setTimeout(function() {
+								onpush = false;
+								//useralter.show()
+								mui.openWindow({
+									url: 'userCredit-province.html',
+									id: 'userCredit-province.html',
+									createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+									show: {
+										autoShow: true, //页面loaded事件发生后自动显示，默认为true
+										aniShow: 'pop-in', //页面显示动画，默认为”slide-in-right“；
+									},
+									waiting: {
+										autoShow: false, //自动显示等待框，默认为true
+									},
+									extras: {
+										selectType: 2
+									},
+								})
+							}, 300)
+
+							/*mui.openWindow({
+								url: 'user-alter.html',
+								id: 'user-alter.html',
+								createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+								show: {
+									autoShow: true, //页面loaded事件发生后自动显示，默认为true
+									aniShow: 'pop-in', //页面显示动画，默认为”slide-in-right“；
+								},
+								waiting: {
+									autoShow: false, //自动显示等待框，默认为true
+								}
+							})*/
+						})
+						mui('body').on('tap', '.subordinatesC', function(e) {
+							console.log(user.utoken())
+							mui.openWindow({
+								url: 'subordinates.html',
+								id: 'subordinates.html',
+								createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+								show: {
+									autoShow: true, //页面loaded事件发生后自动显示，默认为true
+									aniShow: 'pop-in', //页面显示动画，默认为”slide-in-right“；
+									//							duration: 0,
+								},
+								waiting: {
+									autoShow: false, //自动显示等待框，默认为true
+								}
+							})
+						})
+						mui('body').on('tap', '.historyC', function() {
+							mui.openWindow({
+								url: 'mission-history.html',
+								id: 'mission-history.html',
+								createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+								show: {
+									autoShow: true, //页面loaded事件发生后自动显示，默认为true
+									aniShow: 'pop-in', //页面显示动画，默认为”slide-in-right“；
+								},
+								waiting: {
+									autoShow: false, //自动显示等待框，默认为true
+								}
+							})
+						})
+						//添加newId自定义事件监听
+						window.addEventListener('selectAdd', function(event) {
+							//获得事件参数
+							province = event.detail.province;
+							city = event.detail.city;
+							town = event.detail.town;
+							//根据id向服务器请求新闻详情
+							putInfo();
+						});
+
+					})
+					mui('body').on('tap', ".backBtn", function() {
+						mui.back();
+					})
+
+					//	var useralterPage = plus.webview.getWebviewById('user-alter.html');
+					var onpush = false;
+					//添加自定义事件监听
+					window.addEventListener('avatarBack', function(event) {
+						//获得事件参数
+						avatar = event.detail.avatar;
+						$('.avatarImg').css('backgroundImage', "url(" + avatar + ")");
+					});
+
+				}
+			};
+			mui.plusReady(function() {
+				page.init();
+			})
+
+			// template帮助函数 转换时间格式
+			function telExchange(tel) {
+				var str1 = tel.substring(0, 3);
+				var str2 = tel.substring(3, 7);
+				var str3 = tel.substring(7, 11);
+				return str1 + '-' + str2 + '-' + str3;
+			}
+		</script>
+	</body>
+
+</html>

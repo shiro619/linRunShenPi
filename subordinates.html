@@ -1,0 +1,225 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/css.css" />
+		<link rel="stylesheet" type="text/css" href="fonts/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="css/mui.picker.css" />
+		<link rel="stylesheet" type="text/css" href="css/mui.poppicker.css" />
+		<style>
+			html,
+			body {
+				/*height: 100%;*/
+			}
+			
+			.header1 {
+				overflow: hidden;
+				position: fixed;
+				top: 0;
+			}
+			
+			.header1 .icon-back {
+				display: inline-block;
+				width: 50px;
+				height: 45px;
+				line-height: 45px;
+				position: absolute;
+				left: 0;
+				color: #ffffff;
+				z-index: 10;
+				font-size: 20px;
+				float: left;
+			}
+			
+			.mui-content {
+				padding-top: 59px !important;
+				/*background-color: #ffffff*/
+			}
+			
+			.wrap-ul {
+				width: 100%;
+				margin-top: 15px;
+				/*background: #ffffff;*/
+			}
+			
+			.data-li {
+				width: 100%;
+				/*height: 45px;
+				line-height: 45px;*/
+				padding: 0 5%;
+				position: relative;
+			}
+			
+			.data-item {
+				background: #fff;
+				height: 90px;
+				padding: 18px 15px;
+				width: 95%;
+				margin: 0px 2.5% 8px 2.5%;
+				border-radius: 6px;
+				-webkit-border-radius: 6px;
+			}
+			
+			.data-item:active {
+				background-color: #eeeeee;
+			}
+			
+			.data-item>div {
+				height: 50%;
+			}
+			
+			.data-name {
+				float: left;
+				font-size: 16px;
+				color: #333;
+				line-height: 25px;
+			}
+			
+			.data-name span {
+				color: #999;
+				font-size: 12px;
+			}
+			
+			.data-tip {
+				float: right;
+				width: 62px;
+				font-size: 12px;
+				line-height: 20px;
+				border: 1px solid #FD9603;
+				text-align: center;
+				color: #FD9603;
+				border-radius: 2px;
+				-webkit-border-radius: 2px;
+			}
+			
+			.data-tip {
+				float: right;
+				width: 62px;
+				font-size: 12px;
+				border: none;
+				line-height: 27px;
+				margin-top: 13.5px;
+				margin-right: 20px;
+				text-align: center;
+				color: #FD9603;
+			}
+			
+			.data-tel {
+				float: left;
+				/*width: 62px;*/
+				font-size: 16px;
+				margin-left: 5px;
+				color: #4a86ee;
+				/*line-height: 20px;*/
+				/*border: 1px solid #FD9603;*/
+				/*line-height: 27px;*/
+				text-align: center;
+			}
+			
+			.data-car {
+				line-height: 27px;
+				color: #999;
+				font-size: 14px;
+				float: left;
+				padding-left: 2px;
+			}
+			
+			.data-time {
+				float: left;
+				font-size: 12px;
+				line-height: 27px;
+			}
+			
+			.data-time>span {
+				margin-right: 5px;
+			}
+			
+			.icon-car {
+				display: inline-block;
+				float: left;
+				width: 22px;
+				height: 20px;
+				margin-top: 3px;
+				background: url(images/icon.png) no-repeat -62px -3px;
+				background-size: 380px;
+			}
+			
+			.icon-time {
+				display: inline-block;
+				float: left;
+				width: 19px;
+				height: 20px;
+				margin-top: 3px;
+				background: url(images/icon.png) no-repeat -95px -5px;
+				background-size: 400px;
+			}
+			.mui-icon-plusempty{
+				color: #ffffff;
+				float: right;
+				font-size: 20px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav header1">
+			<span class="iconfont icon-back backBtn"></span>
+			<h1 class="mui-title name" id="title">我的下属</h1>
+			<span class="mui-icon mui-icon-plusempty" style="display: none;"></span>
+		</header>
+		<div class="mui-content">
+			<ul class="wrap-ul" id="scroll1-content">
+
+			</ul>
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/api.js"></script>
+		<script src="js/jquery-1.11.2.min.js"></script>
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			mui.init({});
+			mui.plusReady(function() {
+				mui('body').on('tap', '.backBtn', function(e) {
+					mui.back();
+				})
+				
+				mui('body').on('tap', '.mui-icon-plusempty', function(e) {
+					mui.openWindow({
+						url: 'subordinatesAdd.html',
+						id: 'subordinatesAdd.html',
+						createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+						show: {
+							autoShow: true, //页面loaded事件发生后自动显示，默认为true
+							aniShow: 'pop-in', //页面显示动画，默认为”slide-in-right“；
+						},
+						waiting: {
+							autoShow: false, //自动显示等待框，默认为true
+						}
+					})
+				})
+				
+				var subpages = 'subordinates-sub1.html'; //bounce: 'vertical', 
+				var subpage_style1 = {
+					top: '64px',
+					bottom: '0px',
+					scrollIndicator: 'none',
+					bounceBackground: '#fff'
+				};
+				var activeTab = subpages;
+				var self = plus.webview.currentWebview();
+				var sub = plus.webview.create(subpages, subpages, subpage_style1); //遍历创建各页面的webview的id  
+				self.append(sub);
+				document.addEventListener('mui.view.refresh', function() {
+
+				})
+
+				
+			})
+		</script>
+	</body>
+
+</html>

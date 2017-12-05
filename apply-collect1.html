@@ -1,0 +1,706 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/css.css" />
+		<link rel="stylesheet" type="text/css" href="fonts/iconfont.css" />
+		<style>
+			.header1 {
+				overflow: hidden;
+			}
+			
+			.header1 .icon-back {
+				display: inline-block;
+				width: 50px;
+				height: 45px;
+				line-height: 45px;
+				position: absolute;
+				left: 0;
+				color: #ffffff;
+				z-index: 10;
+				font-size: 20px;
+				float: left;
+			}
+			
+			.apply-wrap {
+				width: 100%;
+				margin: 0;
+			}
+			
+			.mui-table-view-cell.mui-collapse.mui-active {
+				margin-top: 0px;
+			}
+			
+			.collect-img-div {
+				width: 23%;
+				margin: 5px 1%;
+				height: 60px;
+				float: left;
+				position: relative;
+				display: inline-block;
+				border: 1px solid #e0e1e4;
+				/*background-image: url(images/applyimg.png);*/
+				background-size: 100% 100%;
+			}
+			
+			.collect-img-delete {
+				/*width: 20px;
+				height: 15px;*/
+				font-size: 20px;
+				background-color: white;
+				border-radius: 3px;
+				display: inline-block;
+				/*display: none;*/
+				position: absolute;
+				right: 0;
+				top: 0;
+			}
+			
+			.collect-img {
+				width: 100%;
+				height: 60px;
+				float: left;
+				border: 1px solid #e0e1e4;
+				/*background-image: url(images/applyimg.png);*/
+				background-size: 100% 100%;
+			}
+			
+			.collect-addimg {
+				width: 23%;
+				margin: 5px 1%;
+				/*display: none;*/
+				background: url(images/addimg.png);
+				background-size: 100% 100%;
+			}
+			
+			.mui-preview-image.mui-fullscreen {
+				position: fixed;
+				z-index: 1000;
+				background-color: #000;
+			}
+			
+			.mui-content {
+				padding-top: 64px !important;
+			}
+			
+			.mui-preview-header,
+			.mui-preview-footer {
+				position: absolute;
+				width: 100%;
+				left: 0;
+				z-index: 10;
+			}
+			
+			.mui-preview-header {
+				height: 44px;
+				top: 0;
+			}
+			
+			.mui-preview-footer {
+				height: 50px;
+				bottom: 0px;
+			}
+			
+			.mui-preview-header .mui-preview-indicator {
+				display: block;
+				line-height: 25px;
+				color: #fff;
+				text-align: center;
+				margin: 15px auto;
+				width: 70px;
+				background-color: rgba(0, 0, 0, 0.4);
+				border-radius: 12px;
+				font-size: 16px;
+			}
+			
+			.mui-preview-image {
+				display: none;
+				-webkit-animation-duration: 0.5s;
+				animation-duration: 0.5s;
+				-webkit-animation-fill-mode: both;
+				animation-fill-mode: both;
+			}
+			
+			.mui-preview-image.mui-preview-in {
+				-webkit-animation-name: fadeIn;
+				animation-name: fadeIn;
+			}
+			
+			.mui-preview-image.mui-preview-out {
+				background: none;
+				-webkit-animation-name: fadeOut;
+				animation-name: fadeOut;
+			}
+			
+			.mui-preview-image.mui-preview-out .mui-preview-header,
+			.mui-preview-image.mui-preview-out .mui-preview-footer {
+				display: none;
+			}
+			
+			.mui-zoom-scroller {
+				position: absolute;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+				-webkit-box-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				-webkit-backface-visibility: hidden;
+			}
+			
+			.mui-zoom {
+				-webkit-transform-style: preserve-3d;
+				transform-style: preserve-3d;
+			}
+			/*.mui-preview-image.mui-fullscreen{
+				background: rgba(0,0,0,0.5);
+			}
+			
+			.mui-slider .mui-slider-group{
+				width: 80%;
+				height: 80%;
+				margin: 10%;
+				background: rgba(0,0,0,1);
+			}
+			.mui-fullscreen.mui-slider .mui-slider-group{
+				height: 80%;
+				margin: 10%;
+				background: rgba(0,0,0,1);
+			}*/
+			
+			.mui-slider .mui-slider-group .mui-slider-item img {
+				width: auto;
+				height: auto;
+				max-width: 100%;
+				max-height: 100%;
+			}
+			
+			.mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
+				width: 100%;
+			}
+			
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
+				display: inline-table;
+			}
+			
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
+				display: table-cell;
+				vertical-align: middle;
+			}
+			
+			.mui-preview-loading {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				display: none;
+			}
+			
+			.mui-preview-loading.mui-active {
+				display: block;
+			}
+			
+			.mui-preview-loading .mui-spinner-white {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -25px;
+				margin-top: -25px;
+				height: 50px;
+				width: 50px;
+			}
+			
+			.mui-preview-image img.mui-transitioning {
+				-webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+				transition: transform 0.5s ease, opacity 0.5s ease;
+			}
+			
+			@-webkit-keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			
+			@keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			
+			@-webkit-keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			
+			@keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			
+			p img {
+				max-width: 100%;
+				height: auto;
+			}
+			
+			.imgUpload1 {
+				display: block;
+			}
+			
+			.subBtn {
+				margin: 0 7%;
+				width: 86%;
+				position: absolute;
+				top: 350px;
+				margin-top: 120px;
+				height: 45px;
+				font-size: 19px;
+				color: #ffffff;
+				border: 1px solid #fd9603;
+				background: #fd9603;
+				line-height: 33px;
+			}
+			
+			.mui-table-view-cell>a {
+				height: 45px;
+				line-height: 23px;
+				font-size: 15px;
+			}
+			
+			#picture .mui-table-view-cell>a {
+				height: 50px;
+				line-height: 28px;
+			}
+			
+			#picture .mui-table-view-cell {
+				font-size: 18px;
+			}
+			
+			.partNum {
+				/*position: absolute;
+				left: 110px;*/
+				/*float: left;*/
+				margin-left: 10px;
+			}
+			
+			#listUl{
+				background-color: #f0f0f0;
+			}
+			
+			#listUl>li{
+				background-color: #ffffff;
+			}
+			.mui-table-view-cell>a.mui-navigate-right {
+    			border-bottom: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav header1">
+			<span class="iconfont icon-back backBtn"></span>
+			<h1 class="mui-title name" id="title">资料采集</h1>
+		</header>
+		<div class="mui-content">
+			<div class="apply-wrap">
+				<ul class="mui-table-view" id="listUl">
+					<!--<li class="mui-table-view-cell mui-collapse">
+						<a class="mui-navigate-right" href="#">• 收入证明</a>
+						<div class="mui-collapse-content imgDiv1">
+							<div class="collect-img collect-addimg"></div>
+							<input type="file" name="file" id="imgfile" accept="image/png,image/gif,image/jpg,image/JPG,image/PNG,image/jpeg" value="" style="display: none;" />
+
+							<img src="images/applyimg.png" class="collect-img" data-preview-src="" data-preview-group="1" />
+							<img src="images/applyimg.png" class="collect-img" data-preview-src="" data-preview-group="1" />
+							<img src="images/applyimg.png" class="collect-img" data-preview-src="" data-preview-group="1" />
+							<img src="images/applyimg.png" class="collect-img" data-preview-src="" data-preview-group="1" />
+						</div>
+					</li>
+					<li class="mui-table-view-cell mui-collapse">
+						<a class="mui-navigate-right" href="#">• 房产证明</a>
+						<div class="mui-collapse-content imgDiv2">
+							<div class="collect-img collect-addimg"></div>
+						</div>
+					</li>
+					<li class="mui-table-view-cell mui-collapse">
+						<a class="mui-navigate-right" href="#">• 婚姻证明</a>
+						<div class="mui-collapse-content imgDiv3">
+							<div class="collect-img collect-addimg"></div>
+						</div>
+					</li>
+					<li class="mui-table-view-cell mui-collapse">
+						<a class="mui-navigate-right" href="#">• 工作证明</a>
+						<div class="mui-collapse-content imgDiv4">
+							<div class="collect-img collect-addimg"></div>
+						</div>
+					</li>-->
+				</ul>
+			</div>
+			<div id="picture" class="mui-popover mui-popover-action mui-popover-bottom">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<a href="#" class="usecamera" style="color: #fd9603;">拍照</a>
+					</li>
+					<li class="mui-table-view-cell">
+						<a href="#" class="usegallery" style="color: #fd9603;">从手机相册选择</a>
+					</li>
+				</ul>
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell">
+						<a href="#picture"><b>取消</b></a>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/api.js"></script>
+		<script src="js/jquery-1.11.2.min.js"></script>
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.zoom.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.previewimage.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			var page = {
+				init: function() {
+					mui('body').on('tap',".backBtn",function() {
+						mui.back();
+					})
+				},
+
+			};
+
+			$(function() {
+				page.init();
+			})
+			var imgSum = 0;
+
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview()
+				var workid = self.workid;
+				var clickType;
+				uploader.getfiletypes({
+					token: user.utoken()
+				}, function(typeres) {
+					if(typeres.error_no != 200){
+						mui.toast(typeres.error_msg);
+						return;
+					}
+					//					console.log(typeof(typeres))
+					//					console.log(JSON.stringify(typeres))
+					createLi(typeres.result);
+					//					console.log(workid)
+					uploader.getimgs({
+						token: user.utoken(),
+						work_id: workid
+					}, function(res1) {
+						if(res1.error_no != 200){
+							mui.toast(res1.error_msg);
+							return;
+						}
+						createImg(res1.result)
+						// 删除图片
+						mui('body').on('tap', '.collect-img-delete', function(e) {
+							var _this = $(this);
+							var fileid = _this.attr('fileid');
+							var delData = {
+								token: user.utoken(),
+								file_id: fileid
+							}
+							var btnArray = ['取消', '确定'];
+							mui.confirm('确定删除？', '删除图片', btnArray, function(e) {
+								if(e.index == 1) {
+									uploader.deleteImg(delData, function(delres) {
+										if(delres.error_no == 200) {
+											_this.parent().remove();
+											var thisClass = _this.attr("imgtype");
+											mui.toast('删除成功')
+											imgSum--;
+											//减少显示数量
+											$(".partNum[imgtype=" + thisClass + "]").html("(" + (parseInt($(".partNum[imgtype=" + thisClass + "]").html().replace(/[^0-9]/ig,"")) - 1) + ")");
+											var missionPage = plus.webview.getWebviewById('mission.html');
+											mui.fire(missionPage, 'videoDel', {
+												videoType: 0,
+												sum: imgSum,
+											});
+										} else {
+											mui.toast(delres.error_msg);
+										}
+									})
+								} else {
+
+								}
+							})
+
+						})
+					})
+				})
+				mui.previewImage();
+				// 图片添加按钮点击事件
+				mui('body').on('tap', '.collect-addimg', function(e) {
+					//					var workid = $(this).attr('data-id');
+					//										getImage();
+					clickType = $(this).attr('imgtype');
+
+					mui('#picture').popover('toggle');
+					return;
+					
+				})
+				mui('body').on('tap', '.usecamera', function(e) {
+					getImage()
+				})
+				mui('body').on('tap', '.usegallery', function(e) {
+					galleryImg()
+				})
+
+				// 拍照
+				function getImage() {
+					//				outSet('开始拍照：');
+					var cmr = plus.camera.getCamera(function(a){
+						console.log(JSON.stringify(a))
+					});
+					
+					// alert( "Camera supperted image resolutions: " + cmr.supportedImageResolutions );
+//					var rees = cmr.supportedImageResolutions[11];
+//					var fmt = cmr.supportedVideoFormats[0];
+					cmr.captureImage(function(p) {
+						
+						//					outLine('成功：' + p);
+						plus.io.resolveLocalFileSystemURL(p, function(entry) {
+							imgUpload(entry.toLocalURL());
+							//						},300)
+
+						}, function(e) {
+							//						outLine('读取拍照文件错误：' + e.message);
+						});
+					}, function(e) {
+						console.log(8+JSON.stringify(e))
+//						alert(e)
+						return false;
+						//					outLine('失败：' + e.message);
+					}, {
+						filename: '_doc/camera/',
+						index: 1,
+//						resolution:rees,
+//         		 		format:fmt
+					});
+				}
+
+				function galleryImg() {
+					// 从相册中选择图片
+					//				outSet('从相册中选择图片：');
+					plus.gallery.pick(function(path) {
+						//					outLine(path);
+						imgUpload(path)
+						//showImg( path );
+						//createItem(path);
+					}, function(e) {
+						if(e.code == 8){
+							alert(e.message)
+						}
+						//					outSet('取消选择图片');
+					}, {
+						filter: 'image'
+					});
+				}
+
+				// 上传
+				function createUpload(upURL, upData, callback) {
+					var task = plus.uploader.createUpload(apiurl + "file/hbuilderupload/", {
+						method: "POST"
+					}, function(t, status) {
+						// 上传完成
+						//						console.log(status)
+						var res = t.responseText;
+						if(status == 200) {
+							callback(res);
+						} else {
+							mui.toast("Upload failed: " + status);
+						}
+					});
+					task.addFile(upURL, {
+						key: "file"
+					});
+					for(var j in upData) {
+						task.addData(j, upData[j]);
+					}
+					//task.addEventListener( "statechanged", onStateChanged, false );
+					task.start();
+				}
+
+				function imgUpload(localurl) {
+					plus.nativeUI.showWaiting();
+					$("#picture").hide()
+					$(".mui-backdrop").hide();
+					//				var localurl = entry.toLocalURL();
+					var upData = {
+						token: user.utoken(),
+						sync_to_upyun: '2',
+						type: 'image'
+					}
+					createUpload(localurl, upData, function(ress) {
+						var res = JSON.parse(ress)
+						if(res.error_no == 200) {
+							var result = res;
+														console.log(JSON.stringify(result))
+							var data2 = {
+								file_class_id: clickType,
+								token: user.utoken(),
+								file_path: result.result.url,
+								work_id: workid,
+								file_id: result.result.fid,
+								type: '1',
+								file_type: '1',
+							}
+							//							for(var r in data2) {
+							//								console.log(r + ":" + data2[r] + ",")
+							//							}
+							// 提交图片地址
+							uploader.submitfile(data2, function(rrr) {
+								if(rrr.error_no == 200) {
+									mui.toast('上传成功')
+									// 刷新图片（不刷新列表）
+									plus.nativeUI.closeWaiting();
+									uploader.getimgs({
+										token: user.utoken(),
+										work_id: workid
+									}, function(res1) {
+										if(res1.error_no == 200){
+											//刷新显示数量
+											$(".partNum").html('(0)');
+											createImg(res1.result);
+										} else {
+											mui.toast(res1.error_msg);
+										}
+									})
+								} else {
+									mui.toast(rrr.error_msg);
+									plus.nativeUI.closeWaiting();
+								}
+							})
+						} else {
+							mui.toast(res.error_msg);
+							plus.nativeUI.closeWaiting();
+							console.log('失败：'+res.error_msg + res.error_no)
+						}
+					})
+				}
+
+			})
+
+			// 铺设列表
+			function createLi(result) {
+				var listUl = document.getElementById("listUl");
+				listUl.innerHTML = '';
+				//				console.log(result.length + "length")
+				for(var i in result) {
+					if(result[i].file_type == 2) {
+						continue;
+					}
+					var listLi = document.createElement("li");
+					listLi.className = 'mui-table-view-cell mui-collapse';
+					if(i == 0) {
+						listLi.className = 'mui-table-view-cell mui-collapse mui-active';
+					}
+					//					listLi.imgtype = result[i].id;
+					listLi.setAttribute("imgtype", result[i].id);
+					// 3之后分隔开
+					if(result[i].id == 3){
+						listLi.style.marginBottom = '10px';
+					}
+					listUl.appendChild(listLi);
+					var listA = document.createElement("a");
+					listA.className = "mui-navigate-right";
+					listA.href = '#';
+					listA.innerHTML = result[i].file_name + "<span class='partNum' imgtype=" + result[i].id + ">(0)</span>";
+					var listDiv = document.createElement("div");
+					listDiv.className = "mui-collapse-content imgDiv";
+					//					listDiv.imgtype = result[i].id;
+					listDiv.setAttribute("imgtype", result[i].id);
+					listLi.appendChild(listA);
+					listLi.appendChild(listDiv);
+					var addDiv = document.createElement("div");
+
+					addDiv.className = "collect-img collect-addimg";
+					addDiv.setAttribute("imgtype", result[i].id);
+					// 3之前的不能添加
+					if(result[i].id != 1 && result[i].id != 2 && result[i].id != 3){
+						listDiv.appendChild(addDiv);
+					}
+					
+				}
+//				var addInput = document.createElement("input");
+//				addInput.type = 'file';
+//				addInput.id = 'imgfile';
+//				addInput.accept = "image/png,image/gif,image/jpg,image/JPG,image/PNG,image/jpeg";
+//				addInput.style.display = 'none';
+//				listUl.appendChild(addInput);
+				//				createImg(1)
+			}
+			// 铺设图片
+			function createImg(result1) {
+				imgSum = 0;
+				$(".imgDiv>.collect-img-div").remove();
+				for(var j in result1) {
+					if(result1[j].file_class_id == 7 || result1[j].file_class_id == 8) {
+						continue;
+					}
+					imgSum++;
+					var imgDiv = $(".imgDiv[imgtype=" + result1[j].file_class_id + "]")[0];
+					var oDiv = document.createElement("div");
+					oDiv.className = 'collect-img-div';
+					var oDelete = document.createElement("span");
+					oDelete.className = 'mui-icon mui-icon-trash collect-img-delete';
+					oDelete.setAttribute('fileid', result1[j].id);
+					oDelete.setAttribute('imgtype', result1[j].file_class_id);
+					var oImg = document.createElement("img");
+					oImg.src = result1[j].file_path;
+					oImg.className = "collect-img";
+					oImg.setAttribute("data-preview-src", '');
+					oImg.setAttribute("data-preview-group", '1');
+					imgDiv.appendChild(oDiv);
+					oDiv.appendChild(oImg);
+					if(result1[j].file_class_id != 1 && result1[j].file_class_id != 2 && result1[j].file_class_id != 3){
+						oDiv.appendChild(oDelete);
+					}
+					//增加显示数量
+					$(".partNum[imgtype=" + result1[j].file_class_id + "]").html("(" + (parseInt($(".partNum[imgtype=" + result1[j].file_class_id + "]").html().replace(/[^0-9]/ig,"")) + 1) + ")");
+					//					console.log(oImg.src)
+				}
+				var missionPage = plus.webview.getWebviewById('mission.html');
+				mui.fire(missionPage, 'videoDel', {
+					videoType: 0,
+					sum: imgSum
+				});
+			}
+		</script>
+	</body>
+
+</html>

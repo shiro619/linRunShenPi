@@ -1,0 +1,210 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/css.css" />
+		<link rel="stylesheet" type="text/css" href="fonts/iconfont.css" />
+		<style>
+			html {
+				background-color: #f0f0f0;
+			}
+			
+			body{
+				color: #272d37;
+			}
+			
+			.header1 {
+				overflow: hidden;
+			}
+			
+			.header1 .icon-back {
+				display: inline-block;
+				width: 50px;
+				height: 45px;
+				line-height: 45px;
+				position: absolute;
+				left: 0;
+				color: #ffffff;
+				z-index: 10;
+				font-size: 20px;
+				float: left;
+			}
+			
+			.mui-content {
+				padding-top: 60px !important;
+				position: relative;
+				background: #f0f0f0;
+			}
+			
+			.option-ul {
+				width: 100%;
+				margin-top: 15px;
+				background-color: #ffffff
+				/*padding: 0 5%;*/
+			}
+			
+			.option-li {
+				width: 100%;
+				height: 60px;
+				padding: 0 5%;
+				line-height: 60px;
+			}
+			/*.option-li:active{
+				background: #eeeeee;
+			}*/
+			
+			.option-div {
+				width: 100%;
+				height: 60px;
+				line-height: 60px;
+				border-bottom: 1px dotted #eeeeee;
+				overflow: hidden;
+			}
+			
+			.option-li-name {
+				font-size: 15px;
+				margin-left: 12px;
+			}
+			
+			.selectSpan {
+				width: 70px;
+				height: 30px;
+				margin-left: 15px;
+				display: inline-block;
+				background-color: #e8ebf0;
+				font-size: 14px;
+				line-height: 30px;
+				text-align: center;
+				color: #262c38;
+				border-radius: 4px;
+			}
+			
+			.onSelect {
+				background-color: #fe9603;
+				color: #ffffff;
+			}
+			
+			.subBtn {
+				color: #262c38;
+				font-size: 15px;
+				text-align: center;
+				height: 45px;
+				line-height: 45px;
+			}
+			
+			.subBtn .option-div {
+				height: 45px;
+				line-height: 45px;
+				border: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav header1">
+			<span class="iconfont icon-back backBtn"></span>
+			<h1 class="mui-title name" id="title">角色设置</h1>
+		</header>
+		<div class="mui-content">
+			<ul class="option-ul">
+				<li class="option-li">
+					<div class="option-div">
+						<span class="option-li-name">请选择你的角色</span>
+					</div>
+				</li>
+				<li class="option-li">
+					<div class="option-div" style="border: none;">
+						<span class="selectSpan onSelect" data='1'>销售组</span>
+						<span class="selectSpan" data='2'>家访组</span>
+					</div>
+				</li>
+			</ul>
+			<ul class="option-ul">
+				<li class="option-li subBtn">
+					<div class="option-div">
+						<span>确定</span>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/api.js"></script>
+		<script src="js/jquery-1.11.2.min.js"></script>
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview()
+				var username = self.username;
+				var password = self.password;
+				var role = 1;
+				mui("body").on('tap', '.backBtn', function() {
+					mui.back();
+				})
+				mui("body").on('tap', '.selectSpan', function() {
+					$(".selectSpan").removeClass("onSelect");
+					$(this).addClass("onSelect");
+					role = $(this).attr('data');
+				})
+				mui("body").on('tap', '.subBtn', function() {
+					var data = {
+						'app_role': role,
+						'account': username,
+						'password': password
+					}
+					user.setRole(data, function(res0) {
+						if(res0.error_no == 200) {
+							var request = {
+								'account': username,
+								'password': password
+							}
+							user.login(request, function(res) {
+								console.log(JSON.stringify(request))
+								console.log(JSON.stringify(res))
+								if(res.error_no == 200) {
+									user.clear()
+									user.setInfo(res.result)
+									if(!user.uoption()) {
+										var op = {
+											Gps: true
+										}
+										user.setOption(op);
+									}
+									mui.fire(plus.webview.getWebviewById('home.html'), 'mui.view.refresh');
+									mui.fire(plus.webview.getLaunchWebview(), 'mui.view.refresh');
+									setTimeout(function() {
+										plus.navigator.setStatusBarStyle('light')
+										plus.navigator.setStatusBarBackground('#2776F9');
+										//								plus.webview.currentWebview().close();
+										// 获取所有Webview窗口
+										var curr = plus.webview.currentWebview();
+										var wvs = plus.webview.all();
+										for(var i = 0, len = wvs.length; i < len; i++) {
+											//关闭除setting页面外的其他页面
+											if(wvs[i].getURL() == curr.getURL())
+												continue;
+											plus.webview.close(wvs[i]);
+										}
+										//打开login页面后再关闭setting页面
+										plus.webview.open('index.html');
+										curr.close();
+									}, 300);
+									return true;
+								} else {
+									mui.toast(res.error_msg);
+								}
+							})
+						} else {
+							mui.toast(res0.error_msg);
+						}
+					})
+				})
+			})
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta name="format-detection" content="telephone=no, email=no" /> 
+	<title>聚车金融</title>
+	<link href="css/mui.min.css" rel="stylesheet" type="text/css" />
+	<link href="css/css.css" rel="stylesheet" type="text/css" />
+	<!--<link rel="stylesheet" href="css/media-screen.css" />
+	<link rel="stylesheet" href="css/cunguan.css" />-->
+	<style>
+		html,body,.mui-content{
+			background: #fff;
+		}
+		#top_right_btn{
+			color:#000;
+			font-size: 14px;
+			line-height: 44px;
+		}
+	</style>
+<style>
+</style>
+</head>
+<body>
+	<div></div>
+	<div id="form"></div>
+	<form id="form" name="setpsw" action="http://api20.ifcar99.com/ba/password/set" method="get" >
+		<input id="token" name="token" value="" style="display: none;"/>
+	</form>
+	<script type="text/javascript" src="js/jquery-1.11.2.min.js" ></script>
+<script language="javascript" type="text/javascript" src="js/mui.min.js"></script>
+<script src="js/api.js" type="text/javascript" charset="utf-8"></script>
+
+<script>
+	mui.init();
+	mui.plusReady(function(){
+		var self = plus.webview.currentWebview();
+		var gettoken = user.getFinacingToken(self.uId);
+		console.log('gettoken'+gettoken);
+		plus.nativeUI.showWaiting()
+		listInfo.finacingSetPassword({'token':gettoken,'acq_res':'lrwc_visit'},function(res){
+			plus.nativeUI.closeWaiting()
+			console.log('getPW:' + JSON.stringify(res))
+			if(res.error_no==200){
+				$("#form").html(res.result.form);
+			}else{
+				if(res.error_no != 401 && res.error_no != 402 && res.error_no != 409){
+					mui.toast(res.error_msg);
+				}
+				
+//				mui.back()
+			}
+			//console.log(JSON.stringify(res)) 
+		})
+		//document.querySelector('#token').value = user.utoken()
+	//	$("#form").submit()
+		//alert(JSON.stringify(plus.webview.currentWebview()))   
+	})
+
+</script>
+
+</body>
+</html>

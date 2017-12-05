@@ -1,0 +1,588 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/css.css" />
+		<link rel="stylesheet" type="text/css" href="fonts/iconfont.css" />
+		<style>
+			/*preview*/
+			
+			.mui-preview-image.mui-fullscreen {
+				position: fixed;
+				z-index: 1000;
+				background-color: #000;
+			}
+			
+			.mui-content {
+				padding-top: 64px !important;
+			}
+			
+			.mui-preview-header,
+			.mui-preview-footer {
+				position: absolute;
+				width: 100%;
+				left: 0;
+				z-index: 10;
+			}
+			
+			.mui-preview-header {
+				height: 44px;
+				top: 0;
+			}
+			
+			.mui-preview-footer {
+				height: 50px;
+				bottom: 0px;
+			}
+			
+			.mui-preview-header .mui-preview-indicator {
+				display: block;
+				line-height: 25px;
+				color: #fff;
+				text-align: center;
+				margin: 15px auto;
+				width: 70px;
+				background-color: rgba(0, 0, 0, 0.4);
+				border-radius: 12px;
+				font-size: 16px;
+			}
+			
+			.mui-preview-image {
+				display: none;
+				-webkit-animation-duration: 0.5s;
+				animation-duration: 0.5s;
+				-webkit-animation-fill-mode: both;
+				animation-fill-mode: both;
+			}
+			
+			.mui-preview-image.mui-preview-in {
+				-webkit-animation-name: fadeIn;
+				animation-name: fadeIn;
+			}
+			
+			.mui-preview-image.mui-preview-out {
+				background: none;
+				-webkit-animation-name: fadeOut;
+				animation-name: fadeOut;
+			}
+			
+			.mui-preview-image.mui-preview-out .mui-preview-header,
+			.mui-preview-image.mui-preview-out .mui-preview-footer {
+				display: none;
+			}
+			
+			.mui-zoom-scroller {
+				position: absolute;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+				-webkit-box-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				margin: 0;
+				-webkit-backface-visibility: hidden;
+			}
+			
+			.mui-zoom {
+				-webkit-transform-style: preserve-3d;
+				transform-style: preserve-3d;
+			}
+			/*.mui-preview-image.mui-fullscreen{
+				background: rgba(0,0,0,0.5);
+			}
+			
+			.mui-slider .mui-slider-group{
+				width: 80%;
+				height: 80%;
+				margin: 10%;
+				background: rgba(0,0,0,1);
+			}
+			.mui-fullscreen.mui-slider .mui-slider-group{
+				height: 80%;
+				margin: 10%;
+				background: rgba(0,0,0,1);
+			}*/
+			
+			.mui-slider .mui-slider-group .mui-slider-item img {
+				width: auto;
+				height: auto;
+				max-width: 100%;
+				max-height: 100%;
+			}
+			
+			.mui-android-4-1 .mui-slider .mui-slider-group .mui-slider-item img {
+				width: 100%;
+			}
+			
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-slider-group .mui-slider-item {
+				display: inline-table;
+			}
+			
+			.mui-android-4-1 .mui-slider.mui-preview-image .mui-zoom-scroller img {
+				display: table-cell;
+				vertical-align: middle;
+			}
+			
+			.mui-preview-loading {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				display: none;
+			}
+			
+			.mui-preview-loading.mui-active {
+				display: block;
+			}
+			
+			.mui-preview-loading .mui-spinner-white {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -25px;
+				margin-top: -25px;
+				height: 50px;
+				width: 50px;
+			}
+			
+			.mui-preview-image img.mui-transitioning {
+				-webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
+				transition: transform 0.5s ease, opacity 0.5s ease;
+			}
+			
+			@-webkit-keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			
+			@keyframes fadeIn {
+				0% {
+					opacity: 0;
+				}
+				100% {
+					opacity: 1;
+				}
+			}
+			
+			@-webkit-keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			
+			@keyframes fadeOut {
+				0% {
+					opacity: 1;
+				}
+				100% {
+					opacity: 0;
+				}
+			}
+			
+			p img {
+				max-width: 100%;
+				height: auto;
+			}
+			
+			html,
+			body {
+				height: 100%;
+				color: #272d37;
+			}
+			
+			.header1 {
+				overflow: hidden;
+			}
+			
+			.header1 .icon-back {
+				display: inline-block;
+				width: 50px;
+				height: 45px;
+				line-height: 45px;
+				position: absolute;
+				left: 0;
+				color: #ffffff;
+				z-index: 10;
+				font-size: 20px;
+				float: left;
+			}
+			
+			.mui-content {
+				padding-top: 64px !important;
+			}
+			
+			.apply-wrap {
+				width: 100%;
+				margin: 0;
+			}
+			
+			.data-ul {
+				width: 100%;
+				/*margin-top: 15px;*/
+				/*padding: 0 5%;*/
+				background: #ffffff;
+			}
+			
+			.data-li {
+				/*width: 100%;*/
+				min-height: 45px;
+				margin: 0 15px;
+				padding: 0 9px;
+				box-sizing: border-box;
+				line-height: 45px;
+				border-bottom: 1px solid #eeeff2;
+				font-size: 15px;
+				position: relative;
+				overflow: hidden;
+			}
+			
+			.data-title.data-li {
+				border: none;
+			}
+			
+			.data-ul>.data-li:last-of-type {
+				border: none;
+			}
+			
+			.data-ul>.data-li:nth-of-type(4) {
+				border: none;
+			}
+			
+			.data-li>span {
+				display: inline-block;
+				height: 100%;
+				float: left;
+				margin-bottom: 5px;
+				/*font-size: 13px;*/
+			}
+			
+			.resultLi>span{
+				line-height: 20px;
+			}
+			
+			.data-li>span:nth-of-type(1) {
+				width: 30%;
+				/*padding-left: 2%;*/
+				color: #272d37;
+				/*overflow: hidden;*/
+			}
+			/*.data-li>span:nth-of-type(1):before {
+				content: "• ";
+			}*/
+			
+			.data-li>span:nth-of-type(2) {
+				width: 68%;
+				overflow: hidden;
+				text-align: right;
+				color: #646b76;
+			}
+			
+			.data-li>span.inquire-result {
+				color: #646b76;
+			}
+			
+			.data-title {
+				height: 55px;
+				line-height: 65px;
+				margin: 0;
+				padding: 0 24px;
+				font-size: 14px;
+				background-color: #f0f0f0;
+			}
+			
+			.data-title .data-div .creditinfo-icon {
+				height: 40px;
+			}
+			
+			.data-title .data-div .creditimg-icon {
+				height: 40px;
+			}
+			
+			.data-title .data-div>span {
+				display: inline-block;
+				height: 100%;
+				font-size: 15px;
+				font-weight: bold;
+			}
+			
+			.mui-table-view-cell.mui-collapse.mui-active {
+				margin-top: 0px;
+			}
+			
+			.mui-table-view-cell {
+				font-size: 14px;
+			}
+			
+			.mui-table-view-cell.mui-active {
+				background-color: #ffffff;
+			}
+			
+			.mui-table-view-cell>a {
+				padding-left: 24px !important;
+			}
+			
+			.collect-img-div {
+				width: 23%;
+				margin: 5px 1%;
+				height: 60px;
+				float: left;
+				position: relative;
+				display: inline-block;
+				border: 1px solid #e0e1e4;
+				background-image: url(images/applyimg.png);
+				background-size: 100% 100%;
+			}
+			
+			.collect-img-delete {
+				/*width: 20px;
+				height: 15px;*/
+				font-size: 20px;
+				background-color: white;
+				border-radius: 3px;
+				display: inline-block;
+				position: absolute;
+				right: 0;
+				top: 0;
+			}
+			
+			.collect-img {
+				width: 100%;
+				height: 60px;
+				float: left;
+				border: 1px solid #e0e1e4;
+				background-image: url(images/applyimg.png);
+				background-size: 100% 100%;
+			}
+			
+			.collect-addimg {
+				width: 23%;
+				margin: 5px 1%;
+				background: url(images/addimg.png);
+				background-size: 100% 100%;
+			}
+			
+			.inquire-result {
+				width: 100% !important;
+			}
+			
+			.partNum {
+				position: absolute;
+				right: 40px;
+			}
+			
+			.subBtn {
+				margin: 0 7%;
+				width: 86%;
+				float: left;
+				margin-top: 0px;
+				height: 45px;
+				font-size: 19px;
+				color: #ffffff;
+				border: 1px solid #fd9603;
+				background: #fd9603;
+				line-height: 33px;
+			}
+			
+			.subDiv{
+				padding-bottom: 20px;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav header1">
+			<span class="iconfont icon-back backBtn"></span>
+			<h1 class="mui-title name" id="title">申请件详情</h1>
+		</header>
+		<div class="mui-content">
+			<div class="apply-wrap" style="padding-bottom: 25px;">
+				<ul class="data-ul">
+					<li class="data-li data-title">
+						<div class="data-div">
+							<!--<span class="icon creditinfo-icon"></span>--><span>客户基本信息</span>
+						</div>
+					</li>
+					<li class="data-li">
+						<span>客户姓名</span>
+						<span class="customer-name"></span>
+					</li>
+					<li class="data-li">
+						<span>客户电话</span>
+						<span class="customer-tel"></span>
+					</li>
+					<li class="data-li">
+						<span>身份证号</span>
+						<span class="customer-id"></span>
+					</li>
+					<li class="data-li" style="display: none;">
+						<span>受理人</span>
+						<span class="agent-name"></span>
+					</li>
+					<li class="data-li" style="display: none;">
+						<span>受理人手机号</span>
+						<span class="agent-tel"></span>
+					</li>
+					<li class="data-li" style="display: none;">
+						<span>详细地址</span>
+						<span class="customer-add"></span>
+					</li>
+				</ul>
+				<ul class="data-ul">
+					<li class="data-li data-title">
+						<div class="data-div">
+							<!--<span class="icon creditinfo-icon"></span>--><span>产品信息</span>
+						</div>
+					</li>
+					<li class="data-li">
+						<span>客户来源</span>
+						<span class="customer-source"></span>
+					</li>
+					<li class="data-li">
+						<span>产品类型</span>
+						<span class="car-type"></span>
+					</li>
+				</ul>
+				<ul class="data-ul inquireUl">
+					<li class="data-li data-title">
+						<div class="data-div">
+							<!--<span class="icon creditinfo-icon"></span>--><span>征信信息</span>
+						</div>
+					</li>
+					<li class="data-li">
+						<span>征信结果</span>
+						<span class="customer-inquire"></span>
+					</li>
+					<li class="data-li resultLi">
+						<span class="inquire-result">的方式卡积分健康的说法回家看电视房间里的时间回老家看风景啊打开了手机付款啦的时间来看卡上的解放啦家里发卡机授课老师</span>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="subDiv">
+			<div class="mui-btn subBtn" id="subBtn">家访</div>
+		</div>
+		
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/api.js"></script>
+		<script src="js/jquery-1.11.2.min.js"></script>
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.zoom.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/mui.previewimage.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview()
+				var workid = self.workid;
+				console.log(workid)
+				var applyData = {
+					token: user.utoken(),
+					work_id: workid
+				}
+				mui.previewImage();
+				mui("body").on('tap', '.backBtn', function() {
+					mui.back();
+				})
+				listInfo.getCustomerInfo(applyData, function(res) {
+					if(res.error_no == '200') {
+						$(".customer-name").html(res.result.customer_name);
+						$(".customer-tel").html(telExchange(res.result.customer_telephone));
+						$(".customer-id").html(res.result.customer_certificate_number);
+						//						$(".agent-name").html(res.result.receiver_name);
+						//						$(".agent-tel").html(telExchange(res.result.receiver_telephone));
+						$(".customer-source").html(res.result.merchant_name);
+						$(".car-type").html(res.result.product_name);
+						$(".apply-id").html(res.result.request_no);
+						$(".customer-add").html(res.result.customer_address);
+						$(".customer-inquire").html(res.result.inquire_result == 1? '通过':'拒绝');
+						$(".inquire-result").html(res.result.inquire_description);
+						// 点击号码拨打
+						mui('body').on('tap', '.customer-tel', function(e) {
+							e.stopPropagation();
+							var teldata = res.result.customer_telephone;
+							if(verCompare('10.3.3', plus.os.version)){
+								plus.device.dial(teldata,false);
+							} else {
+								mui.confirm('呼叫', telExchange(teldata), ['取消', '呼叫'], function(e) {
+								if (e.index == 1) {
+										plus.device.dial(teldata,false);
+									} else {
+									}
+								})
+							}
+						})
+
+						mui('body').on('tap', '#subBtn', function() {
+							mui.openWindow({
+								url: 'mission.html',
+								id: 'mission.html',
+								createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+								show: {
+									autoShow: true, //页面loaded事件发生后自动显示，默认为true
+									aniShow: 'pop-in', //页面显示动画，默认为”slide-in-right“；
+								},
+								waiting: {
+									autoShow: false, //自动显示等待框，默认为true
+								},
+								extras: {
+									workid: workid
+								},
+							})
+						})
+
+						function copyToClip(copyContent) {
+							if(plus.os.name == 'Android') {
+								var Context = plus.android.importClass("android.content.Context");
+								var main = plus.android.runtimeMainActivity();
+								var clip = main.getSystemService(Context.CLIPBOARD_SERVICE);
+								// plus.android.invoke(clip,"setText","I'm copy from Native.js");
+								plus.android.invoke(clip, "setText", copyContent);
+							} else {
+								var UIPasteboard = plus.ios.importClass("UIPasteboard");
+								var generalPasteboard = UIPasteboard.generalPasteboard();
+								// 设置/获取文本内容:
+								generalPasteboard.setValueforPasteboardType(copyContent, "public.utf8-plain-text");
+								var value = generalPasteboard.valueForPasteboardType("public.utf8-plain-text");
+							}
+						}
+
+					} else {
+						mui.toast(res.error_msg);
+					}
+
+				})
+
+			})
+
+			// template帮助函数 转换时间格式
+//			function telExchange(tel) {
+//				var str1 = tel.substring(0, 3);
+//				var str2 = tel.substring(3, 7);
+//				var str3 = tel.substring(7, 11);
+//				return str1 + '-' + str2 + '-' + str3;
+//			}
+		</script>
+	</body>
+
+</html>

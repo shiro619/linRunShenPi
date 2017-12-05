@@ -1,0 +1,357 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/css.css" />
+		<link rel="stylesheet" type="text/css" href="fonts/iconfont.css" />
+		<link rel="stylesheet" type="text/css" href="css/mui.picker.css" />
+		<link rel="stylesheet" type="text/css" href="css/mui.poppicker.css" />
+		<style>
+			html,
+			body {
+				height: 100%;
+			}
+			
+			.header1 {
+				overflow: hidden;
+				position: fixed;
+				top: 0;
+			}
+			
+			.header1 .icon-back {
+				display: inline-block;
+				width: 50px;
+				height: 45px;
+				line-height: 45px;
+				position: absolute;
+				left: 0;
+				color: #ffffff;
+				z-index: 10;
+				font-size: 20px;
+				float: left;
+			}
+			
+			.mui-content {
+				padding-top: 0px !important;
+				/*background-color: #ffffff*/
+			}
+			.mui-content,
+			#scroll1-content {
+				background: #f0f0f0;
+			}
+			
+			.mui-content {
+				padding: 10px 0;
+			}
+			
+			.wrap-ul {
+				width: 100%;
+				margin-top: 15px;
+				/*background: #ffffff;*/
+			}
+			
+			.data-item {
+				background: #fff;
+				height: 90px;
+				padding: 10px 10px;
+				width: 95%;
+				margin: 0px 2.5% 8px 2.5%;
+				border-radius: 6px;
+				-webkit-border-radius: 6px;
+			}
+			
+			.data-item>div {
+				height: 50%;
+			}
+			
+			.data-item-top {
+				border-bottom: 1px dashed #eeeeee;
+			}
+			
+			.data-name {
+				height: 25px;
+				float: left;
+				font-size: 16px;
+				color: #333;
+				margin-top: 10px;
+				margin-left: 10px;
+				line-height: 25px;
+			}
+			
+			.data-name span {
+				color: #999;
+				font-size: 12px;
+			}
+			
+			.data-tip {
+				float: right;
+				width: 62px;
+				font-size: 12px;
+				line-height: 27px;
+				margin-top: 13.5px;
+				margin-left: 20px;
+				text-align: center;
+				color: #FD9603;
+				/*background-color: #FD9603;*/
+				border-radius: 2px;
+				-webkit-border-radius: 2px;
+			}
+			
+			/*.data-tip:active {
+				background-color: #fec26c;
+			}*/
+			
+			.data-tel {
+				height: 25px;
+				line-height: 25px;
+				float: left;
+				/*width: 62px;*/
+				font-size: 16px;
+				margin-left: 5px;
+				margin-top: 10px;
+				color: #4a86ee;
+				/*line-height: 20px;*/
+				/*border: 1px solid #FD9603;*/
+				/*line-height: 27px;*/
+				text-align: center;
+			}
+			
+			.data-car {
+				line-height: 27px;
+				color: #999;
+				font-size: 14px;
+				float: left;
+				padding-left: 2px;
+			}
+			
+			.data-id {
+				width: 100%;
+				height: 35px;
+				float: left;
+				font-size: 12px;
+				line-height: 35px;
+			}
+			
+			.data-id span {
+				margin-right: 5px;
+				float: right;
+			}
+			
+			.data-id-name {
+				font-size: 18px;
+				margin-left: 10px;
+				color: #000000;
+				float: left !important;
+			}
+			
+			.icon-car {
+				display: inline-block;
+				float: left;
+				width: 22px;
+				height: 20px;
+				margin-top: 3px;
+				background: url(images/icon.png) no-repeat -62px -3px;
+				background-size: 380px;
+			}
+			
+			.icon-time {
+				display: inline-block;
+				float: left;
+				width: 19px;
+				height: 20px;
+				margin-top: 3px;
+				background: url(images/icon.png) no-repeat -95px -5px;
+				background-size: 400px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--下拉刷新容器-->
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+
+			<div class="mui-scroll" id="scroll1">
+				<!--数据列表-->
+				<ul class="wrap-ul" id="scroll1-content">
+
+				</ul>
+			</div>
+		</div>
+		<script id="tpl-1" type="text/html">
+			{{each rows as item i}}
+			<!--<div class="data-item">
+				<div class="data-tip">已家访</div>
+				<div class="data-item-top">
+					<p class="data-name">{{item.customer_name}}<span>先生</span></p>
+					<span class="data-tel">{{item.customer_telephone}}</span>
+				</div>
+				<div class="data-item-bottom">
+					<p class="data-time"><span class="icon-time"></span><span>历史家访1次</span></p>
+				</div>
+			</div>-->
+			<li class="data-item" data-id={{item.work_id}}>
+				<div class="data-item-top">
+					<p class="data-id"><span class="data-id-name">{{item.carclass == 'XC'?'新车':'二手车'}}</span><span>{{item.request_no}}</span><span>申请编号：</span></p>
+				</div>
+				<div class="data-item-bottom">
+					<p class="data-name">{{item.customer_name}}</p>
+					<span class="data-tel">{{telExchange item.customer_telephone}}</span>
+					<div class="data-tip infoCollect" >已补件</div>
+				</div>
+			</li>
+			{{/each}}
+		</script>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/api.js"></script>
+		<script src="js/jquery-1.11.2.min.js"></script>
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/template.js"></script>
+		<script src="js/template.function.js"></script>
+		<script>
+			var count = 0;
+			var empty_flag = 0;
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						callback: pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+			/** 
+			 * 下拉刷新具体业务实现
+			 */
+			function pulldownRefresh() {
+				setTimeout(function() {
+					empty_flag = 0;
+					count = 1;
+					putHomeLi(0, 1, 10)
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+					mui('#pullrefresh').pullRefresh().refresh(true);
+				}, 200);
+			}
+			/**
+			 * 上拉加载具体业务实现
+			 */
+			function pullupRefresh() {
+				empty_flag = 0;
+				setTimeout(function() {
+					count++;
+					putHomeLi(0, count, 10);
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh(empty_flag);
+				}, 200);
+			}
+
+			function putHomeLi(date, page, size) {
+
+				//					console.log(date)
+				//					select = 0;
+
+				var listData = {
+					token: user.utoken(),
+					carclass: 0,
+					type: 5,
+					date: date, // date
+					size: size,
+					page: page
+				}
+
+				listInfo.getApply(listData, function(res) {
+					if(res.error_no != 200) {
+						mui.toast(res.error_msg)
+						return false;
+					}
+					//					console.log('getApply');
+					var result1 = res.result.rows;
+					var result2 = {
+						rows: []
+					}
+					for(var i in result1){
+						if(result1[i].supplement_status == 3){
+							result2.rows.push(result1[i]);
+						}
+					}
+					if(result2.length == 0) {
+//						mui.toast('没有更多数据');
+//						return;
+					}
+//					var lastdatecount = res.result.lastdatecount.count;
+//					var nextdatecount = res.result.nextdatecount.count;
+//					var todaycount = res.result.count.count;
+//					var homePage = plus.webview.getWebviewById('home.html');
+//					mui.fire(homePage, 'sub1countData', {
+//						lastdatecount: lastdatecount,
+//						nextdatecount: nextdatecount,
+//						todaycount: todaycount
+//					});
+//					console.log("fire")
+					var html = template('tpl-1', result2);
+					var ul = document.getElementById('scroll1-content')
+					if(page != 1) {
+						ul.innerHTML = ul.innerHTML + html;
+					} else {
+						ul.innerHTML = html;
+						if(ul.innerHTML == '' && result2.rows.length == 0){
+							ul.innerHTML = "<li class='data-item-error'></li>";
+							$(ul).scrollTop('0px');
+						}
+					}
+				})
+			}
+			if(mui.os.plus) {
+				mui.plusReady(function() {
+					setTimeout(function() {
+						mui('#pullrefresh').pullRefresh().pullupLoading();
+					}, 200);
+
+				});
+			} else {
+				mui.ready(function() {
+					mui('#pullrefresh').pullRefresh().pullupLoading();
+				});
+			}
+			mui.plusReady(function() {
+				mui('body').on('tap', '.backBtn', function() {
+					mui.back();
+				})
+				putHomeLi(0, 1, 10)
+				// 写入待认领列表
+				mui('body').on('tap', '.data-item', function() {
+					var workid = $(this).attr('data-id');
+					mui.openWindow({
+						url: 'apply-detail.html',
+						id: 'apply-detail.html',
+						createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
+						show: {
+							autoShow: true, //页面loaded事件发生后自动显示，默认为true
+							aniShow: 'pop-in', //页面显示动画，默认为”slide-in-right“；
+						},
+						waiting: {
+							autoShow: false, //自动显示等待框，默认为true
+						},
+						extras: {
+							workid: workid
+						},
+					})
+				})
+
+			})
+			// template帮助函数 转换时间格式
+			template.helper('telExchange', function(tel) {
+				var str1 = tel.substring(0, 3);
+				var str2 = tel.substring(3, 7);
+				var str3 = tel.substring(7, 11);
+				return str1 + '-' + str2 + '-' + str3;
+			})
+		</script>
+	</body>
+
+</html>

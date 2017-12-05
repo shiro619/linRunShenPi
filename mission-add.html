@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/css.css" />
+		<link rel="stylesheet" type="text/css" href="fonts/iconfont.css" />
+		<style>
+			.header1 {
+				overflow: hidden;
+			}
+			
+			.header1 .icon-back {
+				display: inline-block;
+				width: 50px;
+				height: 45px;
+				line-height: 45px;
+				position: absolute;
+				left: 0;
+				color: #ffffff;
+				z-index: 10;
+				font-size: 20px;
+				float: left;
+			}
+			
+			.mui-content {
+				padding-top: 59px !important;
+			}
+			
+			.save {
+				display: inline-block;
+				width: 50px;
+				height: 45px;
+				line-height: 45px;
+				position: absolute;
+				right: 0;
+				color: #ffffff;
+				z-index: 10;
+				font-size: 14px;
+				float: right;
+			}
+			
+			.wrap-ul {
+				width: 100%;
+			}
+			
+			.mui-input-row {
+				width: 90%;
+				margin: 20px 5%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav header1">
+			<span class="iconfont icon-back backBtn"></span>
+			<h1 class="mui-title name" id="title">地址</h1>
+			<span class="save">保存</span>
+		</header>
+		<div class="mui-content">
+			<ul class="wrap-ul">
+				<li class="mui-input-row">
+					<input class="mui-input-clear" id="text" type="text" placeholder="请输入地址" />
+				</li>
+			</ul>
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/api.js"></script>
+		<script src="js/jquery-1.11.2.min.js"></script>
+		<script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			//			window.addEventListener('pushData', function(event) {
+			//				//获得事件参数
+			//				var type = event.detail.type;
+			//				var data = event.detail.data;
+			//				//根据id向服务器请求新闻详情
+			//				console.log("取到type:" + type + ",取到data:" + data)
+			//				$("#text").val(data);
+			//			});
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview()
+				var data = self.add;
+				$("#text").val(data);
+				var old_back = mui.back;
+				//添加newId自定义事件监听
+				//				window.addEventListener('pushData', function(event) {
+				//					//获得事件参数
+				//					var type = event.detail.type;
+				//					var data = event.detail.data;
+				//					//根据id向服务器请求新闻详情
+				//					console.log("取到type:" + type + ",取到data:" + data)
+				//					$("#text").val(data);
+				//				});
+				mui('body').on('tap',".backBtn",function() {
+					old_back()
+				})
+				mui('body').on('tap', '.save', function() {
+					if($("#text").val().length == 0){
+						mui.toast('请输入地址');
+						return;
+					}
+					mui.back = function() {
+						var missionPage = plus.webview.getWebviewById('mission.html');
+						var textData = $("#text").val();
+						mui.fire(missionPage, 'addBack', {
+							add: textData
+						});
+						old_back()
+
+						function closeme() {
+							var ws = plus.webview.currentWebview();
+							plus.webview.close(ws);
+						}
+						//							closeme()
+					}
+					mui.back()
+				})
+			})
+		</script>
+	</body>
+
+</html>
