@@ -519,6 +519,7 @@
 			var isCollect = false;
 			var videoSum1 = 0;
 			var videoSum2 = 0;
+			var imgSum = 0;
 			var addTxt = '';
 			mui.plusReady(function() {
 				page.init()
@@ -596,7 +597,8 @@
 									$(".leave-btn-white").addClass('leave-btn');
 								}
 								// 判断资料采集是否完成
-								$(".collectSpan").html("资料采集（" + res.result.data_collection_count + "）");
+								imgSum = res.result.data_collection_count;
+								$(".collectSpan").html("资料采集（" + imgSum + "）");
 								if(res.result.data_collection == true || res.result.data_collection == 'true') {
 									isCollect == true;
 								}
@@ -772,6 +774,7 @@
 										videoSum2 = videoSum;
 									} else if(delType == 0) {
 										$(".collectSpan").html("资料采集（" + videoSum + "）");
+										imgSum = videoSum;
 									}
 								})
 								//到达离开地点登记事件监听
@@ -991,72 +994,24 @@
 
 					//添加自定义事件监听
 					window.addEventListener('closePage', function(event) {
-						//获得事件参数
-						// mui('#pullrefresh').pullRefresh().pullupLoading();
-
 						var curr = plus.webview.currentWebview();
 						curr.close();
 					});
 
 				})
-				//				// 打开拜访总结页面
-				//				mui('body').on('tap', '.visit-sum', function(e) {
-				//					//					var workid = $(this).attr('data-id');
-				//					//					console.log(sumTxt)
-				//					mui.openWindow({
-				//						url: 'mission-sum.html',
-				//						id: 'mission-sum.html',
-				//						createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
-				//						show: {
-				//							autoShow: true, //页面loaded事件发生后自动显示，默认为true
-				//							aniShow: 'pop-in', //页面显示动画，默认为”slide-in-right“；
-				//						},
-				//						waiting: {
-				//							autoShow: false, //自动显示等待框，默认为true
-				//						},
-				//						extras: {
-				//							workid: workid,
-				//							sum: sumTxt
-				//						},
-				//					})
-				//				})
-				//				// 打开合同登记页面
-				//				mui('body').on('tap', '.visit-contract', function(e) {
-				//					//					var workid = $(this).attr('data-id');
-				//					//					console.log(constractTxt)
-				//					mui.openWindow({
-				//						url: 'mission-contract.html',
-				//						id: 'mission-contract.html',
-				//						createNew: false, //是否重复创建同样id的webview，默认为false:不重复创建，直接显示
-				//						show: {
-				//							autoShow: true, //页面loaded事件发生后自动显示，默认为true
-				//							aniShow: 'pop-in', //页面显示动画，默认为”slide-in-right“；
-				//						},
-				//						waiting: {
-				//							autoShow: false, //自动显示等待框，默认为true
-				//						},
-				//						extras: {
-				//							workid: workid,
-				//							constract: constractTxt
-				//						},
-				//					})
-				//				})
-
-				//添加自定义事件监听
-				//				window.addEventListener('constractTxtBack', function(event) {
-				//					//获得事件参数
-				//					var backConstract = event.detail.constract;
-				//					isConstract = true;
-				//					constractTxt = backConstract;
-				//				});
-				//添加自定义事件监听
-				//				window.addEventListener('sumTxtBack', function(event) {
-				//					//获得事件参数
-				//					var backSumTxt = event.detail.sum;
-				//					isSum = true;
-				//					sumTxt = backSumTxt;
-				//					console.log(sumTxt)
-				//				});
+				
+				// 图片添加/删除事件监听
+				window.addEventListener('imgChange', function(event) {
+					var changeType = event.detail.type;
+					if(changeType == 'add'){
+						imgSum++;
+						$(".collectSpan").html("资料采集（" + imgSum + "）");
+					} else if(changeType == 'del'){
+						imgSum--;
+						$(".collectSpan").html("资料采集（" + imgSum + "）");
+					}
+				})
+				
 
 			})
 			var page = {

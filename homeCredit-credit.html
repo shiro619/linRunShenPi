@@ -645,6 +645,7 @@
 				// 图片数量
 				var imgSum1 = 0;
 				var imgSum2 = 0;
+				var imgIndex = 0;
 				$("#agentName input").val(agentName);
 				$("#agentTel input").val(agentTel);
 				// picker选择器
@@ -943,6 +944,7 @@
 					cmr.captureImage(function(p) {
 						//					outLine('成功：' + p);
 						plus.io.resolveLocalFileSystemURL(p, function(entry) {
+							imgIndex = 0;
 							imgUpload(entry.toLocalURL());
 							//						},300)
 
@@ -962,20 +964,15 @@
 
 				function galleryImg() {
 					// 从相册中选择图片
-					//				outSet('从相册中选择图片：');
 					plus.gallery.pick(function(path) {
-						//					outLine(path);
-						imgUpload(path)
-						//showImg( path );
-						//createItem(path);
+						imgIndex = 0;
+						imgUpload(path.files)
 					}, function(e) {
 						if(e.code == 8) {
 							alert(e.message)
 						}
 						//					outSet('取消选择图片');
-					}, {
-						filter: 'image'
-					});
+					}, {filter:'image',multiple:true,system:false});
 				}
 
 				// 铺设图片
@@ -1002,15 +999,9 @@
 					if(clickType == 1) {
 						imgSum1++;
 						$(".partNum[imgtype=1]").html('(' + imgSum1 + ')');
-						//						if(imgSum1 >= 2) {
-						//							$(".imgDiv[imgtype=1] .collect-addimg").css("display", "none");
-						//						}
 					} else if(clickType == 2) {
 						imgSum2++;
 						$(".partNum[imgtype=2]").html('(' + imgSum2 + ')');
-						//						if(imgSum2 >= 2) {
-						//							$(".imgDiv[imgtype=2] .collect-addimg").css("display", "none");
-						//						}
 					}
 				}
 
@@ -1040,7 +1031,25 @@
 					task.start();
 				}
 
-				function imgUpload(localurl) {
+				function imgUpload(localurl1) {
+					// 当前图片序号及总数
+					var localurl;
+					if(typeof(localurl1) == 'object'){
+						if(localurl1.length == imgIndex){
+							plus.nativeUI.closeWaiting();
+							mui.toast('上传成功');
+							$(".collect-addimg").addClass("addImg");
+							return;
+						}
+						localurl = localurl1[imgIndex];
+					} else {
+						localurl = localurl1;
+					}
+					imgIndex++;
+					// 读取图片压缩缓存数量并+1
+					var imgTmpNum = store.get('imgTmpNum');
+					imgTmpNum++;
+					store.set('imgTmpNum',imgTmpNum);
 					plus.nativeUI.showWaiting();
 					$("#picture").hide()
 					$(".mui-backdrop").hide();
@@ -1051,21 +1060,38 @@
 						sync_to_upyun: '2',
 						type: 'image'
 					}
-					createUpload(localurl, upData, function(ress) {
-						var res = JSON.parse(ress)
-						if(res.error_no == 200) {
-							mui.toast('上传成功')
-							$(".collect-addimg").addClass("addImg");
-							plus.nativeUI.closeWaiting();
-							//							console.log(JSON.stringify(res))
-							createImg(res.result.url, res.result.fid);
-						} else {
-							mui.toast('上传失败')
-							plus.nativeUI.closeWaiting();
-							$(".collect-addimg").addClass("addImg");
-							console.log('失败：' + res.error_msg + res.error_no)
-						}
-					})
+					plus.zip.compressImage({
+			            src:localurl,
+			            dst:'_doc/tmp-' + imgTmpNum + '-' + getFilenameInUrl(localurl),
+			            quality: 20,
+			            overwrite:true,
+			        },function(e) {
+			        	createUpload(e.target, upData, function(ress) {
+							var res = JSON.parse(ress)
+							if(res.error_no == 200) {
+								
+								//							console.log(JSON.stringify(res))
+								createImg(res.result.url, res.result.fid);
+								if(typeof(localurl1) == 'object'){
+									imgUpload(localurl1,function(){})
+								} else {
+									plus.nativeUI.closeWaiting();
+									mui.toast('上传成功');
+									$(".collect-addimg").addClass("addImg");
+								}
+							} else {
+								mui.toast('上传失败')
+								plus.nativeUI.closeWaiting();
+								$(".collect-addimg").addClass("addImg");
+								console.log('失败：' + res.error_msg + res.error_no)
+							}
+						})
+			        },
+			        function(err) {
+			        	// 压缩失败
+			        	mui.toast(err)
+			        })
+					
 				}
 
 			})

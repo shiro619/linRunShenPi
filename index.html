@@ -66,6 +66,8 @@
 					// 关闭全屏
 					plus.navigator.setFullscreen(false);
 					plus.key.addEventListener( "backbutton", function(){plus.runtime.quit();}, false );
+					// 压缩图片缓存数量清零
+					store.set('imgTmpNum', 0);
 					// 判断GPS开关
 					if(user.uoption().GPS && user.uoption().GPS == null) {
 						setTimeout(function() {

@@ -327,10 +327,13 @@
 	<body>
 		<header class="mui-bar mui-bar-nav header1">
 			<span class="iconfont icon-back backBtn"></span>
-			<h1 class="mui-title name" id="title">资料采集</h1>
+			<h1 class="mui-title name" id="title"></h1>
 		</header>
 		<div class="mui-content">
 			<div class="apply-wrap">
+				<div class="mui-collapse-content imgDiv">
+					<input type="file" name="file" id="imgfile" accept="image/png,image/gif,image/jpg,image/JPG,image/PNG,image/jpeg" value="" style="display: none;" />
+				</div>
 				<ul class="mui-table-view" id="listUl">
 					<!--<li class="mui-table-view-cell mui-collapse">
 						<a class="mui-navigate-right" href="#">• 收入证明</a>
@@ -390,6 +393,7 @@
 		<script>
 			var page = {
 				init: function() {
+					//					$("#upload").click($.proxy(this.upload, this));
 					mui('body').on('tap',".backBtn",function() {
 						mui.back();
 					})
@@ -403,64 +407,61 @@
 			var imgSum = 0;
 
 			mui.plusReady(function() {
+				var oldClose = plus.nativeUI.closeWaiting;
 				var self = plus.webview.currentWebview()
+				var imgtype = self.imgtype;
+				var title = self.title;
 				var workid = self.workid;
+				var imgArr = JSON.parse(self.imgArr).imgArr;
+				console.log('imgArr:' + JSON.stringify(imgArr))
+				var imgIndex = 0;
+				$("#title").html(title);
 				var clickType;
-				uploader.getfiletypes({
-					token: user.utoken()
-				}, function(typeres) {
-					if(typeres.error_no != 200){
-						mui.toast(typeres.error_msg);
-						return;
-					}
-					//					console.log(typeof(typeres))
-					//					console.log(JSON.stringify(typeres))
-					createLi(typeres.result);
-					//					console.log(workid)
-					uploader.getimgs({
+				if(imgtype != 1 &&imgtype != 2 && imgtype != 3){
+					$('.imgDiv').html($('.imgDiv').html() + "<div class='collect-img collect-addimg'></div>")
+				}
+				createImg(imgArr,imgtype);
+				// 删除图片
+				mui('body').on('tap', '.collect-img-delete', function(e) {
+					var _this = $(this);
+					var fileid = _this.attr('fileid');
+					var delData = {
 						token: user.utoken(),
-						work_id: workid
-					}, function(res1) {
-						if(res1.error_no != 200){
-							mui.toast(res1.error_msg);
-							return;
-						}
-						createImg(res1.result)
-						// 删除图片
-						mui('body').on('tap', '.collect-img-delete', function(e) {
-							var _this = $(this);
-							var fileid = _this.attr('fileid');
-							var delData = {
-								token: user.utoken(),
-								file_id: fileid
-							}
-							var btnArray = ['取消', '确定'];
-							mui.confirm('确定删除？', '删除图片', btnArray, function(e) {
-								if(e.index == 1) {
-									uploader.deleteImg(delData, function(delres) {
-										if(delres.error_no == 200) {
-											_this.parent().remove();
-											var thisClass = _this.attr("imgtype");
-											mui.toast('删除成功')
-											imgSum--;
-											//减少显示数量
-											$(".partNum[imgtype=" + thisClass + "]").html("(" + (parseInt($(".partNum[imgtype=" + thisClass + "]").html().replace(/[^0-9]/ig,"")) - 1) + ")");
-											var missionPage = plus.webview.getWebviewById('mission.html');
-											mui.fire(missionPage, 'videoDel', {
-												videoType: 0,
-												sum: imgSum,
-											});
-										} else {
-											mui.toast(delres.error_msg);
-										}
-									})
+						file_id: fileid
+					}
+					var btnArray = ['取消', '确定'];
+					mui.confirm('确定删除？', '删除图片', btnArray, function(e) {
+						if(e.index == 1) {
+							uploader.deleteImg(delData, function(delres) {
+								if(delres.error_no == 200) {
+									_this.parent().remove();
+//											var thisClass = _this.attr("imgtype");
+									mui.toast('删除成功')
+									imgSum--;
+									// 通知mission和collect图片减少
+									var changeImg = {
+										id: imgtype,
+										fid: fileid,
+									}
+									var collectPage = plus.webview.getWebviewById('apply-collect.html');
+									var missionPage = plus.webview.getWebviewById('mission.html');
+									mui.fire(collectPage, 'imgChange', {
+										type: 'del',
+										img: changeImg,
+									});
+									mui.fire(missionPage, 'imgChange', {
+										type: 'del',
+										img: changeImg,
+									});
 								} else {
-
+									mui.toast(delres.error_msg);
 								}
 							})
+						} else {
 
-						})
+						}
 					})
+
 				})
 				mui.previewImage();
 				// 图片添加按钮点击事件
@@ -483,28 +484,18 @@
 				// 拍照
 				function getImage() {
 					//				outSet('开始拍照：');
-					var cmr = plus.camera.getCamera(function(a){
-						console.log(JSON.stringify(a))
-					});
 					
-					// alert( "Camera supperted image resolutions: " + cmr.supportedImageResolutions );
-//					var rees = cmr.supportedImageResolutions[11];
-//					var fmt = cmr.supportedVideoFormats[0];
+					var cmr = plus.camera.getCamera(function(a){});
 					cmr.captureImage(function(p) {
-						
-						//					outLine('成功：' + p);
 						plus.io.resolveLocalFileSystemURL(p, function(entry) {
-							imgUpload(entry.toLocalURL());
-							//						},300)
-
-						}, function(e) {
-							//						outLine('读取拍照文件错误：' + e.message);
-						});
+							entry.file(function(efile){
+								imgIndex = 0;
+//								console.log('压缩前：' + efile.size)
+								imgUpload(entry.toLocalURL(),function(){});
+							},function(){})
+						}, function(e) {/*压缩失败*/});
 					}, function(e) {
-						console.log(8+JSON.stringify(e))
-//						alert(e)
 						return false;
-						//					outLine('失败：' + e.message);
 					}, {
 						filename: '_doc/camera/',
 						index: 1,
@@ -515,20 +506,23 @@
 
 				function galleryImg() {
 					// 从相册中选择图片
-					//				outSet('从相册中选择图片：');
 					plus.gallery.pick(function(path) {
-						//					outLine(path);
-						imgUpload(path)
-						//showImg( path );
-						//createItem(path);
+						imgIndex = 0;
+						console.log(JSON.stringify(path))
+						console.log(path.files.length + '张图片')
+						imgUpload(path.files,function(){
+							
+//							console.log(galleryIndex + 'galleryIndex')
+//							if(galleryIndex <= path.files.length){
+//								
+//							}
+						})
+						
 					}, function(e) {
 						if(e.code == 8){
 							alert(e.message)
 						}
-						//					outSet('取消选择图片');
-					}, {
-						filter: 'image'
-					});
+					}, {filter:'image',multiple:true,system:false});
 				}
 
 				// 上传
@@ -545,6 +539,7 @@
 							mui.toast("Upload failed: " + status);
 						}
 					});
+					
 					task.addFile(upURL, {
 						key: "file"
 					});
@@ -555,7 +550,24 @@
 					task.start();
 				}
 
-				function imgUpload(localurl) {
+				function imgUpload(localurl1,galleryCallback) {
+					// 当前图片序号及总数
+					var localurl;
+					if(typeof(localurl1) == 'object'){
+						if(localurl1.length == imgIndex){
+							plus.nativeUI.closeWaiting();
+							mui.toast('上传成功');
+							return;
+						}
+						localurl = localurl1[imgIndex];
+					} else {
+						localurl = localurl1;
+					}
+					imgIndex++;
+					// 读取图片压缩缓存数量并+1
+					var imgTmpNum = store.get('imgTmpNum');
+					imgTmpNum++;
+					store.set('imgTmpNum',imgTmpNum);
 					plus.nativeUI.showWaiting();
 					$("#picture").hide()
 					$(".mui-backdrop").hide();
@@ -565,140 +577,150 @@
 						sync_to_upyun: '2',
 						type: 'image'
 					}
-					createUpload(localurl, upData, function(ress) {
-						var res = JSON.parse(ress)
-						if(res.error_no == 200) {
-							var result = res;
-														console.log(JSON.stringify(result))
-							var data2 = {
-								file_class_id: clickType,
-								token: user.utoken(),
-								file_path: result.result.url,
-								work_id: workid,
-								file_id: result.result.fid,
-								type: '1',
-								file_type: '1',
-							}
-							//							for(var r in data2) {
-							//								console.log(r + ":" + data2[r] + ",")
-							//							}
-							// 提交图片地址
-							uploader.submitfile(data2, function(rrr) {
-								if(rrr.error_no == 200) {
-									mui.toast('上传成功')
-									// 刷新图片（不刷新列表）
-									plus.nativeUI.closeWaiting();
-									uploader.getimgs({
-										token: user.utoken(),
-										work_id: workid
-									}, function(res1) {
-										if(res1.error_no == 200){
-											//刷新显示数量
-											$(".partNum").html('(0)');
-											createImg(res1.result);
-										} else {
-											mui.toast(res1.error_msg);
-										}
-									})
-								} else {
-									mui.toast(rrr.error_msg);
-									plus.nativeUI.closeWaiting();
+					plus.zip.compressImage({
+			            src:localurl,
+			            dst:'_doc/tmp-' + imgTmpNum + '-' + getFilenameInUrl(localurl),
+			            quality: 20,
+			            overwrite:true,
+			        },
+			        function(e) {
+			        	console.log('压缩成功' + imgIndex)
+//			        	console.log('压缩后：' +e.size)
+			        	// 压缩成功上传文件
+			        	createUpload(e.target, upData, function(ress) {
+							var res = JSON.parse(ress)
+							if(res.error_no == 200) {
+								console.log('上传成功' + imgIndex)
+								var result = res;
+								console.log(JSON.stringify(result))
+								var data2 = {
+									file_class_id: imgtype,
+									token: user.utoken(),
+									file_path: result.result.url,
+									work_id: workid,
+									file_id: result.result.fid,
+									type: '1',
+									file_type: '1',
 								}
-							})
-						} else {
-							mui.toast(res.error_msg);
-							plus.nativeUI.closeWaiting();
-							console.log('失败：'+res.error_msg + res.error_no)
-						}
-					})
+								// 上传成功提交图片地址
+								uploader.submitfile(data2, function(rrr) {
+									if(rrr.error_no == 200) {
+										rrr.result.file_path = result.result.url;
+										console.log('提交成功' + imgIndex)
+										
+//										mui.toast('上传成功')
+										// 刷新图片（不刷新列表）
+										console.log('uploadres:' + JSON.stringify(rrr) || rrr)
+										galleryCallback();
+										addNewImg(rrr);
+										// 通知mission和collect图片增加
+										var changeImg = {
+											id: imgtype,
+											fid: result.result.fid,
+											src: result.result.url,
+										}
+										var collectPage = plus.webview.getWebviewById('apply-collect.html');
+										var missionPage = plus.webview.getWebviewById('mission.html');
+										mui.fire(collectPage, 'imgChange', {
+											type: 'add',
+											img: changeImg,
+										});
+										mui.fire(missionPage, 'imgChange', {
+											type: 'add',
+											img: changeImg,
+										});
+										if(typeof(localurl1) == 'object'){
+											imgUpload(localurl1,function(){})
+										} else {
+											plus.nativeUI.closeWaiting();
+											mui.toast('上传成功');
+										}
+//										uploader.getimgs({
+//											token: user.utoken(),
+//											work_id: workid
+//										}, function(res1) {
+//											if(res1.error_no == 200){
+//												//刷新显示数量
+//												$(".partNum").html('(0)');
+//												createImg(res1.result);
+//											} else {
+//												mui.toast(res1.error_msg);
+//											}
+//										})
+									} else {
+										mui.toast(rrr.error_msg);
+//										plus.nativeUI.closeWaiting();
+									}
+								})
+							} else {
+								mui.toast(res.error_msg);
+//								plus.nativeUI.closeWaiting();
+								console.log('失败：'+res.error_msg + res.error_no)
+							}
+						})
+			        },function(err){
+			        	// 压缩失败
+			        	mui.toast(err)
+			        	console.log(err)
+			        })
+
+					
+					
+					
+					
+					
 				}
 
 			})
-
-			// 铺设列表
-			function createLi(result) {
-				var listUl = document.getElementById("listUl");
-				listUl.innerHTML = '';
-				//				console.log(result.length + "length")
-				for(var i in result) {
-					if(result[i].file_type == 2) {
-						continue;
-					}
-					var listLi = document.createElement("li");
-					listLi.className = 'mui-table-view-cell mui-collapse';
-					if(i == 0) {
-						listLi.className = 'mui-table-view-cell mui-collapse mui-active';
-					}
-					//					listLi.imgtype = result[i].id;
-					listLi.setAttribute("imgtype", result[i].id);
-					// 3之后分隔开
-					if(result[i].id == 3){
-						listLi.style.marginBottom = '10px';
-					}
-					listUl.appendChild(listLi);
-					var listA = document.createElement("a");
-					listA.className = "mui-navigate-right";
-					listA.href = '#';
-					listA.innerHTML = result[i].file_name + "<span class='partNum' imgtype=" + result[i].id + ">(0)</span>";
-					var listDiv = document.createElement("div");
-					listDiv.className = "mui-collapse-content imgDiv";
-					//					listDiv.imgtype = result[i].id;
-					listDiv.setAttribute("imgtype", result[i].id);
-					listLi.appendChild(listA);
-					listLi.appendChild(listDiv);
-					var addDiv = document.createElement("div");
-
-					addDiv.className = "collect-img collect-addimg";
-					addDiv.setAttribute("imgtype", result[i].id);
-					// 3之前的不能添加
-					if(result[i].id != 1 && result[i].id != 2 && result[i].id != 3){
-						listDiv.appendChild(addDiv);
-					}
-					
-				}
-//				var addInput = document.createElement("input");
-//				addInput.type = 'file';
-//				addInput.id = 'imgfile';
-//				addInput.accept = "image/png,image/gif,image/jpg,image/JPG,image/PNG,image/jpeg";
-//				addInput.style.display = 'none';
-//				listUl.appendChild(addInput);
-				//				createImg(1)
+			function addNewImg(rrr){
+				console.log('rrr' + JSON.stringify(rrr))
+				var urlTest = rrr.result.file_path;
+				var imgDiv = $(".imgDiv")[0];
+				var oDiv = document.createElement("div");
+				oDiv.className = 'collect-img-div';
+				var oDelete = document.createElement("span");
+				oDelete.className = 'mui-icon mui-icon-trash collect-img-delete';
+				oDelete.setAttribute('fileid', rrr.result.file_id);
+				var oImg = document.createElement("img");
+				oImg.src = urlTest;
+				oImg.className = "collect-img";
+				oImg.setAttribute("data-preview-src", '');
+				oImg.setAttribute("data-preview-group", '1');
+				imgDiv.appendChild(oDiv);
+				oDiv.appendChild(oImg);
+				oDiv.appendChild(oDelete);
 			}
+
+			
 			// 铺设图片
-			function createImg(result1) {
+			function createImg(result1,imgtype) {
 				imgSum = 0;
 				$(".imgDiv>.collect-img-div").remove();
 				for(var j in result1) {
-					if(result1[j].file_class_id == 7 || result1[j].file_class_id == 8) {
-						continue;
-					}
 					imgSum++;
-					var imgDiv = $(".imgDiv[imgtype=" + result1[j].file_class_id + "]")[0];
+					var imgDiv = $(".imgDiv")[0];
 					var oDiv = document.createElement("div");
 					oDiv.className = 'collect-img-div';
 					var oDelete = document.createElement("span");
 					oDelete.className = 'mui-icon mui-icon-trash collect-img-delete';
 					oDelete.setAttribute('fileid', result1[j].id);
-					oDelete.setAttribute('imgtype', result1[j].file_class_id);
 					var oImg = document.createElement("img");
-					oImg.src = result1[j].file_path;
+					oImg.src = result1[j].src;
 					oImg.className = "collect-img";
 					oImg.setAttribute("data-preview-src", '');
 					oImg.setAttribute("data-preview-group", '1');
 					imgDiv.appendChild(oDiv);
 					oDiv.appendChild(oImg);
-					if(result1[j].file_class_id != 1 && result1[j].file_class_id != 2 && result1[j].file_class_id != 3){
+					// 如果type为1,2,3  则不能删除
+					if(imgtype != 1 && imgtype != 2 && imgtype != 3){
 						oDiv.appendChild(oDelete);
 					}
-					//增加显示数量
-					$(".partNum[imgtype=" + result1[j].file_class_id + "]").html("(" + (parseInt($(".partNum[imgtype=" + result1[j].file_class_id + "]").html().replace(/[^0-9]/ig,"")) + 1) + ")");
-					//					console.log(oImg.src)
 				}
-				var missionPage = plus.webview.getWebviewById('mission.html');
-				mui.fire(missionPage, 'videoDel', {
-					videoType: 0,
-					sum: imgSum
-				});
+//				var missionPage = plus.webview.getWebviewById('mission.html');
+//				mui.fire(missionPage, 'videoDel', {
+//					videoType: 0,
+//					sum: imgSum
+//				});
 			}
 		</script>
 	</body>

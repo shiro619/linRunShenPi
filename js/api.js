@@ -52,7 +52,7 @@ var store = {
 		var obj = plus.storage;
 		var nowtime = new Date().getTime() / 1000;
 
-		exp = exp ? exp : 3600 * 24 * 0.5; //默认有效期*天
+		exp = exp ? exp : 3600 * 24 * 30; //默认有效期*天
 		val = JSON.stringify({
 			val: val,
 			exp: exp,
@@ -189,7 +189,7 @@ var ajax = {
 				obj(objres)
 			},
 			complete: function(xhr) {
-				endNetwork();
+//				endNetwork();
 			},
 			error: function(e, type) {
 				endNetwork();
@@ -851,4 +851,10 @@ function luhnCheck(bankno) {
     } else {
         return false;
     }
+}
+
+// 取url中的文件名
+function getFilenameInUrl(url){
+	var arr = url.split('/');
+	return (arr[arr.length-1]);
 }
