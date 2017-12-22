@@ -677,6 +677,24 @@
 								$('.checkInp').prop('checked',true)
 							}
 						})
+						// 刷新图片验证码
+						mui('body').on('tap', '.iImg', function() {
+							user.finacingcodeCreate(request0, function(r01) {
+								if(r01.error_no == 200){
+									if(r01.result.is_necessary == 1){
+										$("#customerimgPin").css('display','block')
+										$(".iImg").css('backgroundImage',"url(" + apiu3 + 'user/image/code/show?image_auth=' + r01.result.image_auth + ")")
+										$(".iImg").attr('auth',r01.result.image_auth)
+										needPin = true;
+										pinAuth = r01.result.image_auth;
+									} else {
+										$("#customerimgPin").css('display','none')
+										needPin = false;
+									}
+								}
+							})
+						})
+						
 						// 获取验证码
 						mui('body').on('tap', '.getpinblue', function() {
 							var username = $('.customer_tel').val()
@@ -888,8 +906,8 @@
 								return;
 							}
 		
-		//					$("#subBtn").removeClass("subBtn");
-		//					$("#subBtn").html("提交中");
+							$("#subBtn").removeClass("subBtn");
+							$("#subBtn").html("提交中");
 							
 							var newData = {
 								'id_No': uId,

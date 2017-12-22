@@ -534,6 +534,7 @@
 					}
 					var imgInfo = {
 						id: result1[j].file_class_id,
+						delid: result1[j].id,
 						fid: result1[j].file_id,
 						src: result1[j].file_path,
 					}
@@ -541,7 +542,7 @@
 				}
 				return imgJson;
 			}
-			// 写入分组图批数量(根据imgobj)
+			// 写入分组图片数量(根据imgobj)
 			function setClassNum(){
 				//写入各分组图片数量并写入图片数量为0的分组
 				$('.partNum').each(function(){

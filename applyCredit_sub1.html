@@ -36,7 +36,7 @@
 			
 			.data-item {
 				background: #fff;
-				height: 110px;
+				height: 120px;
 				padding: 0px 15px;
 				width: 95%;
 				margin: 0px 2.5% 12px 2.5%;
@@ -74,7 +74,7 @@
 				position: absolute;
 				right: 35px;
 				top: 50px;
-				width: 110px;
+				/*width: 110px;*/
 				line-height: 30px;
 				font-size: 15px;
 				border: none;
@@ -111,13 +111,24 @@
 				left: 0;
 			}
 			
+			.data-flow-span {
+				float: left;
+				position: absolute;
+				height: 20px;
+				line-height: 20px;
+				top: 40px;
+				font-size: 14px;
+				padding-left: 10px;
+				text-align: left;
+			}
+			
 			.data-flow {
 				float: left;
 				position: absolute;
-				top: 30px;
 				height: 20px;
 				line-height: 20px;
-				top: 29px;	
+				top: 40px;
+				left: 65px;
 				/*width: 62px;*/
 				font-size: 14px;
 				padding-left: 10px;
@@ -125,7 +136,7 @@
 				/*line-height: 20px;*/
 				/*border: 1px solid #FD9603;*/
 				/*line-height: 27px;*/
-				text-align: center;
+				text-align: left;
 			}
 			
 			.data-car {
@@ -214,7 +225,8 @@
 				</div>
 				<div class="data-item-bottom">
 					<p class="data-name">{{item.customer_name}}<span>{{item.customer_sex == '男'?'先生':'女士'}}</span></p>
-					<span class="data-flow" >当前流程：{{flowExchange item.flow}}</span>
+					<span class="data-flow-span" >当前流程：</span>
+					<span class="data-flow" >{{flowExchange item.flow}}</span>
 				</div>
 			</div>
 			
@@ -431,6 +443,7 @@
 					return;
 				}
 				listInfo.getApplyCredit(listData, function(res) {
+					
 //					if(res.error_no == 401 || res.error_no == 402) {
 //						login();
 //						return;
@@ -442,6 +455,7 @@
 //					console.log(JSON.stringify(res))
 					//					console.log('getApply');
 					var result1 = res.result.rows;
+					console.log('credit:'+JSON.stringify(result1))
 					//					if(res.result.rows.length == 0) {
 					//						mui.toast('没有更多数据');
 					//						return;

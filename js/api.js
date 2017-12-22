@@ -2,9 +2,9 @@
 //测试地址 
 var host = 'http://test.ifcar99.com/';
 var apiu2 = 'http://anjie.ifcar99.com/';
-var apiu = 'http://release-anjie.anjietest-feature.ifcar99.com/';/*"http://sp.zjhbjt.cn/";*//*'http://test-linrun.anjietest-feature.ifcar99.com/';*//*'http://feature-cfl-img.anjietest-feature.ifcar99.com/';*/
+var apiu = /*'http://release-anjie.anjietest-feature.ifcar99.com/';*/"http://sp.zjhbjt.cn/";/*"http://ly.zjhbjt.cn/";*//*'http://test-linrun.anjietest-feature.ifcar99.com/';*//*'http://feature-cfl-img.anjietest-feature.ifcar99.com/';*/
 var apiu1 = /*'http://develop.anjietest-feature.ifcar99.com/';*//*'http://pre.anjie.ifcar99.com/';*//*'http://release-anjie.anjietest-feature.ifcar99.com/';*/'http://master-release.anjietest-feature.ifcar99.com/';
-var apiu3 = 'http://test-jcjr.apitest-feature.ifcar99.com/';/*'https://www.ifcar99.com/api_v20/';*//*'http://release-jhm-trustee-pay.apitest-feature.ifcar99.com/';*///*'http://feature-jhm-env.apitest-feature.ifcar99.com/';*/ // 验证码
+var apiu3 = /*'http://test-jcjr.apitest-feature.ifcar99.com/';*/'https://www.ifcar99.com/api_v20/';/*'http://release-jhm-trustee-pay.apitest-feature.ifcar99.com/';*///*'http://feature-jhm-env.apitest-feature.ifcar99.com/';*/ // 验证码
 var apiu4 = apiu;/*'http://featrue-cxj-advance.anjietest-feature.ifcar99.com/';*/
 
 var apiurl = apiu + 'Api/'; 
@@ -136,6 +136,7 @@ function ajaxGet(url, data, obj) {
 }
 var ajax = {
 	'post': function(url, data, obj, first) {
+		var _url = url;
 		startNetwork();
 		var _url = url;
 		mui.ajax(url, {

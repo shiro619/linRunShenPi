@@ -425,10 +425,14 @@
 				mui('body').on('tap', '.collect-img-delete', function(e) {
 					var _this = $(this);
 					var fileid = _this.attr('fileid');
+					var delid = _this.attr('delid');
 					var delData = {
 						token: user.utoken(),
-						file_id: fileid
+						file_id: delid,
 					}
+					console.log('#参数#')
+					console.log(delData.token);
+					console.log(delData.file_id);
 					var btnArray = ['取消', '确定'];
 					mui.confirm('确定删除？', '删除图片', btnArray, function(e) {
 						if(e.index == 1) {
@@ -607,7 +611,6 @@
 									if(rrr.error_no == 200) {
 										rrr.result.file_path = result.result.url;
 										console.log('提交成功' + imgIndex)
-										
 //										mui.toast('上传成功')
 										// 刷新图片（不刷新列表）
 										console.log('uploadres:' + JSON.stringify(rrr) || rrr)
@@ -616,6 +619,7 @@
 										// 通知mission和collect图片增加
 										var changeImg = {
 											id: imgtype,
+											delid: rrr.result.id,
 											fid: result.result.fid,
 											src: result.result.url,
 										}
@@ -661,7 +665,7 @@
 			        },function(err){
 			        	// 压缩失败
 			        	mui.toast(err)
-			        	console.log(err)
+			        	console.log('zipErr' + JSON.stringify(err) || err)
 			        })
 
 					
@@ -681,6 +685,7 @@
 				var oDelete = document.createElement("span");
 				oDelete.className = 'mui-icon mui-icon-trash collect-img-delete';
 				oDelete.setAttribute('fileid', rrr.result.file_id);
+				oDelete.setAttribute('delid', rrr.result.id);
 				var oImg = document.createElement("img");
 				oImg.src = urlTest;
 				oImg.className = "collect-img";
@@ -694,6 +699,8 @@
 			
 			// 铺设图片
 			function createImg(result1,imgtype) {
+				console.log('res')
+				console.log(JSON.stringify(result1))
 				imgSum = 0;
 				$(".imgDiv>.collect-img-div").remove();
 				for(var j in result1) {
@@ -703,7 +710,8 @@
 					oDiv.className = 'collect-img-div';
 					var oDelete = document.createElement("span");
 					oDelete.className = 'mui-icon mui-icon-trash collect-img-delete';
-					oDelete.setAttribute('fileid', result1[j].id);
+					oDelete.setAttribute('fileid', result1[j].fid);
+					oDelete.setAttribute('delid', result1[j].delid);
 					var oImg = document.createElement("img");
 					oImg.src = result1[j].src;
 					oImg.className = "collect-img";

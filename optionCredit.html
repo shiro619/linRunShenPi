@@ -181,6 +181,7 @@
 				// 获取当前设置
 				(function() {
 					var opt = user.uoption();
+					console.log('位置信息:'+opt.GPS)
 					if(opt.GPS == 'true' || opt.GPS == true) {
 						$(".GPSBtn").addClass('mui-active')
 					} else {

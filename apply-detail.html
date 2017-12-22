@@ -492,7 +492,17 @@
 						$(".car-type").html(res.result.product_name);
 						$(".apply-id").html(res.result.request_no);
 						$(".customer-add").html(res.result.customer_address);
-						$(".customer-inquire").html(res.result.inquire_result == 1? '通过':'拒绝');
+						if(res.result.inquire_result == 1){
+							$(".customer-inquire").html('通过');
+						} else if(res.result.inquire_result == 2){
+							$(".customer-inquire").html('拒绝');
+						} else {
+							$(".customer-inquire").parent().css('border','none');
+							$(".inquire-span").css('minWidth','300px');
+							$(".inquire-span").html('银行征信还未查询');
+							$(".customer-inquire").hide();
+							$(".inquire-result").parent().hide();
+						}
 						$(".inquire-result").html(res.result.inquire_description);
 						// 点击号码拨打
 						mui('body').on('tap', '.customer-tel', function(e) {

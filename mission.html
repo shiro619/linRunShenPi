@@ -468,7 +468,7 @@
 							<img src="images/list1-bg.png" class="list-bg1" />
 							<ul class="list-ul">
 								<li class="list-li arrive-li">抵达登记
-									<div class="arrive-btn-white" style="display: none;">抵达</div>
+									<div class="arrive-btn-white" canTap='1' style="display: none;">抵达</div>
 									<div class="arrive-div" style="display: none;"></div>
 								</li>
 							</ul>
@@ -495,7 +495,7 @@
 							<img src="images/list3-bg.png" class="list-bg3" />
 							<ul class="list-ul">
 								<li class="list-li leave-li">离开登记
-									<div class="leave-btn-white" style="display: none;">离开</div>
+									<div class="leave-btn-white" canTap='1' style="display: none;">离开</div>
 									<div class="leave-div" style="display: none;"></div>
 								</li>
 							</ul>
@@ -521,6 +521,8 @@
 			var videoSum2 = 0;
 			var imgSum = 0;
 			var addTxt = '';
+			var btnGps1 = true;
+			var btnGps2 = true;
 			mui.plusReady(function() {
 				page.init()
 				var self = plus.webview.currentWebview()
@@ -658,7 +660,16 @@
 								var arriveData;
 								var leaveData;
 								mui('body').on('tap', '.arrive-btn', function(e) {
+									
+									if(!btnGps1){
+										console.log('return')
+										return;
+									}
+									console.log('定位点击')
+									btnGps1 = false;
 									getGPS(function(position) {
+										console.log('定位成功')
+										btnGps1 = true;
 										var codns = position.coords; //获取地理坐标信息；
 										var lat = codns.latitude; //获取到当前位置的纬度；
 										var longt = codns.longitude; //获取到当前位置的经度
@@ -688,6 +699,8 @@
 											},
 										})
 
+									},function(err){
+										btnGps1 = true;
 									})
 								})
 								// 离开登记点击事件
@@ -708,9 +721,14 @@
 										mui.toast('请先进行抵达登记');
 										return;
 									}
+									if(!btnGps2){
+										return;
+									}
+									btnGps2 = false;
 									console.log('getGPSStart')
 									getGPS(function(position) {
 										console.log('getGPS')
+										btnGps2 = true;
 										var codns = position.coords; //获取地理坐标信息；
 										var lat = codns.latitude; //获取到当前位置的纬度；
 										var longt = codns.longitude; //获取到当前位置的经度
@@ -742,6 +760,8 @@
 
 										console.log('token:' + user.utoken() + ';' + 'type: 2' + ';' + 'work_id: ' + workid + ';' + 'lat: ' + lat + ';' + 'lng: ' + longt)
 
+									},function(err){
+										btnGps2 = true;
 									})
 								})
 								//添加修改地址事件监听
@@ -1058,11 +1078,27 @@
 				return rate;
 			}
 
-			function getGPS(geoInf) {
+			function getGPS(geoInf,errFun) {
 				plus.geolocation.getCurrentPosition(geoInf, function(e) {
-					console.log(e);
+					switch(e.code) {
+				        case 1:
+				            mui.toast('请在设置中允许定位')
+				            break;
+				        case 2:
+				        	mui.toast('无法获取有效的位置信息')
+				            break;
+				        case 3:
+				            mui.toast('获取位置信息超时')
+				            break;
+				        case 4:
+				            mui.toast('未知错误')
+				            break;
+				    }
+					errFun(e)
 				}, {
-					geocode: false
+					geocode: false,
+//					coordsType:"bd09ll",
+					provider: 'system',
 				});
 			}
 

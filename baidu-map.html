@@ -272,7 +272,8 @@
 			plus.geolocation.getCurrentPosition(geoInf, function(e) {
 				console.log(e);
 			}, {
-				geocode: false
+				geocode: false,
+				provider: 'system',
 			});
 		}
 	</script>
